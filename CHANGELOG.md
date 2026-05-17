@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+## [0.2.3] — 2026-05-17
+
+### Fixed
+
+- **First successful OIDC publish.** v0.2.0–v0.2.2 burned through three
+  publish-workflow iterations to land the right combo:
+  - v0.2.0: Dart-only runner couldn't resolve `flutter: sdk: flutter`.
+  - v0.2.1: `subosito/flutter-action@v2` alone — no OIDC config; runner
+    fell back to interactive Google OAuth and timed out at 15 min.
+  - v0.2.2: added `dart-lang/setup-dart@v1` after flutter-action; OIDC
+    request reached pub.dev but pub.dev had no trusted-publisher record.
+  - v0.2.3: pub.dev "Automated publishing" enabled on the package admin
+    tab pointing at `HardisonCo/codify-p2x-sdk-dart`, tag pattern
+    `v{{version}}`, GitHub environment `pub.dev`. Publish succeeds.
+
+No SDK surface changes from v0.2.0/v0.2.1/v0.2.2 — same Tier 1.5 additions.
+
 ## [0.2.2] — 2026-05-17
 
 ### Fixed
