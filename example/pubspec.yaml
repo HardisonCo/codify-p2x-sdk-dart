@@ -1,0 +1,22 @@
+name: codify_p2x_sdk_example
+description: Minimal example demonstrating codify_p2x_sdk usage.
+publish_to: 'none'  # this is an example, not published
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.5.0
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  codify_p2x_sdk:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,53 @@
+# Publish codify_p2x_sdk to pub.dev.
+#
+# Triggers:
+#   - Push of a semver tag (v1.2.3, v0.1.0, etc.)
+#   - Manual workflow_dispatch
+#
+# Authentication: pub.dev OIDC (no static token). See
+# https://dart.dev/tools/pub/automated-publishing for the operator setup.
+#
+# Operator prerequisites (one-time):
+#   1. On pub.dev, open the package's "Admin" → "Automated publishing" tab.
+#   2. Enable "Publishing from GitHub Actions".
+#   3. Set repository: HardisonCo/codify-p2x-sdk-dart
+#   4. Set tag pattern: v{{version}}
+#   5. (Recommended) Restrict to environment "pub.dev" and configure GitHub
+#      Environments → pub.dev with required reviewers.
+#
+# Once the above is configured, this workflow uses GitHub's OIDC token to
+# authenticate to pub.dev — there is NO PUB_DEV_PUBLISH_ACCESS_TOKEN secret.
+
+name: publish
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-*"
+  workflow_dispatch:
+
+permissions:
+  id-token: write  # required for OIDC -> pub.dev
+  contents: read
+
+jobs:
+  publish:
+    name: publish to pub.dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Optional: tie to a protected environment for reviewer approval.
+    environment: pub.dev
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Dart (configures pub.dev OIDC)
+        uses: dart-lang/setup-dart@v1
+
+      - name: dart pub get
+        run: dart pub get
+
+      - name: dart pub publish (force, OIDC-authenticated)
+        run: dart pub publish --force

@@ -1,0 +1,79 @@
+# Continuous integration for codify_p2x_sdk.
+#
+# Runs on every push and pull request. Gates merging on:
+#   - Dart format
+#   - flutter analyze (strict; --fatal-infos)
+#   - flutter test --coverage
+#   - dart doc --validate-links
+#   - dart pub publish --dry-run (catches pub.dev validation breakage early)
+#
+# Pure-Dart library — Ubuntu only is sufficient.
+
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: lint, analyze, test, dartdoc, publish-dry-run
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter (stable, Dart ^3.5.0 compatible)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Show tool versions
+        run: |
+          flutter --version
+          dart --version
+
+      - name: Install lcov (optional coverage reporter)
+        run: sudo apt-get update && sudo apt-get install -y lcov
+
+      - name: flutter pub get
+        run: flutter pub get
+
+      - name: dart format (no changes allowed)
+        run: dart format --output=none --set-exit-if-changed .
+
+      - name: flutter analyze (--fatal-infos)
+        run: flutter analyze --fatal-infos
+
+      - name: flutter test --coverage
+        run: flutter test --coverage
+
+      - name: lcov summary
+        if: always()
+        run: |
+          if [ -f coverage/lcov.info ]; then
+            lcov --summary coverage/lcov.info || true
+          else
+            echo "no coverage/lcov.info produced"
+          fi
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
+          if-no-files-found: ignore
+
+      - name: dart doc --validate-links
+        run: dart doc --validate-links
+
+      - name: dart pub publish --dry-run
+        run: dart pub publish --dry-run
