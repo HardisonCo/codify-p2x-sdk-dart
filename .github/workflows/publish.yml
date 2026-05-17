@@ -43,11 +43,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Flutter (Dart ^3.5.0 compatible, configures pub.dev OIDC)
+      # Install Flutter first so the package can resolve its `flutter: sdk: flutter` dep.
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
+
+      # setup-dart is what wires the pub.dev OIDC token into `dart pub publish`.
+      # Must run AFTER flutter-action so its OIDC env vars stick.
+      - name: Configure pub.dev OIDC (via setup-dart)
+        uses: dart-lang/setup-dart@v1
 
       - name: flutter pub get
         run: flutter pub get

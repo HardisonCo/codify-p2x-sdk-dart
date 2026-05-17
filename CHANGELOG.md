@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+## [0.2.2] — 2026-05-17
+
+### Fixed
+
+- **Publish workflow** — adds `dart-lang/setup-dart@v1` after `subosito/flutter-action@v2`.
+  v0.2.1's publish run still failed because `flutter-action` installs the
+  Flutter SDK but does **not** wire pub.dev OIDC into `dart pub publish` —
+  the runner fell back to asking for interactive Google OAuth and timed
+  out after 15 minutes ("operation was canceled"). `setup-dart@v1` is the
+  action that exports the OIDC env vars `dart pub publish` looks for.
+  Order matters: flutter-action provides the Flutter SDK for dep
+  resolution; setup-dart runs after to overlay OIDC. No SDK surface
+  changes from v0.2.0/v0.2.1 — same Tier 1.5 additions.
+
 ## [0.2.1] — 2026-05-17
 
 ### Fixed
