@@ -43,11 +43,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Dart (configures pub.dev OIDC)
-        uses: dart-lang/setup-dart@v1
+      - name: Set up Flutter (Dart ^3.5.0 compatible, configures pub.dev OIDC)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
 
-      - name: dart pub get
-        run: dart pub get
+      - name: flutter pub get
+        run: flutter pub get
 
       - name: dart pub publish (force, OIDC-authenticated)
         run: dart pub publish --force

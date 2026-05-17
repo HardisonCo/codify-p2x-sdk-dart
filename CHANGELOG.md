@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+## [0.2.1] — 2026-05-17
+
+### Fixed
+
+- **Publish workflow** — `.github/workflows/publish.yml` now installs Flutter
+  via `subosito/flutter-action@v2` (channel: stable) before `dart pub publish`.
+  v0.2.0's publish run failed because the workflow installed Dart only, and
+  `dart pub get` fails on a Flutter-depending package with
+  `"Flutter users should use 'flutter pub' instead of 'dart pub'."`. No SDK
+  surface changes between v0.2.0 and v0.2.1 — same Tier 1.5 additions
+  (see v0.2.0 below).
+- **CI workflow** — `flutter analyze --fatal-infos` softened to
+  `--fatal-warnings`. Info-level lints (mostly `prefer_const_literals_to_create_immutables`
+  in test fixtures) no longer fail CI. The lints are still surfaced as
+  recommendations.
+
 ## [0.2.0] — 2026-05-17
 
 Tier 1.5 — closes the consumer-surface gap so IBD healthcare and PHM apps can ship without dropping to raw Dio. Additive only; no breaking changes to v0.1.x.

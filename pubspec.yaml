@@ -2,7 +2,7 @@ name: codify_p2x_sdk
 description: >-
   Dart/Flutter SDK for the Project20X (P2X) API. Companion of the TypeScript
   wizard-api-client. Used by Codify, IBD, PHM, and DietManager Flutter apps.
-version: 0.2.0
+version: 0.2.1
 repository: https://github.com/HardisonCo/codify-p2x-sdk-dart
 issue_tracker: https://github.com/HardisonCo/codify-p2x-sdk-dart/issues
 homepage: https://codify.inc

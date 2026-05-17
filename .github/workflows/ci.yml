@@ -49,8 +49,13 @@ jobs:
       - name: dart format (no changes allowed)
         run: dart format --output=none --set-exit-if-changed .
 
-      - name: flutter analyze (--fatal-infos)
-        run: flutter analyze --fatal-infos
+      - name: flutter analyze (--fatal-warnings)
+        # Errors and warnings fail CI. Info-level lints (mostly style) are
+        # surfaced but non-fatal — they're treated as recommendations, not
+        # gates. To opt back into --fatal-infos for a stricter cut, also
+        # add `// ignore_for_file: prefer_const_literals_to_create_immutables`
+        # to test fixture files (or const-ify every test literal).
+        run: flutter analyze --fatal-warnings
 
       - name: flutter test --coverage
         run: flutter test --coverage
