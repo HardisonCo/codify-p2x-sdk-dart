@@ -100,4 +100,93 @@ class NudgeClient {
       headers: <String, dynamic>{_idempotencyHeader: idempotencyKey},
     );
   }
+
+  /// `POST /api/nudges/check-in` — record that the user has been
+  /// reached on the given [channel] (one of `push`, `sms`, `email`,
+  /// `in_app`, `voice`) for the [Nudge] identified by [nudgeId].
+  ///
+  /// Used by the mobile apps to confirm receipt-of-render — the server
+  /// tracks per-channel delivery so quiet-hours and channel-rotation
+  /// logic can react. Free-form [payload] lets clients attach extra
+  /// context (e.g. `{"rendered_at": "2026-05-01T08:00:00Z"}`).
+  ///
+  /// Idempotent via the auto-injected `Idempotency-Key` header.
+  Future<Nudge> checkIn({
+    required int nudgeId,
+    required String channel,
+    Map<String, dynamic>? payload,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/nudges/check-in',
+        data: <String, dynamic>{
+          'nudge_id': nudgeId,
+          'channel': channel,
+          if (payload != null) 'payload': payload,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError('POST /nudges/check-in returned no "data" object.');
+      }
+      return Nudge.fromJson(data);
+    });
+  }
+
+  /// `GET /api/nudges/channels` — list the [NudgeChannel]s configured
+  /// for the current subproject. The client renders preferences UI
+  /// against this list and writes user choices back via the
+  /// per-user-prefs surface (not part of this client).
+  Future<List<NudgeChannel>> channels() {
+    return _client.request(() async {
+      final response = await _client.dio.get<Map<String, dynamic>>(
+        '/nudges/channels',
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final raw = body['data'];
+      if (raw is! List) return const <NudgeChannel>[];
+      return raw
+          .whereType<Map<dynamic, dynamic>>()
+          .map((m) => NudgeChannel.fromJson(Map<String, dynamic>.from(m)))
+          .toList();
+    });
+  }
+
+  /// `POST /api/nudges/<id>/snooze` — defer a nudge by [duration]. The
+  /// server clears the snooze and re-surfaces the nudge once
+  /// `Duration.inSeconds` elapses.
+  ///
+  /// The [Duration] is serialized as an integer `seconds` field — the
+  /// server's preferred wire format — so `Duration(hours: 2)` becomes
+  /// `{"seconds": 7200}`.
+  ///
+  /// Idempotent via the auto-injected `Idempotency-Key` header.
+  Future<Nudge> snooze(int id, {required Duration duration}) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/nudges/$id/snooze',
+        data: <String, dynamic>{
+          'seconds': duration.inSeconds,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError('POST /nudges/$id/snooze returned no "data" object.');
+      }
+      return Nudge.fromJson(data);
+    });
+  }
+
+  /// `DELETE /api/nudges/<id>` — permanently delete the nudge.
+  ///
+  /// Admin/owner-only on the server; mobile users typically use [ack]
+  /// or [dismiss] instead. The `IdempotencyInterceptor` still attaches
+  /// an `Idempotency-Key` so a retried DELETE doesn't 404 noisily.
+  Future<void> destroy(int id) {
+    return _client.request(() async {
+      await _client.dio.delete<dynamic>('/nudges/$id');
+    });
+  }
 }

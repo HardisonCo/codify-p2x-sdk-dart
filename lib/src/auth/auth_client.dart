@@ -1,5 +1,7 @@
 import 'package:codify_p2x_sdk/src/auth/auth_models.dart';
+import 'package:codify_p2x_sdk/src/client/interceptors/auth_interceptor.dart';
 import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
+import 'package:dio/dio.dart';
 
 /// Auth-domain client for the standard P2X email/password flow.
 ///
@@ -81,6 +83,108 @@ class AuthClient {
     });
   }
 
+  /// POST `/auth/sign-up` — register a brand-new P2X user with
+  /// email + password.
+  ///
+  /// Unauthenticated — no Bearer header is sent (the SDK's
+  /// `AuthInterceptor` honours the `skip_auth` extra). Idempotent — the
+  /// SDK's `IdempotencyInterceptor` adds the `Idempotency-Key` header
+  /// automatically, so a retry after a transient network failure
+  /// will not double-create the account.
+  ///
+  /// [referralCode] is forwarded to the server as `referral_code` when
+  /// provided.
+  Future<AuthResponse> signUp({
+    required String email,
+    required String password,
+    required String name,
+    String? referralCode,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/auth/sign-up',
+        data: <String, dynamic>{
+          'email': email,
+          'password': password,
+          'name': name,
+          if (referralCode != null) 'referral_code': referralCode,
+        },
+        options: _unauthenticatedOptions(),
+      );
+      return _unwrapAuthResponse(response.data);
+    });
+  }
+
+  /// POST `/auth/password/reset` — request a password-reset link be
+  /// emailed to [email].
+  ///
+  /// Unauthenticated. The response carries no useful data — completes
+  /// once the server has accepted the request and (typically) queued
+  /// the email send.
+  Future<void> resetPassword({required String email}) {
+    return _client.request(() async {
+      await _client.dio.post<Map<String, dynamic>>(
+        '/auth/password/reset',
+        data: <String, dynamic>{
+          'email': email,
+        },
+        options: _unauthenticatedOptions(),
+      );
+    });
+  }
+
+  /// POST `/auth/new-password` — complete the password-reset flow with
+  /// the [token] from the email link and the new [password] / matching
+  /// [passwordConfirmation].
+  ///
+  /// Unauthenticated.
+  Future<void> newPassword({
+    required String token,
+    required String password,
+    required String passwordConfirmation,
+  }) {
+    return _client.request(() async {
+      await _client.dio.post<Map<String, dynamic>>(
+        '/auth/new-password',
+        data: <String, dynamic>{
+          'token': token,
+          'password': password,
+          'password_confirmation': passwordConfirmation,
+        },
+        options: _unauthenticatedOptions(),
+      );
+    });
+  }
+
+  /// POST `/auth/finish-social-registration` — finalize signup for a
+  /// social-login user (Google / Apple Sign-In). Called after the
+  /// client-side OAuth flow yields a [token] and the user has confirmed
+  /// the [email] / display [name] they want to register with.
+  ///
+  /// [provider] is the social provider id — `google`, `apple`, etc.
+  ///
+  /// Unauthenticated.
+  Future<AuthResponse> finishSocialRegistration({
+    required String provider,
+    required String token,
+    required String email,
+    required String name,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/auth/finish-social-registration',
+        data: <String, dynamic>{
+          'provider': provider,
+          'token': token,
+          'email': email,
+          'name': name,
+        },
+        options: _unauthenticatedOptions(),
+      );
+      return _unwrapAuthResponse(response.data);
+    });
+  }
+
   AuthResponse _unwrapAuthResponse(Map<String, dynamic>? body) {
     if (body == null) {
       throw StateError('Empty body from auth endpoint');
@@ -90,5 +194,16 @@ class AuthClient {
       throw StateError('Malformed auth response — missing "data" object');
     }
     return AuthResponse.fromJson(data);
+  }
+
+  /// Build a Dio [Options] object that opts the request out of the
+  /// SDK's auth header injection via the [AuthInterceptor.skipAuthExtra]
+  /// marker.
+  Options _unauthenticatedOptions() {
+    return Options(
+      extra: <String, dynamic>{
+        AuthInterceptor.skipAuthExtra: true,
+      },
+    );
   }
 }

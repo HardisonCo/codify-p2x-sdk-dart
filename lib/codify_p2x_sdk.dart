@@ -63,14 +63,38 @@ export 'src/subprojects/subprojects_models.dart';
 // ─── modules ────────────────────────────────────────────────────────────────
 export 'src/modules/activity_client.dart';
 export 'src/modules/activity_models.dart';
+export 'src/modules/application_client.dart';
+export 'src/modules/application_models.dart';
 export 'src/modules/assessments_client.dart';
 export 'src/modules/assessments_models.dart';
+export 'src/modules/follow_ups_client.dart';
+export 'src/modules/follow_ups_models.dart';
+export 'src/modules/intake_client.dart';
+export 'src/modules/intake_models.dart';
+export 'src/modules/items_client.dart';
+export 'src/modules/items_models.dart';
 export 'src/modules/kpi_client.dart';
 export 'src/modules/kpi_models.dart';
 export 'src/modules/nudge_client.dart';
 export 'src/modules/nudge_models.dart';
 export 'src/modules/order_client.dart';
 export 'src/modules/order_models.dart';
+export 'src/modules/schedule_client.dart';
+export 'src/modules/schedule_models.dart';
+export 'src/modules/services_client.dart';
+export 'src/modules/services_models.dart';
+export 'src/modules/verification_client.dart';
+export 'src/modules/verification_models.dart';
+
+// ─── comms ──────────────────────────────────────────────────────────────────
+export 'src/comms/chat_client.dart';
+export 'src/comms/chat_models.dart';
+export 'src/comms/notification_client.dart';
+export 'src/comms/notification_models.dart';
+
+// ─── payment ────────────────────────────────────────────────────────────────
+export 'src/payment/payment_client.dart';
+export 'src/payment/payment_models.dart';
 
 // ─── integrations ───────────────────────────────────────────────────────────
 export 'src/integrations/nio_integrations_client.dart';

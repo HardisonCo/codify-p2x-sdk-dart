@@ -178,3 +178,95 @@ class Nudge {
       'title: $title, acknowledgedAt: $acknowledgedAt, '
       'dismissedAt: $dismissedAt)';
 }
+
+/// A configured **NudgeChannel** for the current subproject.
+///
+/// Channels are how the P2X server eventually fans out a [Nudge] to the
+/// user — `push` via FCM/APNs, `sms` via Twilio, `email` via Resend,
+/// `in_app` for client-rendered cards, and `voice` for outbound IVR. The
+/// server returns the list of channels configured for the
+/// `X-Domain`-pinned subproject; the client renders preferences UI
+/// against it (e.g. "which channels do you want NIO meal reminders on?").
+///
+/// The SDK does not enforce the [kind] enum so a new server-side
+/// channel type (`whatsapp`, `webhook`, …) will flow through unchanged.
+@immutable
+class NudgeChannel {
+  /// Construct.
+  const NudgeChannel({
+    required this.name,
+    required this.kind,
+    required this.isEnabled,
+    this.config = const <String, dynamic>{},
+  });
+
+  /// Decode from a JSON object. Permissive — a missing `config` decodes
+  /// to an empty map, and `is_enabled` falls back to `false`.
+  factory NudgeChannel.fromJson(Map<String, dynamic> json) {
+    final rawConfig = json['config'];
+    final config = rawConfig is Map
+        ? Map<String, dynamic>.from(rawConfig)
+        : <String, dynamic>{};
+    return NudgeChannel(
+      name: json['name'] as String,
+      kind: json['kind'] as String,
+      isEnabled: json['is_enabled'] is bool && json['is_enabled'] as bool,
+      config: config,
+    );
+  }
+
+  /// Human-friendly channel name — server-driven (e.g. `Default Push`,
+  /// `NIO SMS`).
+  final String name;
+
+  /// One of `push`, `sms`, `email`, `in_app`, `voice`. The SDK doesn't
+  /// enforce the enum so new server-side kinds flow through unchanged.
+  final String kind;
+
+  /// Whether the channel is currently enabled for the subproject.
+  final bool isEnabled;
+
+  /// Free-form per-channel configuration — opaque to the SDK. Typical
+  /// shapes: `{"vapid_public_key": "..."}` for `push`,
+  /// `{"from_number": "+1..."}` for `sms`, `{"from_address": "..."}` for
+  /// `email`.
+  final Map<String, dynamic> config;
+
+  /// Encode to a JSON object. Symmetric with [NudgeChannel.fromJson].
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'name': name,
+      'kind': kind,
+      'is_enabled': isEnabled,
+      'config': config,
+    };
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! NudgeChannel) return false;
+    if (name != other.name) return false;
+    if (kind != other.kind) return false;
+    if (isEnabled != other.isEnabled) return false;
+    if (config.length != other.config.length) return false;
+    for (final entry in config.entries) {
+      if (!other.config.containsKey(entry.key)) return false;
+      if (other.config[entry.key] != entry.value) return false;
+    }
+    return true;
+  }
+
+  @override
+  int get hashCode {
+    var configHash = 0;
+    for (final entry in config.entries) {
+      configHash ^= Object.hash(entry.key, entry.value);
+    }
+    return Object.hash(name, kind, isEnabled, configHash);
+  }
+
+  @override
+  String toString() =>
+      'NudgeChannel(name: $name, kind: $kind, isEnabled: $isEnabled)';
+}

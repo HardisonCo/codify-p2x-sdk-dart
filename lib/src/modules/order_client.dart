@@ -58,4 +58,158 @@ class OrderClient {
     if (results.isEmpty) return null;
     return results.first;
   }
+
+  /// `POST /api/order` — create a new [Order] for the current user with
+  /// the given [source] (e.g. `nio-subscription`, `phm-lab-booking`),
+  /// [amountCents] (smallest currency unit; `999` ≡ `$9.99` for `USD`),
+  /// and ISO-4217 [currency] code.
+  ///
+  /// The server returns the canonical row including its assigned `id`
+  /// in `pending` status — call [checkout] next to attach a payment
+  /// method and produce a Stripe `PaymentIntent`. The
+  /// `IdempotencyInterceptor` attaches a fresh `Idempotency-Key` so a
+  /// double-tap "Buy" collapses to a single Order.
+  Future<Order> create({
+    required String source,
+    required int amountCents,
+    required String currency,
+    Map<String, dynamic>? metadata,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/order',
+        data: <String, dynamic>{
+          'source': source,
+          'amount_cents': amountCents,
+          'currency': currency,
+          if (metadata != null) 'metadata': metadata,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError('POST /order returned no "data" object.');
+      }
+      return Order.fromJson(data);
+    });
+  }
+
+  /// `PUT /api/order/<id>` — update an existing [Order]'s mutable
+  /// fields (currently `metadata`). Status transitions go through
+  /// [cancel], [checkout], and [confirm] — they are not exposed here.
+  ///
+  /// Rewritten to `POST /api/order/<id>?_method=PUT` on the wire by the
+  /// `MethodOverrideInterceptor`.
+  Future<Order> update(int id, {Map<String, dynamic>? metadata}) {
+    return _client.request(() async {
+      final response = await _client.dio.put<Map<String, dynamic>>(
+        '/order/$id',
+        data: <String, dynamic>{
+          if (metadata != null) 'metadata': metadata,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError('PUT /order/$id returned no "data" object.');
+      }
+      return Order.fromJson(data);
+    });
+  }
+
+  /// `POST /api/order/cancel-order` — cancel the [Order] identified by
+  /// [orderId], optionally recording a human-readable [reason]. The
+  /// server transitions the order to `cancelled` and returns the
+  /// canonical row.
+  ///
+  /// Idempotent via the auto-injected `Idempotency-Key` header.
+  Future<Order> cancel({required int orderId, String? reason}) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/order/cancel-order',
+        data: <String, dynamic>{
+          'order_id': orderId,
+          if (reason != null) 'reason': reason,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError(
+          'POST /order/cancel-order returned no "data" object.',
+        );
+      }
+      return Order.fromJson(data);
+    });
+  }
+
+  /// `POST /api/order/checkout` — kick off payment for [orderId] using
+  /// the previously-attached Stripe payment method [paymentMethodId].
+  ///
+  /// The server creates (or reuses) a Stripe `PaymentIntent` and
+  /// returns the result in the [CheckoutResult] envelope. Three paths:
+  ///
+  ///   1. `status: 'requires_action'` — the app passes
+  ///      [CheckoutResult.clientSecret] to the Stripe mobile SDK,
+  ///      completes the 3DS / push challenge, then calls [confirm]
+  ///      with the resulting `paymentIntentId`.
+  ///   2. `status: 'succeeded'` — payment cleared in a single
+  ///      round-trip; no follow-up is required (though [confirm] is
+  ///      idempotent and safe).
+  ///   3. `status: 'failed'` — surface [CheckoutResult.error] and stop.
+  ///
+  /// Idempotent via the auto-injected `Idempotency-Key` header.
+  Future<CheckoutResult> checkout({
+    required int orderId,
+    required String paymentMethodId,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/order/checkout',
+        data: <String, dynamic>{
+          'order_id': orderId,
+          'payment_method_id': paymentMethodId,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError('POST /order/checkout returned no "data" object.');
+      }
+      return CheckoutResult.fromJson(data);
+    });
+  }
+
+  /// `POST /api/order/confirm-order` — confirm payment for [orderId]
+  /// once the Stripe mobile SDK has finished the client-side
+  /// confirmation flow.
+  ///
+  /// Called after [checkout] returned `status: 'requires_action'` and
+  /// the app handed the resulting [CheckoutResult.clientSecret] to the
+  /// Stripe SDK. The [paymentIntentId] is the `PaymentIntent.id`
+  /// Stripe returns once it reaches a terminal state.
+  ///
+  /// Idempotent via the auto-injected `Idempotency-Key` header.
+  Future<Order> confirm({
+    required int orderId,
+    required String paymentIntentId,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/order/confirm-order',
+        data: <String, dynamic>{
+          'order_id': orderId,
+          'payment_intent_id': paymentIntentId,
+        },
+      );
+      final body = response.data ?? const <String, dynamic>{};
+      final data = body['data'];
+      if (data is! Map<String, dynamic>) {
+        throw StateError(
+          'POST /order/confirm-order returned no "data" object.',
+        );
+      }
+      return Order.fromJson(data);
+    });
+  }
 }

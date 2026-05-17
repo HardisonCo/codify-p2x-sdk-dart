@@ -172,3 +172,105 @@ class Order {
       'expiresAt: $expiresAt, userId: $userId, '
       'subprojectId: $subprojectId)';
 }
+
+/// The result of `POST /api/order/checkout` — the Stripe-shaped envelope
+/// the server returns when the client kicks off payment for an [Order].
+///
+/// Two terminal-ish shapes flow through:
+///
+///   * `status: 'requires_action'` — Stripe needs the client to confirm
+///     a `PaymentIntent` (3DS challenge, push approval, etc.). The
+///     server populates [clientSecret] and [paymentIntentId]; the app
+///     hands them to the Stripe SDK, then calls
+///     `OrderClient.confirm()` with the resulting `paymentIntentId`
+///     once Stripe reports success.
+///   * `status: 'succeeded'` — payment cleared in a single round-trip
+///     (e.g. saved card with no 3DS). The order is already paid; no
+///     follow-up `confirm()` call is required, but it is safe to call
+///     (idempotent on the server).
+///   * `status: 'failed'` — payment was attempted and rejected.
+///     [error] carries a human-readable reason; the app surfaces it and
+///     does not call `confirm()`.
+@immutable
+class CheckoutResult {
+  /// Construct.
+  const CheckoutResult({
+    required this.orderId,
+    required this.status,
+    this.clientSecret,
+    this.paymentIntentId,
+    this.error,
+  });
+
+  /// Decode from a JSON object. Permissive — optional fields fall back
+  /// to `null`.
+  factory CheckoutResult.fromJson(Map<String, dynamic> json) {
+    return CheckoutResult(
+      orderId: json['order_id'] as int,
+      status: json['status'] as String,
+      clientSecret: json['client_secret'] as String?,
+      paymentIntentId: json['payment_intent_id'] as String?,
+      error: json['error'] as String?,
+    );
+  }
+
+  /// The [Order.id] this checkout belongs to.
+  final int orderId;
+
+  /// One of `requires_action`, `succeeded`, `failed`. Server-driven —
+  /// the SDK doesn't enforce the enum, so a new server-side status will
+  /// flow through unchanged.
+  final String status;
+
+  /// Stripe `PaymentIntent.client_secret` — present when [status] is
+  /// `requires_action`, used by the Stripe mobile SDK to complete the
+  /// payment on-device.
+  final String? clientSecret;
+
+  /// Stripe `PaymentIntent.id` — present when the server has created or
+  /// reused a PaymentIntent (`requires_action` and `succeeded`). The
+  /// client passes this back to `OrderClient.confirm()` after the
+  /// Stripe SDK reports success.
+  final String? paymentIntentId;
+
+  /// Human-readable error message when [status] is `failed`. `null` for
+  /// non-failure responses.
+  final String? error;
+
+  /// Encode to a JSON object. Symmetric with [CheckoutResult.fromJson].
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      'order_id': orderId,
+      'status': status,
+      if (clientSecret != null) 'client_secret': clientSecret,
+      if (paymentIntentId != null) 'payment_intent_id': paymentIntentId,
+      if (error != null) 'error': error,
+    };
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is CheckoutResult &&
+          runtimeType == other.runtimeType &&
+          orderId == other.orderId &&
+          status == other.status &&
+          clientSecret == other.clientSecret &&
+          paymentIntentId == other.paymentIntentId &&
+          error == other.error;
+
+  @override
+  int get hashCode => Object.hash(
+        orderId,
+        status,
+        clientSecret,
+        paymentIntentId,
+        error,
+      );
+
+  @override
+  String toString() => 'CheckoutResult(orderId: $orderId, status: $status, '
+      'paymentIntentId: $paymentIntentId, '
+      'clientSecret: ${clientSecret == null ? null : "<redacted>"}, '
+      'error: $error)';
+}

@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+## [0.2.0] — 2026-05-17
+
+Tier 1.5 — closes the consumer-surface gap so IBD healthcare and PHM apps can ship without dropping to raw Dio. Additive only; no breaking changes to v0.1.x.
+
+### Added
+
+**New module clients (13):**
+- `ApplicationClient` — `GET/POST/GET/PUT /api/applications[/{id}]` (IBD doctorRequest, PHM intake apps).
+- `VerificationClient` — `GET/POST/GET/PUT /api/verifications[/{id}]` (IBD doctor license uploads).
+- `ScheduleClient` — `/api/schedule` + `/api/schedule-call` resource pairs (10 endpoints; IBD appointment slots).
+- `ServicesClient` — `resolve`, `slots`, `reserve` (3 endpoints; IBD service lookup + slot reservation).
+- `FollowUpsClient` — 6 endpoints incl. `recordVoice` / `finalizeVoice` (IBD post-visit follow-ups).
+- `ChatClient` — 10 endpoints under `/api/chat` + `/api/broadcasting/auth` (IBD doctor↔patient messaging, Pusher/Echo presence-channel auth).
+- `NotificationClient` — list, unread, delete, startTask (FCM-paired inbox).
+- `PaymentClient` — get/save/delete payment method, setup-intent, subscriptions paginator (Stripe).
+- `ItemsClient` — items + collections + user-items (12 endpoints; NIO meal plans, PHM care kits).
+- `IntakeClient` — `start`, `exchange`, `voiceRecord`, `voiceFinalize`, `submitAnswers`, `setAudience`, `initiateHandoff`, `status` (cross-subproject patient intake handoff).
+
+**Expanded existing clients:**
+- `AuthClient` — `signUp`, `resetPassword`, `newPassword`, `finishSocialRegistration` (all unauthenticated via `AuthInterceptor.skipAuthExtra`).
+- `OrderClient` — `create`, `update`, `cancel`, `checkout` (Stripe-shaped envelope), `confirm`.
+- `NudgeClient` — `checkIn`, `channels`, `snooze`, `destroy`.
+
+**New models:**
+- `Application`, `Verification`, `Schedule`, `ScheduleCall`, `Service`, `FollowUp`.
+- `ChatRoom`, `ChatMessage`, `PaginatedMessages`, `UserSummary`, `BroadcastAuth`, `AppNotification`.
+- `PaymentMethod`, `SetupIntent`, `Subscription`, `PaginatedSubscriptions`.
+- `Item`, `Collection`, `UserItem`.
+- `Intake`, `IntakeHandoff`, `IntakeStatus`.
+- `CheckoutResult`, `NudgeChannel`.
+
+### Tests
+- 216 → 529 passing (+313 new).
+- All new write methods assert `Idempotency-Key` UUID v4 via `InterceptorsWrapper` capture (no `@visibleForTesting`).
+- `PUT/PATCH` → `POST + ?_method=` rewriting verified on every update method.
+- ValidationException + NotFoundException + UnauthorizedException paths covered per client.
+
+### Notes
+- Tracks `@arionhardison/wizard-api-client` v1.4.0 (TS sibling shipped the same Intake module + 4 cross-cutting routes at the same time).
+- Mobile consumer cut: NIO, MOB, IBD, PHM, Codify apps can all drop direct-Dio code in favor of these clients. AdminApiClient / WizardApiClient / ProtocolApiClient surfaces remain deferred (admin/web-only, not mobile-relevant).
+
 ## [0.1.1] — TBD
 
 ### Changed
