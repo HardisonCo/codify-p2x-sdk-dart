@@ -11,8 +11,8 @@
 // always unwrap via `(e as DioException).error as ApiException` (or
 // equivalent) — the pattern documented in the SDK README and CLAUDE.md.
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/error_interceptor.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/error_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

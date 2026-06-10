@@ -1,7 +1,7 @@
 // Tests for the Intake module model classes — Intake, IntakeHandoff,
 // IntakeStatus.
 
-import 'package:codify_p2x_sdk/src/modules/intake_models.dart';
+import 'package:ycaas_flutter_sdk/src/modules/intake_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

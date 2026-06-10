@@ -4,7 +4,7 @@
 // Covers JSON round-trips, optional-field permissiveness, copyWith,
 // value-equality, and toString.
 
-import 'package:codify_p2x_sdk/src/subprojects/subprojects_models.dart';
+import 'package:ycaas_flutter_sdk/src/subprojects/subprojects_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

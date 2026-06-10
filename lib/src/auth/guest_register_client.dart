@@ -1,5 +1,5 @@
-import 'package:codify_p2x_sdk/src/auth/auth_models.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/auth/auth_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
 
 /// Auth client for the MOB anonymous guest-registration endpoint.
 ///

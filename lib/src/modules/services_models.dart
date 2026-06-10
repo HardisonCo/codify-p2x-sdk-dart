@@ -1,10 +1,10 @@
 import 'package:meta/meta.dart';
 
-import 'package:codify_p2x_sdk/src/modules/schedule_models.dart';
+import 'package:ycaas_flutter_sdk/src/modules/schedule_models.dart';
 
 // Re-export Schedule and ScheduleCall — the Services API hands these
 // back from /slots and /reserve and we want a single canonical type.
-export 'package:codify_p2x_sdk/src/modules/schedule_models.dart'
+export 'package:ycaas_flutter_sdk/src/modules/schedule_models.dart'
     show Schedule, ScheduleCall;
 
 /// A bookable **Service** in the P2X services catalog.

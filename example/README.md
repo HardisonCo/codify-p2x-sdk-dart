@@ -1,4 +1,4 @@
-# codify_p2x_sdk example
+# ycaas_flutter_sdk example
 
 Minimal demonstration of the SDK. Constructs a `P2xClient`, fires a request, displays the result.
 

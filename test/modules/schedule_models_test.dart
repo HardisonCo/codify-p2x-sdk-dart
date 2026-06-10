@@ -1,7 +1,7 @@
 // Tests for the Schedule and ScheduleCall model classes — plain
 // @immutable data classes (no freezed).
 
-import 'package:codify_p2x_sdk/src/modules/schedule_models.dart';
+import 'package:ycaas_flutter_sdk/src/modules/schedule_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -5,8 +5,8 @@
 // bubble up as raw DioException. The 401 -> UnauthorizedException test is
 // marked accordingly until that interceptor lands.
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/auth/auth_client.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/auth/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

@@ -1,5 +1,5 @@
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/subprojects/subprojects_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/subprojects/subprojects_models.dart';
 
 /// Per-domain client for the `subprojects` and `settings` modules.
 ///

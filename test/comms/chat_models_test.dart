@@ -7,7 +7,7 @@
 //   * UserSummary — lightweight user record returned by /chat/find-user
 //   * BroadcastAuth — Pusher/Echo channel auth payload
 
-import 'package:codify_p2x_sdk/src/comms/chat_models.dart';
+import 'package:ycaas_flutter_sdk/src/comms/chat_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -1,4 +1,4 @@
-# Continuous integration for codify_p2x_sdk.
+# Continuous integration for ycaas_flutter_sdk.
 #
 # Runs on every push and pull request. Gates merging on:
 #   - Dart format

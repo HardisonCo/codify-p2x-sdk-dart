@@ -1,10 +1,65 @@
 # Changelog
 
-All notable changes to `codify_p2x_sdk` are documented here.
+All notable changes to `ycaas_flutter_sdk` (renamed from `codify_p2x_sdk` at v0.3.0) are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) starting at `1.0.0`. Until then, `0.x.y` versions may break compatibility on minor bumps.
 
 ## [Unreleased]
+
+## [0.3.0-alpha.1] — 2026-05-27
+
+### Changed — BREAKING
+
+- **Package renamed** `codify_p2x_sdk` → `ycaas_flutter_sdk` to align with
+  the canonical YCaaS branding (`P2X/PUBLIC_DOMAIN_AGENTS.md` §9) and the
+  TS sibling already served from `ycaas.ai`. Migration is mechanical:
+  - `pubspec.yaml`: `codify_p2x_sdk:` → `ycaas_flutter_sdk:`
+  - imports: `package:codify_p2x_sdk/codify_p2x_sdk.dart` →
+    `package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart`
+  - Type names (`P2xClient`, `P2xClientConfig`, etc.) are **unchanged** —
+    they name the *API contract* (P2X), not the package.
+- Library directive `library codify_p2x_sdk;` → `library ycaas_flutter_sdk;`.
+- Repo intended to move to `HardisonCo/ycaas-flutter-sdk`; pub.dev
+  automated-publishing record must be re-pointed before next publish.
+
+### Added — API parity push
+
+- **`PasswordSwapClient`** (`lib/src/auth/password_swap_client.dart`) +
+  `PasswordSignInResponse` model — wraps `POST /public/auth/sign-in`.
+  Unblocks PHM patient + doctor apps, which don't use Firebase Auth. The
+  endpoint returns **422** (not 401) on bad credentials to prevent email
+  enumeration; callers catch `ValidationException`.
+- **`WizardClient`** (`lib/src/wizard/`) — Five-Step Wizard surface
+  (start, codify, get-state, assessment, finances, team, members, publish,
+  finalization).
+- **`DealsClient`** (`lib/src/modules/deals/`) — YCaaS deal flow under
+  `/wizard/deal/*` plus step-claim routes under
+  `/deals/{deal_id}/steps/{step_idx}/*`.
+- **`WorkflowClient`** (`lib/src/modules/workflow/`) — codify-pipeline
+  (start/stop/check/save-response) + `pipes/invoke`.
+- **`AgentsClient`** (`lib/src/modules/agents/`) — agent CRUD,
+  activate/deactivate/clone, tools, execute/resume-protocol, executions,
+  statistics; plus intelligent intent routing (intent/process, batch,
+  entity/identify, search).
+- **`DisbursementClient`**, **`ChallengeClient`**, **`ReferralClient`**,
+  **`ReportClient`** — protocol-step modules following the `run + confirm`
+  shape mirroring `OrderClient`.
+- **`utils/`** — `pollUntil()`, `RetryPolicy`, `FormDataBuilder`.
+- **`realtime/`** — opt-in Pusher Channels wrapper. Peer-dep on
+  `pusher_channels_flutter` (consumer adds in their own pubspec).
+
+### Added — Tests
+
+- Contract tests for every new client method (URL, method, headers, body,
+  response decoding, plus 422 / 401 negative paths).
+- Per-app integration test skeletons in `test/integrations/{ibd,nio,phm}/`
+  that assert the SDK exposes the surface each app needs. MOB skipped —
+  no backend yet.
+
+### Notes
+
+- This is `0.3.0-alpha.1` — not on pub.dev yet. Tagging `v0.3.0-alpha.1`
+  will exercise the OIDC publish workflow under the new repo name.
 
 ## [0.2.3] — 2026-05-17
 

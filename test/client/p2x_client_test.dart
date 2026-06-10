@@ -7,12 +7,12 @@
 // body shape, response decoding, error type. Implementation details are not
 // asserted — those are free to evolve.
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/auth_interceptor.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/error_interceptor.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/idempotency_interceptor.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/method_override_interceptor.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/subproject_interceptor.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/error_interceptor.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/method_override_interceptor.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/subproject_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_test/flutter_test.dart';

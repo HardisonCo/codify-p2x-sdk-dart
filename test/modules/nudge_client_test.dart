@@ -5,10 +5,10 @@
 //   POST /api/nudges/<id>/ack          — acknowledge a nudge
 //   POST /api/nudges/<id>/dismiss      — dismiss a nudge
 
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client_config.dart';
-import 'package:codify_p2x_sdk/src/modules/nudge_client.dart';
-import 'package:codify_p2x_sdk/src/modules/nudge_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:ycaas_flutter_sdk/src/modules/nudge_client.dart';
+import 'package:ycaas_flutter_sdk/src/modules/nudge_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 

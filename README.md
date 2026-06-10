@@ -1,27 +1,29 @@
-# codify_p2x_sdk
+# ycaas_flutter_sdk
 
-Dart/Flutter SDK for the [Project20X (P2X)](https://api.project20x.com) API. Companion of the TypeScript client at [`@arionhardison/wizard-api-client`](https://github.com/HardisonCo/codify-p2x-sdk) (in renaming).
+The **YCaaS Flutter SDK** — Dart/Flutter client for the [YCaaS / P2X](https://api.project20x.com) API at `api.project20x.com`. Companion of the TypeScript client at [`@arionhardison/wizard-api-client`](https://github.com/HardisonCo/codify-p2x-sdk).
 
-Used by **Codify Inc.**'s Flutter apps:
+Renamed from `codify_p2x_sdk` at **v0.3.0**. The `P2x*` class names (e.g. `P2xClient`, `P2xClientConfig`) are kept — they name the API contract (P2X), not the package distribution.
 
-- **Codify** — flagship mobile (was Run Tracker)
-- **IBD Healthcare** + **IBD Healthcare for Clinicians**
-- **PHM** + **PHM Pro**
-- **DietManager** — nutrition scanning (was NutriScan)
+Consumed by YCaaS subproject Flutter apps:
+
+- **NutriScan (NIO)** — `nutriscan.codify.ai` (reference implementation)
+- **Crohnie AI / IBD Healthcare** — patient + clinician (`crohnie.ai`)
+- **PHM Marketplace** — patient + doctor (`phm.ai`)
+- *Run Tracker (MOB)* — parked; no backend yet
 
 ## Status
 
-**Early — Tier 1 MVP in progress.** Covers the ~20 endpoints NIO needs at launch; Tier 2 (full P2X surface, ~500 endpoints) is codegen-driven once the OpenAPI spec from `api/` lands.
+**Tier 1 ramp — v0.3.0-alpha.** Covers the auth, wizard, deals, workflow, agents, and core module surfaces needed by the four consumer apps. Tier 2 (full P2X surface, ~500 endpoints, OpenAPI-codegen) lands once `dedoc/scramble` is wired into the API.
 
-See the canonical plan at [`P2X/FLUTTER_SDK_PLAN.md`](https://github.com/HardisonCo/p2x-monorepo/blob/main/FLUTTER_SDK_PLAN.md) (in the P2X monorepo).
+See the canonical plan at [`P2X/FLUTTER_SDK_PLAN.md`](https://github.com/HardisonCo/p2x-monorepo/blob/main/FLUTTER_SDK_PLAN.md).
 
 ## Install
 
 ```yaml
 dependencies:
-  codify_p2x_sdk:
+  ycaas_flutter_sdk:
     git:
-      url: https://github.com/HardisonCo/codify-p2x-sdk-dart.git
+      url: https://github.com/HardisonCo/ycaas-flutter-sdk.git
       ref: main
 ```
 
@@ -29,13 +31,22 @@ Once published to pub.dev:
 
 ```yaml
 dependencies:
-  codify_p2x_sdk: ^0.1.0
+  ycaas_flutter_sdk: ^0.3.0
 ```
+
+### Migrating from `codify_p2x_sdk`
+
+Two changes per consumer app:
+
+1. Pubspec dep name: `codify_p2x_sdk:` → `ycaas_flutter_sdk:`.
+2. Imports: `package:codify_p2x_sdk/codify_p2x_sdk.dart` → `package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart`.
+
+No type-name changes — `P2xClient`, `AuthClient`, etc. are unchanged. Find-and-replace + `flutter pub get` is enough.
 
 ## Quick start
 
 ```dart
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
 
 final p2x = P2xClient(
   config: P2xClientConfig(
@@ -49,20 +60,29 @@ final p2x = P2xClient(
   ),
 );
 
-// Authenticate (NIO: Firebase ID token → Sanctum swap)
-final auth = await p2x.auth.firebaseLogin(firebaseIdToken: idToken);
-await myTokenStorage.write(auth.token);
+// Authenticate
+// NIO: Firebase ID token → Sanctum swap
+final auth = await FirebaseSwapClient(p2x).firebaseLogin(firebaseIdToken: idToken);
+// PHM: email/password → Sanctum (no Firebase)
+final auth2 = await PasswordSwapClient(p2x).signIn(login: email, password: pw);
 
-// Store a food scan
-final scan = await p2x.assessments.storeResponse(
+// Drive the Five-Step Wizard (YCaaS deal flow)
+final wizard = WizardClient(p2x);
+final start = await wizard.start(problem: 'Patient needs medication review', metadata: …);
+final dealId = start.dealId;
+final deals = DealsClient(p2x);
+await deals.requiredInfo(dealId: dealId, answers: {…});
+await deals.codify(dealId: dealId);
+await deals.selectSolution(dealId: dealId, solutionIdx: 0);
+await deals.setup(dealId: dealId);
+await deals.start(dealId: dealId);
+
+// Persist a food scan (NIO)
+await AssessmentsClient(p2x).storeResponse(
   surveyKey: 'food-intake-daily',
   payload: parsedNutritionJson,
-  idempotencyKey: localScanId, // make double-tap-safe
+  idempotencyKey: localScanId,
 );
-
-// Read subscription state
-final order = await p2x.orders.activeSubscription();
-print(order.tier); // 'monthly' | 'yearly' | null
 ```
 
 ## Architecture
@@ -79,60 +99,59 @@ Mirrors the TS SDK's `BaseApiClient` → per-domain client pattern. Same wire-le
 - Idempotency-Key auto-generated for writes (24h server-side TTL via Redis)
 
 ```
-codify_p2x_sdk
+ycaas_flutter_sdk
 ├── lib/
-│   ├── codify_p2x_sdk.dart        barrel
+│   ├── ycaas_flutter_sdk.dart    barrel
 │   ├── src/
-│   │   ├── client/                P2xClient + interceptors + exceptions
-│   │   ├── auth/                  login, firebase-swap, guest-register
-│   │   ├── subprojects/           subproject context + features
-│   │   ├── wizard/                Five-step wizard
-│   │   ├── programs/              Programs + protocols
-│   │   ├── modules/               P2X modules: activity, assessments, kpi, …
-│   │   ├── integrations/          Per-subproject helpers: nio, mob, ibd, phm
-│   │   ├── realtime/              Optional WebSocket/Pusher
-│   │   └── utils/                 poll-until, retry policy, form-data builder
-└── test/                          flutter_test + http_mock_adapter
+│   │   ├── client/               P2xClient + interceptors + exceptions
+│   │   ├── auth/                 login, firebase-swap, password-swap, guest-register
+│   │   ├── subprojects/          subproject context + features
+│   │   ├── wizard/               Five-step wizard (YCaaS deal flow)
+│   │   ├── modules/              activity, assessments, deals, workflow, agents, …
+│   │   ├── comms/                chat, notifications
+│   │   ├── payment/              Stripe payment methods + subscriptions
+│   │   ├── integrations/         per-subproject helpers (nio, ibd, phm, mob)
+│   │   ├── realtime/             optional Pusher/Echo wrapper (peer-dep)
+│   │   └── utils/                poll-until, retry policy, form-data builder
+└── test/                         flutter_test + http_mock_adapter
 ```
 
 ## Strict TDD
 
 Every endpoint method has a contract test that asserts:
 
-1. The URL
-2. The HTTP method
+1. The URL (exact string, including any `_method=` query suffix)
+2. The HTTP method (PUT/PATCH expect `POST + _method=`)
 3. The headers (`Authorization`, `X-Domain`, `Idempotency-Key`, `Content-Type`)
 4. The request body shape
 5. The response decoding
+6. At least one negative path per write (422) and per auth-required (401)
 
-See `test/client/p2x_client_test.dart` for the base-client contract tests.
-
-Run tests:
+See `test/client/p2x_client_test.dart` for the base-client contract suite and `CLAUDE.md` for the per-module checklist.
 
 ```bash
 flutter test
 flutter test --coverage
 ```
 
-Coverage gates:
+Coverage gates (enforced in CI):
 
 | Path | Gate |
 |---|---|
 | `lib/src/client/**` | ≥85% |
 | `lib/src/auth/`, `lib/src/wizard/`, `lib/src/modules/` | ≥75% |
-| `lib/src/generated/**` (Tier 2) | excluded |
+| Overall | ≥70% |
 
 ## Versioning
 
-Tier 1 ships as `0.x.y` (pre-stable). Tier 2 (after codegen lands and the JS SDK reaches `2.x`) ships as `1.x.y`.
+`0.x.y` (current, pre-stable). `v0.3.0` cuts the YCaaS rename + wizard parity. `1.x.y` post-codegen Tier 2.
 
-Both SDKs (TS + Dart) version-bump in lockstep against the OpenAPI spec in `api/public/docs/api-spec.json`.
+Both SDKs (TS + Dart) version-bump in lockstep against the OpenAPI spec.
 
 ## Documentation
 
 - [`CHANGELOG.md`](CHANGELOG.md) — release notes
-- [`CLAUDE.md`](CLAUDE.md) — architecture for contributors
-- [`LICENSE`](LICENSE) — license terms
+- [`CLAUDE.md`](CLAUDE.md) — architecture + parity matrix + per-app onboarding playbook
 - [`example/`](example) — runnable Flutter example app
 
 ## License
@@ -141,7 +160,7 @@ Proprietary. See [`LICENSE`](LICENSE). Copyright © 2026 Codify Inc.
 
 ## See also
 
-- The TypeScript sibling: [@arionhardison/wizard-api-client](https://github.com/HardisonCo/codify-p2x-sdk) (renaming) — same wire contract, same shape, different host language. Both SDKs version-bump in lockstep against the OpenAPI spec; if you've used one you can navigate the other.
-- The API this SDK targets: `P2X/api/` (Laravel 10 monolith on the Codify Inc. droplet)
-- Canonical architecture: `P2X/SYSTEM_OVERVIEW.md` in the P2X monorepo
-- Launch plan: `P2X/LAUNCH_NOW.md`
+- TS sibling: [@arionhardison/wizard-api-client](https://github.com/HardisonCo/codify-p2x-sdk) — same wire contract, different host language.
+- API this SDK targets: `P2X/api/` (Laravel 10 monolith).
+- Canonical architecture: `P2X/SYSTEM_OVERVIEW.md`.
+- YCaaS definition: `P2X/PUBLIC_DOMAIN_AGENTS.md` §9.

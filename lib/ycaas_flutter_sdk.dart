@@ -1,4 +1,9 @@
-/// codify_p2x_sdk — Dart/Flutter client for the Project20X (P2X) API.
+/// ycaas_flutter_sdk — Dart/Flutter client for the YCaaS / P2X API at
+/// `https://api.project20x.com`.
+///
+/// Renamed from `codify_p2x_sdk` at v0.3.0. The `P2x*` type names are kept
+/// because they describe the *API contract* (P2X), not the package
+/// distribution. See `CLAUDE.md` for the rename rationale.
 ///
 /// Mirrors the architecture and contract of the TypeScript sibling at
 /// [@arionhardison/wizard-api-client](https://github.com/HardisonCo/codify-p2x-sdk).
@@ -6,7 +11,7 @@
 /// Quick start:
 ///
 /// ```dart
-/// import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
+/// import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
 ///
 /// final p2x = P2xClient(
 ///   config: P2xClientConfig(
@@ -21,6 +26,10 @@
 /// final auth = FirebaseSwapClient(p2x);
 /// final session = await auth.firebaseLogin(firebaseIdToken: idToken);
 ///
+/// // PHM swaps email/password for a Sanctum bearer (no Firebase)
+/// final pwd = PasswordSwapClient(p2x);
+/// final session2 = await pwd.signIn(login: email, password: pw);
+///
 /// // Persist a food scan
 /// final assessments = AssessmentsClient(p2x);
 /// final scan = await assessments.storeResponse(
@@ -34,7 +43,7 @@
 /// notes. Typed errors (UnauthorizedException, ValidationException, etc.) are
 /// thrown directly from per-domain client methods — see the `request` helper
 /// on `P2xClient` for the unwrap mechanics.
-library codify_p2x_sdk;
+library ycaas_flutter_sdk;
 
 // ─── client ─────────────────────────────────────────────────────────────────
 export 'src/client/api_response.dart';
@@ -54,19 +63,42 @@ export 'src/auth/auth_client.dart';
 export 'src/auth/auth_models.dart';
 export 'src/auth/firebase_swap_client.dart';
 export 'src/auth/guest_register_client.dart';
+export 'src/auth/password_swap_client.dart';
+export 'src/auth/password_swap_models.dart';
 export 'src/auth/token_storage.dart';
 
 // ─── subprojects ────────────────────────────────────────────────────────────
 export 'src/subprojects/subprojects_client.dart';
 export 'src/subprojects/subprojects_models.dart';
 
+// ─── wizard (YCaaS Five-Step Wizard) ────────────────────────────────────────
+export 'src/wizard/wizard_client.dart';
+export 'src/wizard/wizard_models.dart';
+
+// ─── utils ──────────────────────────────────────────────────────────────────
+export 'src/utils/form_data_builder.dart';
+export 'src/utils/poll_until.dart';
+export 'src/utils/retry_policy.dart';
+
+// ─── realtime (abstract — bring your own transport) ─────────────────────────
+export 'src/realtime/channels.dart';
+export 'src/realtime/realtime_client.dart';
+export 'src/realtime/realtime_event.dart';
+
 // ─── modules ────────────────────────────────────────────────────────────────
 export 'src/modules/activity_client.dart';
 export 'src/modules/activity_models.dart';
+export 'src/modules/agents_client.dart';
 export 'src/modules/application_client.dart';
 export 'src/modules/application_models.dart';
 export 'src/modules/assessments_client.dart';
 export 'src/modules/assessments_models.dart';
+export 'src/modules/challenge_client.dart';
+export 'src/modules/deals_client.dart';
+export 'src/modules/deals_models.dart';
+export 'src/modules/disbursement_client.dart';
+export 'src/modules/referral_client.dart';
+export 'src/modules/report_client.dart';
 export 'src/modules/follow_ups_client.dart';
 export 'src/modules/follow_ups_models.dart';
 export 'src/modules/intake_client.dart';
@@ -85,6 +117,13 @@ export 'src/modules/services_client.dart';
 export 'src/modules/services_models.dart';
 export 'src/modules/verification_client.dart';
 export 'src/modules/verification_models.dart';
+export 'src/modules/workflow_client.dart';
+
+// ─── voice ───────────────────────────────────────────────────────────────
+// Voice agent (utils/voice-agent) — ephemeral SIP credentials for a WebRTC
+// call bound to a ProtocolPersonalChain. SIP signaling/audio stays in the app.
+export 'src/voice/voice_client.dart';
+export 'src/voice/voice_models.dart';
 
 // ─── comms ──────────────────────────────────────────────────────────────────
 export 'src/comms/chat_client.dart';

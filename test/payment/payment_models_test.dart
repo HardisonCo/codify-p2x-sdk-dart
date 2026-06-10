@@ -4,7 +4,7 @@
 // These are plain @immutable data classes (no freezed) — see the auth
 // and modules sibling tests for the same shape.
 
-import 'package:codify_p2x_sdk/src/payment/payment_models.dart';
+import 'package:ycaas_flutter_sdk/src/payment/payment_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

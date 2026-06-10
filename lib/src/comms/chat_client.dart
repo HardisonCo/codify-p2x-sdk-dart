@@ -1,5 +1,5 @@
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/comms/chat_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/comms/chat_models.dart';
 
 /// Per-domain client for the **Chat** module.
 ///

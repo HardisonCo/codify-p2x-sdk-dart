@@ -9,10 +9,10 @@
 // Convenience helpers (recordCalories / recordWater / recordWeight /
 // recordSteps) get one test each to lock down their key/unit choices.
 
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client_config.dart';
-import 'package:codify_p2x_sdk/src/modules/kpi_client.dart';
-import 'package:codify_p2x_sdk/src/modules/kpi_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:ycaas_flutter_sdk/src/modules/kpi_client.dart';
+import 'package:ycaas_flutter_sdk/src/modules/kpi_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 

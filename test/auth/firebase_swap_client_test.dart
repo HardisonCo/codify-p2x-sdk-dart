@@ -1,8 +1,8 @@
 // Tests for FirebaseSwapClient — the NIO Firebase-ID-token -> Sanctum-bearer
 // swap endpoint.
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/auth/firebase_swap_client.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/auth/firebase_swap_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

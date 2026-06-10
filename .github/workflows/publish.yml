@@ -1,4 +1,4 @@
-# Publish codify_p2x_sdk to pub.dev.
+# Publish ycaas_flutter_sdk to pub.dev.
 #
 # Triggers:
 #   - Push of a semver tag (v1.2.3, v0.1.0, etc.)
@@ -10,7 +10,7 @@
 # Operator prerequisites (one-time):
 #   1. On pub.dev, open the package's "Admin" → "Automated publishing" tab.
 #   2. Enable "Publishing from GitHub Actions".
-#   3. Set repository: HardisonCo/codify-p2x-sdk-dart
+#   3. Set repository: HardisonCo/ycaas-flutter-sdk
 #   4. Set tag pattern: v{{version}}
 #   5. (Recommended) Restrict to environment "pub.dev" and configure GitHub
 #      Environments → pub.dev with required reviewers.

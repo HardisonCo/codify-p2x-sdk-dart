@@ -20,9 +20,9 @@
 //     GET  /api/user-items                       — list user-saved items
 //     POST /api/user-items                       — save (idempotent)
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/modules/items_client.dart';
-import 'package:codify_p2x_sdk/src/modules/items_models.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/modules/items_client.dart';
+import 'package:ycaas_flutter_sdk/src/modules/items_models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

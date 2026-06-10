@@ -18,12 +18,12 @@
 // also verify ValidationException surfaces on POST /api/chat/send with
 // an empty body, and UnauthorizedException on a 401 read.
 
-import 'package:codify_p2x_sdk/src/client/exceptions/unauthorized_exception.dart';
-import 'package:codify_p2x_sdk/src/client/exceptions/validation_exception.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client_config.dart';
-import 'package:codify_p2x_sdk/src/comms/chat_client.dart';
-import 'package:codify_p2x_sdk/src/comms/chat_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/exceptions/unauthorized_exception.dart';
+import 'package:ycaas_flutter_sdk/src/client/exceptions/validation_exception.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:ycaas_flutter_sdk/src/comms/chat_client.dart';
+import 'package:ycaas_flutter_sdk/src/comms/chat_models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

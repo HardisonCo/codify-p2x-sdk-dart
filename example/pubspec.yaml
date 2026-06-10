@@ -1,5 +1,5 @@
-name: codify_p2x_sdk_example
-description: Minimal example demonstrating codify_p2x_sdk usage.
+name: ycaas_flutter_sdk_example
+description: Minimal example demonstrating ycaas_flutter_sdk usage.
 publish_to: 'none'  # this is an example, not published
 version: 0.1.0+1
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  codify_p2x_sdk:
+  ycaas_flutter_sdk:
     path: ../
 
 dev_dependencies:

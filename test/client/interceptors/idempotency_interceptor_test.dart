@@ -4,8 +4,8 @@
 // the P2X backend's idempotency middleware can de-dupe retries within its
 // 24-hour Redis TTL window. GETs are skipped (idempotent by definition).
 
-import 'package:codify_p2x_sdk/codify_p2x_sdk.dart';
-import 'package:codify_p2x_sdk/src/client/interceptors/idempotency_interceptor.dart';
+import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

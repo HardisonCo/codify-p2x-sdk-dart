@@ -8,12 +8,12 @@
 //
 // PUT rides on POST + ?_method=PUT via MethodOverrideInterceptor.
 
-import 'package:codify_p2x_sdk/src/client/exceptions/not_found_exception.dart';
-import 'package:codify_p2x_sdk/src/client/exceptions/validation_exception.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client.dart';
-import 'package:codify_p2x_sdk/src/client/p2x_client_config.dart';
-import 'package:codify_p2x_sdk/src/modules/verification_client.dart';
-import 'package:codify_p2x_sdk/src/modules/verification_models.dart';
+import 'package:ycaas_flutter_sdk/src/client/exceptions/not_found_exception.dart';
+import 'package:ycaas_flutter_sdk/src/client/exceptions/validation_exception.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
+import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:ycaas_flutter_sdk/src/modules/verification_client.dart';
+import 'package:ycaas_flutter_sdk/src/modules/verification_models.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

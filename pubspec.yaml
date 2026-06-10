@@ -1,16 +1,17 @@
-name: codify_p2x_sdk
+name: ycaas_flutter_sdk
 description: >-
-  Dart/Flutter SDK for the Project20X (P2X) API. Companion of the TypeScript
-  wizard-api-client. Used by Codify, IBD, PHM, and DietManager Flutter apps.
-version: 0.2.3
-repository: https://github.com/HardisonCo/codify-p2x-sdk-dart
-issue_tracker: https://github.com/HardisonCo/codify-p2x-sdk-dart/issues
-homepage: https://codify.inc
+  YCaaS Flutter SDK — Dart/Flutter client for the YCaaS / P2X API at
+  api.project20x.com. Companion of the TypeScript wizard-api-client.
+  Consumed by NIO, IBD, PHM and other YCaaS subproject Flutter apps.
+version: 0.4.0-alpha.1
+repository: https://github.com/HardisonCo/ycaas-flutter-sdk
+issue_tracker: https://github.com/HardisonCo/ycaas-flutter-sdk/issues
+homepage: https://ycaas.ai
 topics:
   - api
   - sdk
+  - ycaas
   - p2x
-  - codify
   - rest-client
 
 environment:

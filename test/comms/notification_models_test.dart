@@ -2,7 +2,7 @@
 // (no freezed). Named AppNotification to avoid clashing with Flutter's
 // foundation Notification class.
 
-import 'package:codify_p2x_sdk/src/comms/notification_models.dart';
+import 'package:ycaas_flutter_sdk/src/comms/notification_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

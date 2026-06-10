@@ -1,4 +1,4 @@
-import 'package:codify_p2x_sdk/src/auth/auth_models.dart';
+import 'package:ycaas_flutter_sdk/src/auth/auth_models.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 /// Persists the Sanctum bearer token (and optional refresh token + expiry)
