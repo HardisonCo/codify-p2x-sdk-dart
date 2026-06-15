@@ -94,6 +94,7 @@ export 'src/modules/application_models.dart';
 export 'src/modules/assessments_client.dart';
 export 'src/modules/assessments_models.dart';
 export 'src/modules/challenge_client.dart';
+export 'src/modules/deal_step_client.dart';
 export 'src/modules/deals_client.dart';
 export 'src/modules/deals_models.dart';
 export 'src/modules/disbursement_client.dart';
