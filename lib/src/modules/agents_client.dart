@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../client/interceptors/auth_interceptor.dart';
 import '../client/p2x_client.dart';
+import 'agents_models.dart';
 
 /// Client for the AI Agents surface — full CRUD on agent records, lifecycle
 /// transitions, protocol execution, and the public intelligent intent
@@ -143,6 +144,73 @@ class AgentsClient {
   /// GET `/protocol/agents/all`.
   Future<List<dynamic>> listAgentProtocols() =>
       _getList('/protocol/agents/all');
+
+  // ─── Resource owner wizard (sys/ "for-others" onboarding) ──────────────
+
+  /// POST `/wizard/resource-owner` — persist a new resource listing in
+  /// `draft` (Phase 3.J). The tenant subproject is resolved server-side from
+  /// the X-Domain header.
+  ///
+  /// [owner] is `{name, contact}`; [listing] is `{listing_type, name,
+  /// description, metadata}`; [autoRules] is the optional Phase 3.K DSL blob
+  /// (persisted verbatim).
+  Future<ResourceListingDraft> createResourceListing({
+    required Map<String, dynamic> owner,
+    required Map<String, dynamic> listing,
+    Map<String, dynamic>? autoRules,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/wizard/resource-owner',
+        data: <String, dynamic>{
+          'owner': owner,
+          'listing': listing,
+          if (autoRules != null) 'auto_rules': autoRules,
+        },
+      );
+      return ResourceListingDraft.fromJson(_data(response.data));
+    });
+  }
+
+  /// POST `/wizard/resource-owner/{listing}/activate` — spawn the L3 resource
+  /// agent and flip the listing `draft → active`. A listing outside the
+  /// current tenant → 404; a non-draft listing → 422.
+  Future<ResourceListingActivation> activateResourceListing({
+    required int listingId,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/wizard/resource-owner/$listingId/activate',
+      );
+      return ResourceListingActivation.fromJson(_data(response.data));
+    });
+  }
+
+  /// POST `/wizard/resource-owner/{listing}/claim` — Staffing v2: a worker
+  /// claims a market gig slot. Flag-gated: 404 when staffing v2 is off for
+  /// the tenant. When the auto-rules escalate, the response is HTTP 202 with
+  /// [ResourceListingClaim.isEscalated] true; an auto-rules reject → 422.
+  ///
+  /// [onBehalfOfUserId] is honoured only for machine (`subproject:writer`)
+  /// principals — codify-careers' server-to-server claim-back; ignored for
+  /// every other caller. [rateAsked] feeds the auto-rules proposal.
+  Future<ResourceListingClaim> claimResourceListing({
+    required int listingId,
+    int? onBehalfOfUserId,
+    num? rateAsked,
+  }) {
+    return _client.request(() async {
+      final body = <String, dynamic>{
+        if (onBehalfOfUserId != null) 'on_behalf_of_user_id': onBehalfOfUserId,
+        if (rateAsked != null) 'rate_asked': rateAsked,
+      };
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/wizard/resource-owner/$listingId/claim',
+        data: body.isEmpty ? null : body,
+      );
+      return ResourceListingClaim.fromJson(_data(response.data));
+    });
+  }
 
   // ─── Intelligent intent routing (public) ───────────────────────────────
 

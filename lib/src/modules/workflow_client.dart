@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../client/interceptors/auth_interceptor.dart';
 import '../client/p2x_client.dart';
+import 'workflow_models.dart';
 
 /// Client for the **codify-pipeline** workflow surface.
 ///
@@ -125,7 +126,113 @@ class WorkflowClient {
     });
   }
 
+  // ─── admin: per-tenant pipe-config overrides (SuperAdmin) ──────────────
+
+  /// GET `/admin/subproject/{subproject}/pipe-config` — list every
+  /// canonical-pipe → provider override for [subprojectId]. **SuperAdmin
+  /// only.** Unknown subproject → 404.
+  Future<List<SubprojectPipeConfig>> listPipeConfigs({
+    required int subprojectId,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.get<Map<String, dynamic>>(
+        '/admin/subproject/$subprojectId/pipe-config',
+      );
+      final data = response.data?['data'];
+      if (data is! List) return const <SubprojectPipeConfig>[];
+      return data
+          .whereType<Map<dynamic, dynamic>>()
+          .map(
+            (row) =>
+                SubprojectPipeConfig.fromJson(Map<String, dynamic>.from(row)),
+          )
+          .toList(growable: false);
+    });
+  }
+
+  /// POST `/admin/subproject/{subproject}/pipe-config` — create an override.
+  ///
+  /// [pipeName] is the canonical pipe name (must exist in `canonical_pipes`);
+  /// [providerClass] is the FQN of a `CanonicalPipeProvider` subclass.
+  /// Duplicate (subproject, pipe) inserts surface as a 422 keyed on
+  /// `pipe_name`. **SuperAdmin only.** Returns the created row (HTTP 201).
+  Future<SubprojectPipeConfig> createPipeConfig({
+    required int subprojectId,
+    required String pipeName,
+    required String providerClass,
+    Map<String, dynamic>? settings,
+    bool? isActive,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.post<Map<String, dynamic>>(
+        '/admin/subproject/$subprojectId/pipe-config',
+        data: <String, dynamic>{
+          'pipe_name': pipeName,
+          'provider_class': providerClass,
+          if (settings != null) 'settings': settings,
+          if (isActive != null) 'is_active': isActive,
+        },
+      );
+      return SubprojectPipeConfig.fromJson(_pipeConfigBody(response.data));
+    });
+  }
+
+  /// PATCH `/admin/subproject/{subproject}/pipe-config/{id}` (rides
+  /// `POST …?_method=PATCH`). At least one of [providerClass], [settings],
+  /// or [isActive] must be supplied. Pass [clearProviderClass] to send an
+  /// explicit `null` provider_class (clears the override, keeps the row).
+  /// **SuperAdmin only.** Unknown id → 404.
+  Future<SubprojectPipeConfig> updatePipeConfig({
+    required int subprojectId,
+    required int id,
+    String? providerClass,
+    bool clearProviderClass = false,
+    Map<String, dynamic>? settings,
+    bool? isActive,
+  }) {
+    return _client.request(() async {
+      final body = <String, dynamic>{
+        if (clearProviderClass)
+          'provider_class': null
+        else if (providerClass != null)
+          'provider_class': providerClass,
+        if (settings != null) 'settings': settings,
+        if (isActive != null) 'is_active': isActive,
+      };
+      final response = await _client.dio.patch<Map<String, dynamic>>(
+        '/admin/subproject/$subprojectId/pipe-config/$id',
+        data: body,
+      );
+      return SubprojectPipeConfig.fromJson(_pipeConfigBody(response.data));
+    });
+  }
+
+  /// DELETE `/admin/subproject/{subproject}/pipe-config/{id}` — remove the
+  /// override entirely; subsequent lookups fall back to the canonical
+  /// default chain. **SuperAdmin only.** Returns `true` on success. Unknown
+  /// id → 404.
+  Future<bool> deletePipeConfig({
+    required int subprojectId,
+    required int id,
+  }) {
+    return _client.request(() async {
+      final response = await _client.dio.delete<Map<String, dynamic>>(
+        '/admin/subproject/$subprojectId/pipe-config/$id',
+      );
+      return response.data?['deleted'] == true;
+    });
+  }
+
   // ─── helpers ───────────────────────────────────────────────────────────
+
+  /// The pipe-config admin store/update endpoints return the resource
+  /// wrapped in the standard `{data: …}` envelope.
+  Map<String, dynamic> _pipeConfigBody(Map<String, dynamic>? body) {
+    if (body == null) throw StateError('Empty pipe-config response');
+    final data = body['data'];
+    if (data is Map) return Map<String, dynamic>.from(data);
+    return Map<String, dynamic>.from(body);
+  }
 
   Future<Map<String, dynamic>> _publicGetMap(String path) {
     return _client.request(() async {
