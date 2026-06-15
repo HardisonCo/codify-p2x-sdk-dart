@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+### Added — Workflow + Agents clients (#1000, SDK-parity Phase 2)
+
+- **`WorkflowClient` completed to all 10 `Modules/Workflow` routes.** Added the
+  SuperAdmin-gated per-tenant pipe-config CRUD surface absent from the prior
+  cut: `listPipeConfigs` (GET), `createPipeConfig` (POST), `updatePipeConfig`
+  (PATCH → POST `?_method=PATCH`), `deletePipeConfig` (DELETE) on
+  `/api/admin/subproject/{id}/pipe-config[/{config}]`. The codify-pipeline
+  (`start`/`stop`/`check-pipeline`/`save-response`), `pipes/invoke`, and
+  `protocol/workflow/all` routes were already present.
+- **`AgentsClient` completed to all 23 `Modules/Agents` routes.** Added the
+  Phase 3.J resource-owner wizard hand-off the prior cut omitted:
+  `createResourceListing` (`POST /wizard/resource-owner`),
+  `activateResourceListing` (`/activate` — spawns the L3 resource agent), and
+  `claimResourceListing` (`/claim` — Staffing v2 gig claim, including the
+  machine `on_behalf_of_user_id` claim-back and the 202 auto-rules escalate
+  outcome). CRUD, lifecycle, tools, execution, and intelligent-intent routes
+  were already present.
+- New models: `SubprojectPipeConfig` (`workflow_models.dart`);
+  `ResourceListingDraft`, `ResourceListingActivation`, `ResourceListingClaim`
+  (`agents_models.dart`) — hand-written `@immutable` + `fromJson`, matching the
+  in-repo convention.
+- Contract + model suite: 54 new tests asserting method, path (incl.
+  `_method` query for PATCH/PUT), request body, auth/X-Domain/Idempotency-Key
+  headers, response decoding, and negative paths (422/401/404). Coverage:
+  `workflow_client.dart` 93%, `agents_client.dart` 95%, `workflow_models.dart`
+  100%, `agents_models.dart` 100% — all above the 75% module gate.
+
 ### Changed — Deal Wizard contract correction (#1000, SDK-parity Phase 1)
 
 - **`DealsClient` rebuilt against the authoritative `Modules/Deals` surface.**

@@ -89,6 +89,7 @@ export 'src/realtime/realtime_event.dart';
 export 'src/modules/activity_client.dart';
 export 'src/modules/activity_models.dart';
 export 'src/modules/agents_client.dart';
+export 'src/modules/agents_models.dart';
 export 'src/modules/application_client.dart';
 export 'src/modules/application_models.dart';
 export 'src/modules/assessments_client.dart';
@@ -119,6 +120,7 @@ export 'src/modules/services_models.dart';
 export 'src/modules/verification_client.dart';
 export 'src/modules/verification_models.dart';
 export 'src/modules/workflow_client.dart';
+export 'src/modules/workflow_models.dart';
 
 // ─── voice ───────────────────────────────────────────────────────────────
 // Voice agent (utils/voice-agent) — ephemeral SIP credentials for a WebRTC
