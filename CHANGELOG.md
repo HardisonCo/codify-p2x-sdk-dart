@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ## [Unreleased]
 
+### Changed — Deal Wizard contract correction (#1000, SDK-parity Phase 1)
+
+- **`DealsClient` rebuilt against the authoritative `Modules/Deals` surface.**
+  The prior stub assumed integer deal ids, a `{success, message, data}`
+  envelope, and a non-existent `define` field (`subproject_id`). Corrected to
+  match the controller + FormRequest reality:
+  - Deal ids are **UUID strings** (`deal_instances.id`), not integers.
+  - `/wizard/deal/*` responses are **flat** (`DealResource` merged with
+    `{deal_id, state}`) — not enveloped. `Deal.fromJson` now decodes the
+    top-level body.
+  - `define` sends only `statement` (+ optional `tld`); `subproject_id` is
+    resolved server-side from `X-Domain` and is never sent.
+- **All 17 `/api/wizard/deal/*` routes covered**, including the previously
+  missing F1/F2 intake steps: `metadata` (PATCH), `details` (PATCH),
+  `files` (multipart POST), `files/{file_id}` (DELETE), `path` (PATCH),
+  `submit`, and `compute-deposit`. PATCH rides POST + `_method=PATCH`.
+- New models: `DealFile`, `DealEventsPage`, `DealVerificationResult`,
+  `ComputeDeposit`. `Deal` widened to the full `DealResource` shape.
+- New **`DealStepClient`** (`lib/src/modules/deal_step_client.dart`) for the
+  Step-4 step-claim sub-surface — `claim` / `submit` / `release` on
+  `/api/deals/{deal_id}/steps/{step_idx}/*`.
+- Contract suite (`test/modules/deals_client_test.dart` +
+  `deals_models_test.dart`): 41 client + model tests asserting method, path
+  (incl. `_method` query), request body, auth/X-Domain/Idempotency-Key
+  headers, response decoding, and negative paths (422/401/409). Coverage:
+  `deals_client.dart` 98%, `deals_models.dart` 89%, `deal_step_client.dart`
+  96% — all above the 75% module gate.
+
 ## [0.3.0-alpha.1] — 2026-05-27
 
 ### Changed — BREAKING
