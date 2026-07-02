@@ -1,11 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/api_exception.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/forbidden_exception.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/not_found_exception.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/server_exception.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/unauthorized_exception.dart';
 import 'package:ycaas_flutter_sdk/src/client/exceptions/validation_exception.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
-import 'package:dio/dio.dart';
 
 /// Dio interceptor that normalises Dio's generic [DioException] into the
 /// SDK's typed exception hierarchy ([UnauthorizedException],
@@ -75,26 +76,26 @@ class ErrorInterceptor extends Interceptor {
         return UnauthorizedException(
           message: message,
           data: data,
-          originalError: err,
+          originalError: _sanitize(err),
         );
       case 403:
         return ForbiddenException(
           message: message,
           data: data,
-          originalError: err,
+          originalError: _sanitize(err),
         );
       case 404:
         return NotFoundException(
           message: message,
           data: data,
-          originalError: err,
+          originalError: _sanitize(err),
         );
       case 422:
         return ValidationException(
           message: message,
           errors: _extractValidationErrors(body),
           data: data,
-          originalError: err,
+          originalError: _sanitize(err),
         );
       default:
         if (status >= 500 && status < 600) {
@@ -102,16 +103,48 @@ class ErrorInterceptor extends Interceptor {
             status: status,
             message: message,
             data: data,
-            originalError: err,
+            originalError: _sanitize(err),
           );
         }
         return ApiException(
           status: status,
           message: message,
           data: data,
-          originalError: err,
+          originalError: _sanitize(err),
         );
     }
+  }
+
+  /// Serialization-safe snapshot of a [DioException], stored as the typed
+  /// exception's `originalError`. Deliberately DROPS `requestOptions.headers`
+  /// (which carries `Authorization: Bearer`) and the response headers (which
+  /// can carry `Set-Cookie`), so logging / crash reporters that walk
+  /// `originalError` can never exfiltrate credentials. Mirrors the TS SDK's
+  /// sanitized `originalError` (P2X/sdk/src/api/error-handling.ts).
+  ///
+  /// `method` is the EFFECTIVE verb: `MethodOverrideInterceptor` rewrites
+  /// PUT/PATCH to POST and records the original in `queryParameters['_method']`,
+  /// so we undo that here — `RetryPolicy` relies on the real verb to decide
+  /// whether a failed write is safe to retry. `idempotencyKeyPinned` is a
+  /// boolean (never the key itself) telling `RetryPolicy` whether the caller
+  /// pinned a stable Idempotency-Key (auto-generated keys regenerate per
+  /// attempt and are NOT safe to retry on).
+  Map<String, dynamic> _sanitize(DioException err) {
+    final ro = err.requestOptions;
+    final override = ro.queryParameters['_method'];
+    final method = (override is String && override.isNotEmpty)
+        ? override.toUpperCase()
+        : ro.method.toUpperCase();
+    return <String, dynamic>{
+      'status': err.response?.statusCode,
+      'statusText': err.response?.statusMessage,
+      'path': ro.path, // path, NOT uri — avoids leaking query-string tokens
+      'method': method,
+      'type': err.type.name,
+      'idempotencyKeyPinned':
+          ro.extra[IdempotencyInterceptor.idempotencyKeyExtra] is String,
+      'data': err.response?.data,
+    };
   }
 
   /// Best-effort message extraction:

@@ -18,6 +18,63 @@ import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  group('P2xClient — HTTPS-only baseUrl (TS parity item 3)', () {
+    test('throws on a cleartext http:// base URL for a non-local host', () {
+      expect(
+        () => P2xClient(
+          config: const P2xClientConfig(baseUrl: 'http://api.project20x.com/api'),
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
+    test('allows https:// to a public host', () {
+      expect(
+        () => P2xClient(
+          config: const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
+        ),
+        returnsNormally,
+      );
+    });
+
+    test('exempts loopback / RFC-1918 LAN / .local over http', () {
+      const locals = <String>[
+        'http://localhost:8000/api',
+        'http://127.0.0.1:8000/api',
+        'http://0.0.0.0/api',
+        'http://10.0.0.5/api',
+        'http://192.168.1.10/api',
+        'http://172.16.4.4/api',
+        'http://172.31.9.9/api',
+        'http://mymac.local/api',
+        'http://svc.localhost/api',
+      ];
+      for (final url in locals) {
+        expect(
+          () => P2xClient(config: P2xClientConfig(baseUrl: url)),
+          returnsNormally,
+          reason: url,
+        );
+      }
+    });
+
+    test('rejects 172.x OUTSIDE the 16-31 private range over http', () {
+      expect(
+        () => P2xClient(
+          config: const P2xClientConfig(baseUrl: 'http://172.32.0.1/api'),
+        ),
+        throwsA(isA<ArgumentError>()),
+      );
+    });
+
+    test('leaves an empty baseUrl alone (relative / same-origin usage)', () {
+      expect(
+        () => P2xClient(config: const P2xClientConfig(baseUrl: '')),
+        returnsNormally,
+      );
+    });
+  });
+
   group('P2xClient — construction', () {
     test('builds with required baseUrl and exposes the underlying Dio', () {
       final client = P2xClient(

@@ -27,8 +27,12 @@ class ApiException implements Exception {
   /// envelope; `null` for network errors or opaque responses.
   final dynamic data;
 
-  /// The original error object — typically a `DioException` — preserved
-  /// so callers can inspect status text, raw body, etc.
+  /// A SANITIZED, serialization-safe snapshot of the failure — a
+  /// `Map<String, dynamic>` with `status`, `statusText`, `path`, `method`,
+  /// `type`, `idempotencyKeyPinned`, and response `data`. It deliberately
+  /// NEVER contains request or response headers, so logging or crash
+  /// reporting that walks this field cannot leak the bearer token or
+  /// `Set-Cookie`. (Built by `ErrorInterceptor._sanitize`.)
   final Object? originalError;
 
   @override

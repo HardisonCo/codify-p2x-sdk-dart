@@ -32,7 +32,49 @@ class P2xClient {
   P2xClient({required P2xClientConfig config, Dio? dio})
       : _config = config,
         dio = dio ?? Dio() {
+    _assertHttpsBaseUrl(config.baseUrl);
     _wireDio();
+  }
+
+  /// Refuse a cleartext `http://` base URL for a non-local host: the bearer
+  /// token (attached by [AuthInterceptor]) must never travel unencrypted.
+  /// Local hosts (loopback, RFC-1918 LAN, `*.local`) are exempt so dev setups
+  /// keep working. Empty/relative or unparseable base URLs are left alone (the
+  /// HTTP layer surfaces its own error). A runtime throw — NOT `assert`, which
+  /// is stripped in release. Mirrors P2X/sdk/src/api/url-safety.ts.
+  static void _assertHttpsBaseUrl(String baseUrl) {
+    if (baseUrl.isEmpty) return;
+    final Uri uri;
+    try {
+      uri = Uri.parse(baseUrl);
+    } on FormatException {
+      return;
+    }
+    if (uri.scheme != 'http') return; // https / relative / other → fine
+    if (_isLocalHost(uri.host)) return;
+    throw ArgumentError.value(
+      baseUrl,
+      'config.baseUrl',
+      'refusing a cleartext http:// base URL for a non-local host — the bearer '
+          'token would travel unencrypted. Use https:// (localhost, 127.0.0.1, '
+          '::1, RFC-1918 LAN, and *.local hosts are exempt).',
+    );
+  }
+
+  /// True for hosts where cleartext http is acceptable (dev/loopback/LAN).
+  static bool _isLocalHost(String host) {
+    final h = host.toLowerCase().replaceAll(RegExp(r'^\[|\]$'), '');
+    if (h == 'localhost' || h == '127.0.0.1' || h == '0.0.0.0' || h == '::1') {
+      return true;
+    }
+    if (h.endsWith('.local') || h.endsWith('.localhost')) return true;
+    if (h.startsWith('10.') || h.startsWith('192.168.')) return true;
+    final m = RegExp(r'^172\.(\d{1,3})\.').firstMatch(h);
+    if (m != null) {
+      final second = int.parse(m.group(1)!);
+      if (second >= 16 && second <= 31) return true;
+    }
+    return false;
   }
 
   final P2xClientConfig _config;

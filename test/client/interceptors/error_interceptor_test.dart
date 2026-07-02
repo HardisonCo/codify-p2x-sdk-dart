@@ -11,8 +11,11 @@
 // always unwrap via `(e as DioException).error as ApiException` (or
 // equivalent) — the pattern documented in the SDK README and CLAUDE.md.
 
+import 'dart:convert';
+
 import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
 import 'package:ycaas_flutter_sdk/src/client/interceptors/error_interceptor.dart';
+import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
@@ -46,6 +49,69 @@ ApiException _unwrap(Object thrown) {
 }
 
 void main() {
+  group('ErrorInterceptor — sanitized originalError (TS parity item 2)', () {
+    test('originalError is a header-free Map that cannot leak the bearer',
+        () async {
+      final harness = _buildClient(
+        const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
+      );
+      harness.adapter.onPost(
+        '/auth/login',
+        (req) => req.reply(500, {'message': 'boom'}),
+      );
+
+      Object? caught;
+      try {
+        await harness.client.dio.post<dynamic>(
+          '/auth/login',
+          options: Options(
+            headers: {'Authorization': 'Bearer secret-token'},
+          ),
+        );
+      } catch (e) {
+        caught = e;
+      }
+
+      final api = _unwrap(caught!);
+      expect(api, isA<ServerException>());
+      expect(api.originalError, isA<Map<String, dynamic>>());
+      final orig = api.originalError! as Map<String, dynamic>;
+      expect(orig['status'], 500);
+      expect(orig['path'], '/auth/login');
+      expect(orig['method'], 'POST');
+      expect(orig['idempotencyKeyPinned'], isFalse);
+      // The bearer and the header key must not survive anywhere in the snapshot.
+      final encoded = jsonEncode(orig);
+      expect(encoded, isNot(contains('secret-token')));
+      expect(encoded.toLowerCase(), isNot(contains('authorization')));
+    });
+
+    test('idempotencyKeyPinned is true when the caller pinned a key (value hidden)',
+        () async {
+      final harness = _buildClient(
+        const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
+      );
+      harness.adapter.onPost('/x', (req) => req.reply(500, {'message': 'x'}));
+
+      Object? caught;
+      try {
+        await harness.client.dio.post<dynamic>(
+          '/x',
+          options: Options(
+            extra: {IdempotencyInterceptor.idempotencyKeyExtra: 'pinned-123'},
+          ),
+        );
+      } catch (e) {
+        caught = e;
+      }
+
+      final orig = _unwrap(caught!).originalError! as Map<String, dynamic>;
+      expect(orig['idempotencyKeyPinned'], isTrue);
+      // Only the boolean is stored — never the key value itself.
+      expect(jsonEncode(orig), isNot(contains('pinned-123')));
+    });
+  });
+
   group('ErrorInterceptor — status code → typed exception', () {
     test('401 throws UnauthorizedException and fires onUnauthorized once',
         () async {
