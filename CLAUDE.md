@@ -2,27 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-The **YCaaS Flutter SDK** (in-tree package name `ycaas_flutter_sdk`, formerly `codify_p2x_sdk`). The Dart/Flutter client for the P2X API at `https://api.project20x.com`. Companion to the TypeScript SDK at `P2X/sdk/` — same architectural conventions, same envelope, same five-step wizard surface.
+**Workspace:** `/Users/arionhardison/Desktop/CI/mob-sdk` — git remote `HardisonCo/codify-p2x-sdk-dart` (the GitHub rename to `ycaas-flutter-sdk` declared in `pubspec.yaml` has **not** been executed). New to the CI workspace (no P2X ancestor directory). See the workspace root CLAUDE.md at `../CLAUDE.md` for the ecosystem map.
 
-For the canonical architectural plan see `P2X/FLUTTER_SDK_PLAN.md`. For the TS sibling we mirror, see `P2X/sdk/CLAUDE.md`. For the API contract, see `P2X/api/CLAUDE.md`.
+The **YCaaS Flutter SDK** (in-tree package name `ycaas_flutter_sdk`, formerly `codify_p2x_sdk`). The Dart/Flutter client for the P2X API at `https://api.project20x.com`. Companion to the TypeScript SDK at `../web-sdk/` — same architectural conventions, same envelope, same five-step wizard surface.
+
+For the canonical architectural plan see `../docs/FLUTTER_SDK_PLAN.md`. For the TS sibling we mirror, see `../web-sdk/CLAUDE.md`. For the API contract, see `../api/CLAUDE.md`.
 
 ## What "YCaaS" means
 
-**Y Combinator as a Service** — defined in `P2X/PUBLIC_DOMAIN_AGENTS.md` §9. The autonomous production pipeline that turns domain codification into a repeatable program: spinning up new public-domain agents, custom subdomains (e.g. `riverside-pediatrics.codify.healthcare`), and tier-2/3/4 agents at scale. "Demo day" is when a domain moves from `status: draft` to `status: live` in `gov/`.
+**Y Combinator as a Service** — defined in `../docs/PUBLIC_DOMAIN_AGENTS.md` §9. The autonomous production pipeline that turns domain codification into a repeatable program: spinning up new public-domain agents, custom subdomains (e.g. `riverside-pediatrics.codify.healthcare`), and tier-2/3/4 agents at scale. "Demo day" is when a domain moves from `status: draft` to `status: live` in `gov/`.
 
 The TS SDK already advertises itself as the YCaaS wizard client and is consumed from `https://ycaas.ai`. This Dart SDK is its mobile counterpart. Orthogonal to the DPIaaS/DPCaaS/DPGaaS family — YCaaS is the *automation pipeline*, not a domain service tier.
 
 ## P2X ecosystem role
 
-Per the 5-layer model (`P2X/SYSTEM_OVERVIEW.md`):
+Per the 5-layer model (`../docs/SYSTEM_OVERVIEW.md`):
 
-- **DPIaaS** `gov/` authors policy
+- **DPIaaS** `gov/` authors policy (the legacy Nuxt 3 policy portal — not the CI `gov/` dir, which is the repurposed CI-WWW)
 - **DPCaaS** `app/` codifies policy into program templates
-- **Subprojects** (IBD, PHM, NIO, MOB, …) operate or consume DPGs
+- **Subprojects** (IBD, PHM, NIO, MOB, … — legacy P2X, not in this workspace) operate or consume DPGs
 - **DPGs** (HRM, LMS, EMR, LIMS) do the work
-- **DPG MFEs** (`sys/` + the Flutter apps) are stakeholder dashboards
+- **DPG MFEs** (`sys-mfe/` + the Flutter apps) are stakeholder dashboards
 
-**This SDK sits between the Flutter apps and `P2X/api`** at `api.project20x.com`. It does **not** talk to product backends (`api.crohnie.ai`, `api.phm.ai`, etc.) — those have their own clients.
+**This SDK sits between the Flutter apps and `../api`** at `api.project20x.com`. It does **not** talk to product backends (`api.crohnie.ai`, `api.phm.ai`, etc.) — those have their own clients.
 
 ## Commands
 
@@ -33,10 +35,10 @@ flutter test
 flutter test --coverage                                       # writes coverage/lcov.info
 flutter test test/client/p2x_client_test.dart                 # single file
 flutter test --plain-name "injects Authorization header"      # filter by name
-dart run build_runner build --delete-conflicting-outputs      # after editing freezed / json_serializable
-dart run build_runner watch --delete-conflicting-outputs
 dart pub publish --dry-run                                    # pre-publish gate
 ```
+
+No codegen commands: there is no `build_runner`/`freezed` in `pubspec.yaml` — models are hand-written (Tier 2 OpenAPI codegen deferred; see Versioning).
 
 ## Tech stack
 
@@ -45,9 +47,9 @@ dart pub publish --dry-run                                    # pre-publish gate
 | Dart SDK | `^3.5.0` floor (lowest common across the six apps) |
 | Flutter | `>=3.16.0` |
 | HTTP | `dio ^5.7.0` |
-| Models | `freezed ^2.5` + `json_serializable ^6.8` |
-| Storage | `flutter_secure_storage ^9.2` (tokens) + `shared_preferences ^2.3` (config only) |
-| Codegen | `build_runner ^2.4` |
+| Models | hand-written `@immutable` + `fromJson` (no freezed/json_serializable until Tier 2) |
+| Storage | `flutter_secure_storage ^9.2` — the **only** persistence primitive the SDK ships |
+| Codegen | none (Tier 2 deferred — `pubspec.yaml` NOTE lists what returns then) |
 | Tests | `flutter_test` + `http_mock_adapter ^0.6` + `mocktail ^1.0` |
 | Lint | `flutter_lints ^5.0` + `very_good_analysis ^6.0` |
 | Real-time (peer dep) | `pusher_channels_flutter` — opt-in per app |
@@ -71,25 +73,18 @@ dart pub publish --dry-run                                    # pre-publish gate
 
 The SDK is published as a Flutter package, but internal callers can mock or replace the Flutter-only pieces.
 
-## Rename: `codify_p2x_sdk` → `ycaas_flutter_sdk`
+## Rename: `codify_p2x_sdk` → `ycaas_flutter_sdk` (DONE at v0.3.0)
 
-The rename is in flight as of `0.2.3`. **Until v0.3.0 ships under the new name, both names will coexist** via a barrel re-export. New code should use `ycaas_flutter_sdk` paths; legacy imports continue to work.
+The package rename shipped at `v0.3.0-alpha.1`. The barrel is `lib/ycaas_flutter_sdk.dart` only — the old `lib/codify_p2x_sdk.dart` shim has been removed; legacy imports no longer work.
 
-### Rename surface (touch list — do not rename ad hoc)
-
-- `pubspec.yaml` — `name:`, `description:`, `repository:`, `homepage:`
-- `lib/codify_p2x_sdk.dart` → `lib/ycaas_flutter_sdk.dart` (keep a 1-line shim at the old path that exports the new barrel; remove in v1.0.0)
-- All 100+ `import 'package:codify_p2x_sdk/...'` → `import 'package:ycaas_flutter_sdk/...'`
 - Class prefix `P2x*` (`P2xClient`, `P2xClientConfig`, `P2xException`, …) **stays as-is** — this names the *API contract* (P2X), not the SDK distribution. Renaming the prefix is gratuitous churn.
-- `.github/workflows/{ci,publish}.yml` — `working-directory`, artifact names, publish package name
-- `README.md`, `CHANGELOG.md`, this file, fixture filenames, doc comments
-- Repo name on GitHub: `codify-p2x-sdk-dart` → `ycaas-flutter-sdk` (do **last**; coordinate with consuming apps' `path:`/`git:` deps)
+- **Still outstanding:** the GitHub repo rename `codify-p2x-sdk-dart` → `ycaas-flutter-sdk` was never executed — `pubspec.yaml`'s `repository:` points at the new name, but the actual remote is `HardisonCo/codify-p2x-sdk-dart`. Coordinate with consuming apps' `path:`/`git:` deps and re-point the pub.dev automated-publishing record before doing it.
 
 When in doubt: rename only the *package identifier* and *file paths*, not the *type names* that describe the API contract.
 
 ## API parity status
 
-The SDK targets Tier-1 coverage of the P2X Laravel API (`P2X/api`). Current status as of `0.2.3`:
+The SDK targets Tier-1 coverage of the P2X Laravel API (`../api`). Current status as of `0.4.0-alpha.2`:
 
 | Module / surface | Status | Notes |
 |---|---|---|
@@ -114,39 +109,39 @@ The SDK targets Tier-1 coverage of the P2X Laravel API (`P2X/api`). Current stat
 | `comms/notification` | ✅ shipped | |
 | `payment/` (Stripe payment methods, subscriptions) | ✅ shipped | |
 | `integrations/nio` (coin balance/spend/grant) | ✅ shipped | |
-| **`wizard/`** (Five-Step Wizard, 45+ routes) | ❌ missing | High priority — blocks YCaaS branding alignment with TS SDK. |
-| **`modules/deals`** (`wizard/deal/define`, 17 routes) | ❌ missing | High priority. |
-| **`modules/workflow`** (`codify-pipeline`, `pipes/invoke`) | ❌ missing | High priority. |
-| **`modules/agents`** (24 routes, intelligent intent routing) | ❌ missing | High priority. |
-| **`modules/challenge`** (17 routes) | ❌ missing | |
-| **`modules/disbursement`** | ❌ missing | Counterpart to `order/`. |
-| **`modules/referral`** | ❌ missing | |
-| **`modules/report`** | ❌ missing | |
+| `wizard/` (Five-Step Wizard) | ✅ shipped | |
+| `modules/deals` (all 17 `/wizard/deal/*` routes) + `deal_step_client` | ✅ shipped | Rebuilt against the authoritative `Modules/Deals` surface: UUID deal ids, flat (non-enveloped) responses; `DealStepClient` covers Step-4 claim/submit/release. |
+| `modules/workflow` (all 10 `Modules/Workflow` routes) | ✅ shipped | Incl. codify-pipeline, `pipes/invoke`, SuperAdmin pipe-config CRUD. |
+| `modules/agents` (all 23 `Modules/Agents` routes) | ✅ shipped | Incl. intelligent intent routing + resource-owner wizard hand-off. |
+| `modules/challenge` | ✅ shipped | |
+| `modules/disbursement` | ✅ shipped | Counterpart to `order/`. |
+| `modules/referral` | ✅ shipped | |
+| `modules/report` | ✅ shipped | |
 | **`protocols/`** + **`programs/`** (protocol/chain/personal-chain, 90+ routes) | ❌ missing | Large surface. |
 | **`integrations/{ibd,phm,mob}`** (m2m batch upsert) | ❌ missing | Server-to-server only; gate behind machine-token ability. |
 | **`integrations/codify`** (codify-domain by-tld, public/admin) | ❌ missing | |
-| **`realtime/`** (Pusher channels: `user-{id}`, `guest-{id}`, `subproject-{id}-agents`, `codify-ontology`, `pipeline-state-{session}`) | ❌ missing | Peer-dep on `pusher_channels_flutter`. |
-| **`utils/`** (`poll_until`, `form_data_builder`, `retry_policy`) | ❌ missing | |
+| `realtime/` (Pusher channels: `user-{id}`, `guest-{id}`, `subproject-{id}-agents`, `codify-ontology`, `pipeline-state-{session}`) | ✅ shipped | Peer-dep on `pusher_channels_flutter` (consumer adds it). |
+| `utils/` (`poll_until`, `form_data_builder`, `retry_policy`) | ✅ shipped | |
 
-Parity roadmap to **v0.3.0 (YCaaS rename + wizard)**: wizard + deals + workflow + agents + protocols/programs + realtime. Coverage gates apply at the module level — do not merge a new client without its contract suite.
+The v0.3.0 milestone (YCaaS rename + wizard/deals/workflow/agents/realtime) has shipped; protocols/programs and the m2m integrations remain. Coverage gates apply at the module level — do not merge a new client without its contract suite.
 
 ## Consumer apps — adoption matrix
 
-This SDK exists to serve four mobile-app codebases sitting at `../../`. Adoption status drives priority of the parity work.
+This SDK exists to serve four mobile-app codebases. **None of them live in the CI workspace** — they are legacy-P2X-era sibling repos (formerly at `P2X`-adjacent paths like `../../NIO`); resolve them via their own checkouts, not local paths. Adoption status drives priority of the parity work.
 
-| App | Path | Adoption | HTTP | State mgmt | Auth | Blocker |
+| App | Location | Adoption | HTTP | State mgmt | Auth | Blocker |
 |---|---|---|---|---|---|---|
-| **NIO** (NutriScan) | `../../NIO` | ✅ reference impl | Dio | Provider | Firebase → Sanctum swap | None — this is the template |
-| **MOB** (Run tracker) | `../../MOB` | ❌ out of scope | none | vanilla | none | App is local-only (Floor ORM); no backend yet |
-| **IBD patient** (Crohnie AI) | `../../IBD/crohnie-ai` | ❌ not started | `http` (hand-rolled) | GetX | Firebase Auth → IBD Node backend | GetX coupling; no P2X infra; custom Node auth contract |
-| **IBD doctor** (Clinician) | `../../IBD/ibd-doctor` | ❌ not started | `http` (hand-rolled) | GetX | Firebase Auth → IBD Node backend | Same as patient |
-| **PHM doctor** (Doctor/Lab/Store) | `../../PHM/doctor` | ❌ not started | Dio + http | Provider | email/pw → PHM Node backend (no Firebase) | No Firebase Auth; custom auth contract |
-| **PHM patient** | `../../PHM/patient` | ❌ not started | Dio + http | Provider | email/pw + social → PHM Node | Same as PHM doctor |
+| **NIO** (NutriScan) | legacy P2X sibling `NIO/`, not in this workspace | ✅ reference impl | Dio | Provider | Firebase → Sanctum swap | None — this is the template |
+| **MOB** (Run tracker) | legacy P2X sibling `MOB/`, not in this workspace | ❌ out of scope | none | vanilla | none | App is local-only (Floor ORM); no backend yet |
+| **IBD patient** (Crohnie AI) | legacy P2X sibling `IBD/crohnie-ai`, not in this workspace | ❌ not started | `http` (hand-rolled) | GetX | Firebase Auth → IBD Node backend | GetX coupling; no P2X infra; custom Node auth contract |
+| **IBD doctor** (Clinician) | legacy P2X sibling `IBD/ibd-doctor`, not in this workspace | ❌ not started | `http` (hand-rolled) | GetX | Firebase Auth → IBD Node backend | Same as patient |
+| **PHM doctor** (Doctor/Lab/Store) | legacy P2X sibling `PHM/doctor`, not in this workspace | ❌ not started | Dio + http | Provider | email/pw → PHM Node backend (no Firebase) | No Firebase Auth; custom auth contract |
+| **PHM patient** | legacy P2X sibling `PHM/patient`, not in this workspace | ❌ not started | Dio + http | Provider | email/pw + social → PHM Node | Same as PHM doctor |
 
 ### Onboarding playbook (per app)
 
-1. **Add the SDK** to `pubspec.yaml` as `ycaas_flutter_sdk: { path: ../codify-p2x-sdk-dart }` (or git ref) — see `../../NIO/pubspec.yaml` for the canonical line.
-2. **Stand up a `P2xService`** modeled on `../../NIO/lib/services/p2x_service.dart`: one `P2xClient` instance, base URL from a compile-time `String.fromEnvironment('P2X_BASE_URL', defaultValue: 'https://api.project20x.com/api')`, `getDomain` returning the app's P2X tenant (e.g. `crohnie.ai`, `phm.ai`).
+1. **Add the SDK** to `pubspec.yaml` as `ycaas_flutter_sdk: { path: <path to this repo's checkout> }` (or a git ref to `HardisonCo/codify-p2x-sdk-dart`) — this repo lives at `CI/mob-sdk`; see NIO's `pubspec.yaml` (legacy P2X sibling, not in this workspace) for the canonical line.
+2. **Stand up a `P2xService`** modeled on NIO's `lib/services/p2x_service.dart` (same external repo): one `P2xClient` instance, base URL from a compile-time `String.fromEnvironment('P2X_BASE_URL', defaultValue: 'https://api.project20x.com/api')`, `getDomain` returning the app's P2X tenant (e.g. `crohnie.ai`, `phm.ai`).
 3. **Pick the auth strategy:**
    - Firebase-backed apps (NIO, IBD patient, IBD doctor) → `FirebaseSwapClient.firebaseLogin(idToken)`.
    - Non-Firebase apps (PHM patient, PHM doctor) → either provision Firebase Auth on those apps, or extend the SDK with a `password_swap_client.dart` that exchanges email/pw for a Sanctum token via `POST /public/auth/sign-in`. **Default to extending the SDK** — it's a smaller change than retrofitting Firebase across PHM, and it's mirrored on the TS side.
@@ -168,17 +163,17 @@ The test asserts (using `http_mock_adapter`):
 2. HTTP method (GET / POST / DELETE; PUT/PATCH expect `POST` + `_method=put|patch`)
 3. Required headers (`Authorization: Bearer …`, `X-Domain: …`, `Idempotency-Key: …`, `Content-Type: …`)
 4. Request body shape (for POST/PUT/PATCH)
-5. Response decoding into the freezed model
+5. Response decoding into the model
 6. **Negative path** — at least one 422 test per write endpoint, and one 401 test per auth-required endpoint. Confirms `ValidationException` shape and `onUnauthorized` callback fires.
 
 ### Checklist for a new `modules/<thing>_client.dart`
 
-- [ ] Skim `P2X/api/routes/api.php` and any `Modules/<Thing>/Routes/api.php` — list every route, method, middleware, and request body
+- [ ] Skim `../api/routes/api.php` and any `Modules/<Thing>/Routes/api.php` — list every route, method, middleware, and request body
 - [ ] Write `test/modules/<thing>_client_test.dart` with the contract assertions above, **before** the client file
 - [ ] Write `test/modules/<thing>_models_test.dart` with round-trip JSON tests for each model
-- [ ] Add freezed models in `lib/src/modules/<thing>/<thing>_models.dart`, run codegen
+- [ ] Add hand-written `@immutable` + `fromJson` models in `lib/src/modules/<thing>_models.dart` (no codegen — freezed returns at Tier 2)
 - [ ] Implement the client to make tests pass — one method per route, named to match the route action (`list`, `create`, `get`, `update`, `destroy`, plus domain verbs)
-- [ ] Export from `lib/codify_p2x_sdk.dart` (and the new `lib/ycaas_flutter_sdk.dart` barrel)
+- [ ] Export from the `lib/ycaas_flutter_sdk.dart` barrel
 - [ ] Cover gate: ≥75% lines on the new file. Generated `*.g.dart` / `*.freezed.dart` is excluded.
 - [ ] Update the **API parity status** table above and add a CHANGELOG entry
 
@@ -206,15 +201,15 @@ test/
 |---|---|
 | `lib/src/client/**` | ≥85% lines/branches |
 | `lib/src/auth/**`, `lib/src/wizard/**`, `lib/src/modules/**` | ≥75% |
-| Generated code (`*.g.dart`, `*.freezed.dart`, `lib/src/generated/`) | excluded |
+| Generated code (`*.g.dart`, `*.freezed.dart`, `lib/src/generated/`) | excluded (none exists today — Tier 2) |
 | Overall | ≥70% |
 
 PRs below the gate fail.
 
 ## Versioning
 
-- `0.x.y` (current) — pre-stable Tier 1. Breaking changes do not bump major.
-- `v0.3.0` cuts the YCaaS rename + Five-Step Wizard parity.
+- `0.x.y` (current: `0.4.0-alpha.2`) — pre-stable Tier 1 (hand-written clients). Breaking changes do not bump major.
+- `v0.3.0` cut the YCaaS rename + Five-Step Wizard parity (shipped).
 - `1.x.y` post-codegen Tier 2 (OpenAPI-driven via `dedoc/scramble`). Semver from there.
 - Dart and TS SDKs version-bump in lockstep against the OpenAPI spec.
 
@@ -242,10 +237,11 @@ The publish workflow `.github/workflows/publish.yml` triggers on tag `v*.*.*`. A
 
 ## Cross-references
 
-- Canonical plan: `P2X/FLUTTER_SDK_PLAN.md`
-- TS sibling: `P2X/sdk/CLAUDE.md`
-- API contract: `P2X/api/CLAUDE.md`
-- Architecture: `P2X/SYSTEM_OVERVIEW.md`
-- YCaaS definition: `P2X/PUBLIC_DOMAIN_AGENTS.md` §9
-- Subproject integration model: `P2X/SUBPROJECT_INTEGRATION_PLAN.md`
-- NIO reference implementation: `../../NIO/lib/services/p2x_service.dart`
+- Workspace map: `../CLAUDE.md` (root); canonical spec: `../docs/ARCHITECTURE.md`
+- Canonical plan: `../docs/FLUTTER_SDK_PLAN.md`
+- TS sibling: `../web-sdk/CLAUDE.md`
+- API contract: `../api/CLAUDE.md`
+- Architecture (legacy 5-layer model): `../docs/SYSTEM_OVERVIEW.md`
+- YCaaS definition: `../docs/PUBLIC_DOMAIN_AGENTS.md` §9
+- Subproject integration model: `../docs/SUBPROJECT_INTEGRATION_PLAN.md`
+- NIO reference implementation: `lib/services/p2x_service.dart` in the NIO repo (legacy P2X sibling, not in this workspace)
