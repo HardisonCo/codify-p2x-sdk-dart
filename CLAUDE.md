@@ -22,7 +22,7 @@ Per the 5-layer model (`../docs/SYSTEM_OVERVIEW.md`):
 - **DPCaaS** `app/` codifies policy into program templates
 - **Subprojects** (IBD, PHM, NIO, MOB, … — legacy P2X, not in this workspace) operate or consume DPGs
 - **DPGs** (HRM, LMS, EMR, LIMS) do the work
-- **DPG MFEs** (`sys-mfe/` + the Flutter apps) are stakeholder dashboards
+- **DPG MFEs** (`mfe/` + the Flutter apps) are stakeholder dashboards
 
 **This SDK sits between the Flutter apps and `../api`** at `api.project20x.com`. It does **not** talk to product backends (`api.crohnie.ai`, `api.phm.ai`, etc.) — those have their own clients.
 
