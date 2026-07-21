@@ -19,6 +19,12 @@ on:
 permissions:
   contents: read
 
+# Actions cost control (operator directive 2026-07-21): a newer run on the
+# same ref supersedes and cancels the in-progress one.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: lint, analyze, test, dartdoc, publish-dry-run

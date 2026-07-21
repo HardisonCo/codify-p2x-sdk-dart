@@ -31,6 +31,15 @@ permissions:
   id-token: write  # required for OIDC -> pub.dev
   contents: read
 
+# Actions cost control (operator directive 2026-07-21): superseded deploy runs
+# cancel each other, per the CI-APP house pattern (where the blue/green swap is
+# atomic at the end). Known stale-replay caveat (2026-07-19): a late-delivered
+# duplicate push event canceled the real tip's run; the ancestry/tip-freshness
+# guard (CI-APP#1184) is the complement to this stanza.
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   publish:
     name: publish to pub.dev
