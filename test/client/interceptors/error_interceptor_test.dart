@@ -86,7 +86,8 @@ void main() {
       expect(encoded.toLowerCase(), isNot(contains('authorization')));
     });
 
-    test('idempotencyKeyPinned is true when the caller pinned a key (value hidden)',
+    test(
+        'idempotencyKeyPinned is true when the caller pinned a key (value hidden)',
         () async {
       final harness = _buildClient(
         const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
