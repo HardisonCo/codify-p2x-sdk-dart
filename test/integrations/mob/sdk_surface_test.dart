@@ -6,7 +6,7 @@
 // validates the SDK is *ready* even though MOB hasn't adopted yet.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 void main() {
   test(

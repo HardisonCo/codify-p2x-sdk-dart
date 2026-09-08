@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/realtime/channels.dart';
+import 'package:openyc_flutter_sdk/src/realtime/channels.dart';
 
 void main() {
   test('user / guest / subprojectAgents / pipelineState builders', () {

@@ -1,7 +1,7 @@
 // Tests for the Intake module model classes — Intake, IntakeHandoff,
 // IntakeStatus.
 
-import 'package:ycaas_flutter_sdk/src/modules/intake_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/intake_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

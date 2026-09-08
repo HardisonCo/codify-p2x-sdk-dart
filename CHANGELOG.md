@@ -1,10 +1,40 @@
 # Changelog
 
-All notable changes to `ycaas_flutter_sdk` (renamed from `codify_p2x_sdk` at v0.3.0) are documented here.
+All notable changes to `openyc_flutter_sdk` (renamed from `codify_p2x_sdk` at v0.3.0 and to its current name at v0.5.0) are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html) starting at `1.0.0`. Until then, `0.x.y` versions may break compatibility on minor bumps.
 
-## [Unreleased]
+## [0.5.0] — Unreleased
+
+> Not tagged yet. Before `v0.5.0` is tagged the operator must (1) rename the
+> GitHub repository `HardisonCo/codify-p2x-sdk-dart` →
+> `HardisonCo/openyc-flutter-sdk` and (2) create the pub.dev "Automated
+> publishing" record for `openyc_flutter_sdk` pointing at that repository
+> (tag pattern `v{{version}}`, environment `pub.dev`) — see
+> `.github/workflows/publish.yml`. Nothing between v0.2.3 and this entry was
+> ever tagged or published.
+
+### Changed — BREAKING: package renamed to `openyc_flutter_sdk`
+
+- **Package renamed** to `openyc_flutter_sdk`. OpenYC is the startup/tech/dev
+  layer on the Codify platform; the interim brand-prefixed name introduced at
+  v0.3.0 is retired. This breaks every consumer: the dependency key and every
+  `package:` import URI change. Pre-1.0 the minor is the breaking slot —
+  `^0.4.0` does not admit `0.5.0`. Migration is mechanical:
+  - `pubspec.yaml`: `<old package name>:` → `openyc_flutter_sdk:`
+  - imports: `package:<old package name>/...` →
+    `package:openyc_flutter_sdk/...` (barrel:
+    `package:openyc_flutter_sdk/openyc_flutter_sdk.dart`)
+  - Type names (`P2xClient`, `P2xClientConfig`, etc.) are **unchanged** —
+    they name the *API contract* (P2X), not the package.
+- Barrel is `lib/openyc_flutter_sdk.dart` with `library openyc_flutter_sdk;`.
+  No shim at the old barrel path — a `package:` URI is keyed by the pubspec
+  name, so a shim could not have resolved for any consumer.
+- pubspec metadata: `repository`/`issue_tracker` →
+  `https://github.com/HardisonCo/openyc-flutter-sdk`, `homepage` →
+  `https://openyc.org`, topic `openyc`.
+- README, CLAUDE.md, dartdoc, example app and workflow comments: brand copy
+  → OpenYC.
 
 ### Added — Workflow + Agents clients (#1000, SDK-parity Phase 2)
 
@@ -65,17 +95,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 
 ### Changed — BREAKING
 
-- **Package renamed** `codify_p2x_sdk` → `ycaas_flutter_sdk` to align with
-  the canonical YCaaS branding (`P2X/PUBLIC_DOMAIN_AGENTS.md` §9) and the
-  TS sibling already served from `ycaas.ai`. Migration is mechanical:
-  - `pubspec.yaml`: `codify_p2x_sdk:` → `ycaas_flutter_sdk:`
-  - imports: `package:codify_p2x_sdk/codify_p2x_sdk.dart` →
-    `package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart`
+- **Package renamed** `codify_p2x_sdk` → an interim brand-prefixed package
+  name, to align with the brand of the day (`PUBLIC_DOMAIN_AGENTS.md` §9) and
+  the TS sibling's public host. That interim name was itself retired at 0.5.0
+  in favour of `openyc_flutter_sdk` (see above) and is intentionally not
+  repeated in this file. Migration was mechanical:
+  - `pubspec.yaml`: `codify_p2x_sdk:` → the interim dependency key
+  - imports: `package:codify_p2x_sdk/codify_p2x_sdk.dart` → the interim
+    barrel URI
   - Type names (`P2xClient`, `P2xClientConfig`, etc.) are **unchanged** —
     they name the *API contract* (P2X), not the package.
-- Library directive `library codify_p2x_sdk;` → `library ycaas_flutter_sdk;`.
-- Repo intended to move to `HardisonCo/ycaas-flutter-sdk`; pub.dev
-  automated-publishing record must be re-pointed before next publish.
+- Library directive `library codify_p2x_sdk;` → the interim library name.
+- Repo intended to move to a brand-named GitHub repository; pub.dev
+  automated-publishing record must be re-pointed before next publish
+  (never executed — superseded by the 0.5.0 operator steps above).
 
 ### Added — API parity push
 
@@ -87,7 +120,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) 
 - **`WizardClient`** (`lib/src/wizard/`) — Five-Step Wizard surface
   (start, codify, get-state, assessment, finances, team, members, publish,
   finalization).
-- **`DealsClient`** (`lib/src/modules/deals/`) — YCaaS deal flow under
+- **`DealsClient`** (`lib/src/modules/deals/`) — OpenYC deal flow under
   `/wizard/deal/*` plus step-claim routes under
   `/deals/{deal_id}/steps/{step_idx}/*`.
 - **`WorkflowClient`** (`lib/src/modules/workflow/`) — codify-pipeline
@@ -238,5 +271,5 @@ Tier 1 MVP. Covers the ~20 endpoints NIO needs at launch and the auth + activity
 - `NioIntegrationsClient` — coins/spend, coins/grant.
 - `ActivityClient` (MOB v2) — runs, locations.
 
-[Unreleased]: https://github.com/HardisonCo/codify-p2x-sdk-dart/compare/v0.1.0...HEAD
+[0.5.0]: https://github.com/HardisonCo/openyc-flutter-sdk/compare/v0.2.3...HEAD
 [0.1.0]: https://github.com/HardisonCo/codify-p2x-sdk-dart/releases/tag/v0.1.0

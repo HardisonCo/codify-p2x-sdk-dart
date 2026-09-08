@@ -1,10 +1,10 @@
-# ycaas_flutter_sdk
+# openyc_flutter_sdk
 
-The **YCaaS Flutter SDK** — Dart/Flutter client for the [YCaaS / P2X](https://api.project20x.com) API at `api.project20x.com`. Companion of the TypeScript client at [`@arionhardison/wizard-api-client`](https://github.com/HardisonCo/codify-p2x-sdk).
+The **OpenYC Flutter SDK** — Dart/Flutter client for the [OpenYC / P2X](https://api.project20x.com) API at `api.project20x.com`. Companion of the TypeScript client at [`@arionhardison/wizard-api-client`](https://github.com/HardisonCo/codify-p2x-sdk). Codify is the platform; OpenYC is the startup/tech/dev layer on it.
 
-Renamed from `codify_p2x_sdk` at **v0.3.0**. The `P2x*` class names (e.g. `P2xClient`, `P2xClientConfig`) are kept — they name the API contract (P2X), not the package distribution.
+Renamed from `codify_p2x_sdk` at **v0.3.0** and to `openyc_flutter_sdk` at **v0.5.0**. The `P2x*` class names (e.g. `P2xClient`, `P2xClientConfig`) are kept — they name the API contract (P2X), not the package distribution.
 
-Consumed by YCaaS subproject Flutter apps:
+Consumed by OpenYC subproject Flutter apps:
 
 - **NutriScan (NIO)** — `nutriscan.codify.ai` (reference implementation)
 - **Crohnie AI / IBD Healthcare** — patient + clinician (`crohnie.ai`)
@@ -21,9 +21,9 @@ See the canonical plan at [`P2X/FLUTTER_SDK_PLAN.md`](https://github.com/Hardiso
 
 ```yaml
 dependencies:
-  ycaas_flutter_sdk:
+  openyc_flutter_sdk:
     git:
-      url: https://github.com/HardisonCo/ycaas-flutter-sdk.git
+      url: https://github.com/HardisonCo/openyc-flutter-sdk.git
       ref: main
 ```
 
@@ -31,22 +31,22 @@ Once published to pub.dev:
 
 ```yaml
 dependencies:
-  ycaas_flutter_sdk: ^0.3.0
+  openyc_flutter_sdk: ^0.5.0
 ```
 
-### Migrating from `codify_p2x_sdk`
+### Migrating to `openyc_flutter_sdk`
 
-Two changes per consumer app:
+The package identifier changed at **v0.5.0** (and before that at v0.3.0, from `codify_p2x_sdk`). Whichever earlier name your app depends on, the migration is two mechanical changes:
 
-1. Pubspec dep name: `codify_p2x_sdk:` → `ycaas_flutter_sdk:`.
-2. Imports: `package:codify_p2x_sdk/codify_p2x_sdk.dart` → `package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart`.
+1. Pubspec dep name: `<old package name>:` → `openyc_flutter_sdk:`.
+2. Imports: every `package:<old package name>/...` URI → `package:openyc_flutter_sdk/...` (barrel: `package:openyc_flutter_sdk/openyc_flutter_sdk.dart`). Dart keys `package:` URIs by the pubspec name, so there is no shim at the old barrel path.
 
 No type-name changes — `P2xClient`, `AuthClient`, etc. are unchanged. Find-and-replace + `flutter pub get` is enough.
 
 ## Quick start
 
 ```dart
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 final p2x = P2xClient(
   config: P2xClientConfig(
@@ -66,7 +66,7 @@ final auth = await FirebaseSwapClient(p2x).firebaseLogin(firebaseIdToken: idToke
 // PHM: email/password → Sanctum (no Firebase)
 final auth2 = await PasswordSwapClient(p2x).signIn(login: email, password: pw);
 
-// Drive the Five-Step Wizard (YCaaS deal flow)
+// Drive the Five-Step Wizard (OpenYC deal flow)
 final wizard = WizardClient(p2x);
 final start = await wizard.start(problem: 'Patient needs medication review', metadata: …);
 final dealId = start.dealId;
@@ -99,14 +99,14 @@ Mirrors the TS SDK's `BaseApiClient` → per-domain client pattern. Same wire-le
 - Idempotency-Key auto-generated for writes (24h server-side TTL via Redis)
 
 ```
-ycaas_flutter_sdk
+openyc_flutter_sdk
 ├── lib/
-│   ├── ycaas_flutter_sdk.dart    barrel
+│   ├── openyc_flutter_sdk.dart   barrel
 │   ├── src/
 │   │   ├── client/               P2xClient + interceptors + exceptions
 │   │   ├── auth/                 login, firebase-swap, password-swap, guest-register
 │   │   ├── subprojects/          subproject context + features
-│   │   ├── wizard/               Five-step wizard (YCaaS deal flow)
+│   │   ├── wizard/               Five-step wizard (OpenYC deal flow)
 │   │   ├── modules/              activity, assessments, deals, workflow, agents, …
 │   │   ├── comms/                chat, notifications
 │   │   ├── payment/              Stripe payment methods + subscriptions
@@ -144,7 +144,7 @@ Coverage gates (enforced in CI):
 
 ## Versioning
 
-`0.x.y` (current, pre-stable). `v0.3.0` cuts the YCaaS rename + wizard parity. `1.x.y` post-codegen Tier 2.
+`0.x.y` (current, pre-stable — under pub's caret semantics `^0.4.0` excludes `0.5.0`, so the minor is the breaking slot). `v0.3.0` cut the first package rename + wizard parity; `v0.5.0` cuts the `openyc_flutter_sdk` rename (breaking: dependency key + import URIs). `1.x.y` post-codegen Tier 2.
 
 Both SDKs (TS + Dart) version-bump in lockstep against the OpenAPI spec.
 
@@ -163,4 +163,4 @@ Proprietary. See [`LICENSE`](LICENSE). Copyright © 2026 Codify Inc.
 - TS sibling: [@arionhardison/wizard-api-client](https://github.com/HardisonCo/codify-p2x-sdk) — same wire contract, different host language.
 - API this SDK targets: `P2X/api/` (Laravel 10 monolith).
 - Canonical architecture: `P2X/SYSTEM_OVERVIEW.md`.
-- YCaaS definition: `P2X/PUBLIC_DOMAIN_AGENTS.md` §9.
+- OpenYC definition: `docs/PUBLIC_DOMAIN_AGENTS.md` §9.

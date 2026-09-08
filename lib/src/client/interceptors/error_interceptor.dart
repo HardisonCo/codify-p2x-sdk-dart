@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/api_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/forbidden_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/not_found_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/server_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/unauthorized_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/validation_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
-import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/forbidden_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/not_found_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/server_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/unauthorized_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/validation_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 
 /// Dio interceptor that normalises Dio's generic [DioException] into the
 /// SDK's typed exception hierarchy ([UnauthorizedException],

@@ -1,7 +1,7 @@
 // JSON-decode tests for the Deal Wizard models (Modules/Deals).
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/modules/deals_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/deals_models.dart';
 
 void main() {
   group('Deal.fromJson', () {

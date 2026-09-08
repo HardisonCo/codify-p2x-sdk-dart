@@ -1,5 +1,5 @@
-name: ycaas_flutter_sdk_example
-description: Minimal example demonstrating ycaas_flutter_sdk usage.
+name: openyc_flutter_sdk_example
+description: Minimal example demonstrating openyc_flutter_sdk usage.
 publish_to: 'none'  # this is an example, not published
 version: 0.1.0+1
 
@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  ycaas_flutter_sdk:
+  openyc_flutter_sdk:
     path: ../
 
 dev_dependencies:

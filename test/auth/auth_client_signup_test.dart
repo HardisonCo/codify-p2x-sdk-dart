@@ -10,8 +10,8 @@
 // Kept in a sibling file so the original auth_client_test.dart stays
 // untouched (minimizes merge conflicts with parallel work).
 
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
-import 'package:ycaas_flutter_sdk/src/auth/auth_client.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/auth/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

@@ -1,4 +1,4 @@
-# Continuous integration for ycaas_flutter_sdk.
+# Continuous integration for openyc_flutter_sdk.
 #
 # Runs on every push and pull request. Gates merging on:
 #   - Dart format

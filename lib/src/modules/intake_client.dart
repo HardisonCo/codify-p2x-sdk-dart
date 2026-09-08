@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import 'package:ycaas_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
-import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
-import 'package:ycaas_flutter_sdk/src/modules/intake_models.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/intake_models.dart';
 
 /// Per-domain client for the **Intake** module.
 ///

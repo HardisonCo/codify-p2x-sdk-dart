@@ -2,17 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Workspace:** `/Users/arionhardison/Desktop/CI/mob-sdk` — git remote `HardisonCo/codify-p2x-sdk-dart` (the GitHub rename to `ycaas-flutter-sdk` declared in `pubspec.yaml` has **not** been executed). New to the CI workspace (no P2X ancestor directory). See the workspace root CLAUDE.md at `../CLAUDE.md` for the ecosystem map.
+**Workspace:** `/Users/arionhardison/Desktop/CI/mob-sdk` — git remote `HardisonCo/codify-p2x-sdk-dart` (the GitHub rename to `openyc-flutter-sdk` declared in `pubspec.yaml` is an **operator step that has not yet been executed**). New to the CI workspace (no P2X ancestor directory). See the workspace root CLAUDE.md at `../CLAUDE.md` for the ecosystem map.
 
-The **YCaaS Flutter SDK** (in-tree package name `ycaas_flutter_sdk`, formerly `codify_p2x_sdk`). The Dart/Flutter client for the P2X API at `https://api.project20x.com`. Companion to the TypeScript SDK at `../web-sdk/` — same architectural conventions, same envelope, same five-step wizard surface.
+The **OpenYC Flutter SDK** (in-tree package name `openyc_flutter_sdk`; formerly `codify_p2x_sdk`, then an interim brand-prefixed name from v0.3.0 to v0.4.x). The Dart/Flutter client for the P2X API at `https://api.project20x.com`. Companion to the TypeScript SDK at `../web-sdk/` — same architectural conventions, same envelope, same five-step wizard surface.
 
 For the canonical architectural plan see `../docs/FLUTTER_SDK_PLAN.md`. For the TS sibling we mirror, see `../web-sdk/CLAUDE.md`. For the API contract, see `../api/CLAUDE.md`.
 
-## What "YCaaS" means
+## What "OpenYC" means
 
-**Y Combinator as a Service** — defined in `../docs/PUBLIC_DOMAIN_AGENTS.md` §9. The autonomous production pipeline that turns domain codification into a repeatable program: spinning up new public-domain agents, custom subdomains (e.g. `riverside-pediatrics.codify.healthcare`), and tier-2/3/4 agents at scale. "Demo day" is when a domain moves from `status: draft` to `status: live` in `gov/`.
+**OpenYC** — defined in `../docs/PUBLIC_DOMAIN_AGENTS.md` §9. Codify is the platform; OpenYC is the startup/tech/dev layer on it — the "create your own YC" thesis: an accelerator methodology instantiated for any vertical or locale, run as the autonomous production pipeline that turns domain codification into a repeatable program (spinning up new public-domain agents, custom subdomains such as `riverside-pediatrics.codify.healthcare`, and tier-2/3/4 agents at scale). "Demo day" is when a domain moves from `status: draft` to `status: live` in `gov/`.
 
-The TS SDK already advertises itself as the YCaaS wizard client and is consumed from `https://ycaas.ai`. This Dart SDK is its mobile counterpart. Orthogonal to the DPIaaS/DPCaaS/DPGaaS family — YCaaS is the *automation pipeline*, not a domain service tier.
+The TS SDK already advertises itself as the OpenYC wizard client and is consumed from `https://openyc.org`. This Dart SDK is its mobile counterpart. Orthogonal to the DPIaaS/DPCaaS/DPGaaS family — OpenYC is the *automation pipeline*, not a domain service tier.
 
 ## P2X ecosystem role
 
@@ -73,12 +73,12 @@ No codegen commands: there is no `build_runner`/`freezed` in `pubspec.yaml` — 
 
 The SDK is published as a Flutter package, but internal callers can mock or replace the Flutter-only pieces.
 
-## Rename: `codify_p2x_sdk` → `ycaas_flutter_sdk` (DONE at v0.3.0)
+## Rename history: `codify_p2x_sdk` → interim name → `openyc_flutter_sdk` (0.5.0)
 
-The package rename shipped at `v0.3.0-alpha.1`. The barrel is `lib/ycaas_flutter_sdk.dart` only — the old `lib/codify_p2x_sdk.dart` shim has been removed; legacy imports no longer work.
+The package identifier has moved twice: `codify_p2x_sdk` (≤ 0.2.3 — the last name actually published to pub.dev) → an interim brand-prefixed name at `v0.3.0-alpha.1` (never tagged or published) → `openyc_flutter_sdk` at `0.5.0`. The barrel is `lib/openyc_flutter_sdk.dart` only — there is no shim at either old barrel path; legacy imports do not resolve (a `package:` URI is keyed by the pubspec name, so a shim at an old path could never have helped a consumer).
 
 - Class prefix `P2x*` (`P2xClient`, `P2xClientConfig`, `P2xException`, …) **stays as-is** — this names the *API contract* (P2X), not the SDK distribution. Renaming the prefix is gratuitous churn.
-- **Still outstanding:** the GitHub repo rename `codify-p2x-sdk-dart` → `ycaas-flutter-sdk` was never executed — `pubspec.yaml`'s `repository:` points at the new name, but the actual remote is `HardisonCo/codify-p2x-sdk-dart`. Coordinate with consuming apps' `path:`/`git:` deps and re-point the pub.dev automated-publishing record before doing it.
+- **Operator steps still outstanding (must precede the `v0.5.0` tag):** (1) the GitHub repo rename `codify-p2x-sdk-dart` → `openyc-flutter-sdk` — `pubspec.yaml`'s `repository:` already points at the new name, but the actual remote is `HardisonCo/codify-p2x-sdk-dart`; (2) the pub.dev "Automated publishing" record for `openyc_flutter_sdk` (repository `HardisonCo/openyc-flutter-sdk`, tag pattern `v{{version}}`, environment `pub.dev`). Coordinate with consuming apps' `path:`/`git:` deps.
 
 When in doubt: rename only the *package identifier* and *file paths*, not the *type names* that describe the API contract.
 
@@ -123,7 +123,7 @@ The SDK targets Tier-1 coverage of the P2X Laravel API (`../api`). Current statu
 | `realtime/` (Pusher channels: `user-{id}`, `guest-{id}`, `subproject-{id}-agents`, `codify-ontology`, `pipeline-state-{session}`) | ✅ shipped | Peer-dep on `pusher_channels_flutter` (consumer adds it). |
 | `utils/` (`poll_until`, `form_data_builder`, `retry_policy`) | ✅ shipped | |
 
-The v0.3.0 milestone (YCaaS rename + wizard/deals/workflow/agents/realtime) has shipped; protocols/programs and the m2m integrations remain. Coverage gates apply at the module level — do not merge a new client without its contract suite.
+The v0.3.0 milestone (first package rename + wizard/deals/workflow/agents/realtime) has shipped and v0.5.0 renames the package to `openyc_flutter_sdk`; protocols/programs and the m2m integrations remain. Coverage gates apply at the module level — do not merge a new client without its contract suite.
 
 ## Consumer apps — adoption matrix
 
@@ -140,13 +140,13 @@ This SDK exists to serve four mobile-app codebases. **None of them live in the C
 
 ### Onboarding playbook (per app)
 
-1. **Add the SDK** to `pubspec.yaml` as `ycaas_flutter_sdk: { path: <path to this repo's checkout> }` (or a git ref to `HardisonCo/codify-p2x-sdk-dart`) — this repo lives at `CI/mob-sdk`; see NIO's `pubspec.yaml` (legacy P2X sibling, not in this workspace) for the canonical line.
+1. **Add the SDK** to `pubspec.yaml` as `openyc_flutter_sdk: { path: <path to this repo's checkout> }` (or a git ref to `HardisonCo/openyc-flutter-sdk` — still `HardisonCo/codify-p2x-sdk-dart` until the operator renames the GitHub repo) — this repo lives at `CI/mob-sdk`; see NIO's `pubspec.yaml` (legacy P2X sibling, not in this workspace) for the canonical line.
 2. **Stand up a `P2xService`** modeled on NIO's `lib/services/p2x_service.dart` (same external repo): one `P2xClient` instance, base URL from a compile-time `String.fromEnvironment('P2X_BASE_URL', defaultValue: 'https://api.project20x.com/api')`, `getDomain` returning the app's P2X tenant (e.g. `crohnie.ai`, `phm.ai`).
 3. **Pick the auth strategy:**
    - Firebase-backed apps (NIO, IBD patient, IBD doctor) → `FirebaseSwapClient.firebaseLogin(idToken)`.
    - Non-Firebase apps (PHM patient, PHM doctor) → either provision Firebase Auth on those apps, or extend the SDK with a `password_swap_client.dart` that exchanges email/pw for a Sanctum token via `POST /public/auth/sign-in`. **Default to extending the SDK** — it's a smaller change than retrofitting Firebase across PHM, and it's mirrored on the TS side.
 4. **Wire `onUnauthorized`** to the host app's logout flow.
-5. **Replace ad-hoc HTTP calls feature-by-feature**, not in one go. Track adoption with `// TODO(ycaas): migrate to <client>` comments so progress is greppable.
+5. **Replace ad-hoc HTTP calls feature-by-feature**, not in one go. Track adoption with `// TODO(openyc): migrate to <client>` comments so progress is greppable.
 6. **Per-app integration test suite** lives in `test/integrations/<app>/` in this repo (not in the consumer app) — assert that the SDK exposes everything the app needs.
 
 **MOB is parked.** It has no backend today. Revisit when MOB's roadmap includes server-side run sync; the `guest_register_client` is already shipped for when that day comes.
@@ -173,7 +173,7 @@ The test asserts (using `http_mock_adapter`):
 - [ ] Write `test/modules/<thing>_models_test.dart` with round-trip JSON tests for each model
 - [ ] Add hand-written `@immutable` + `fromJson` models in `lib/src/modules/<thing>_models.dart` (no codegen — freezed returns at Tier 2)
 - [ ] Implement the client to make tests pass — one method per route, named to match the route action (`list`, `create`, `get`, `update`, `destroy`, plus domain verbs)
-- [ ] Export from the `lib/ycaas_flutter_sdk.dart` barrel
+- [ ] Export from the `lib/openyc_flutter_sdk.dart` barrel
 - [ ] Cover gate: ≥75% lines on the new file. Generated `*.g.dart` / `*.freezed.dart` is excluded.
 - [ ] Update the **API parity status** table above and add a CHANGELOG entry
 
@@ -209,7 +209,8 @@ PRs below the gate fail.
 ## Versioning
 
 - `0.x.y` (current: `0.4.0-alpha.2`) — pre-stable Tier 1 (hand-written clients). Breaking changes do not bump major.
-- `v0.3.0` cut the YCaaS rename + Five-Step Wizard parity (shipped).
+- `v0.3.0` cut the first package rename + Five-Step Wizard parity (shipped).
+- `v0.5.0` cuts the `openyc_flutter_sdk` rename — breaking for consumers (dependency key + import URIs). Pre-1.0 the minor is the breaking slot: under pub's caret semantics `^0.4.0` does not admit `0.5.0`.
 - `1.x.y` post-codegen Tier 2 (OpenAPI-driven via `dedoc/scramble`). Semver from there.
 - Dart and TS SDKs version-bump in lockstep against the OpenAPI spec.
 
@@ -232,7 +233,7 @@ The publish workflow `.github/workflows/publish.yml` triggers on tag `v*.*.*`. A
 - **Don't import Flutter widgets** in `lib/src/client/`. The base client stays testable in pure Dart.
 - **Don't add new transitive dependencies** without bumping the Dart SDK floor only if strictly required — keep it at `^3.5.0`.
 - **Don't reach for a state-management library** (Riverpod, BLoC, Provider, GetX). The SDK is a pure client; state belongs to the host app.
-- **Don't rename `P2x*` type names** during the YCaaS package rename. They name the API contract (P2X), not the distribution.
+- **Don't rename `P2x*` type names** during the OpenYC package rename. They name the API contract (P2X), not the distribution.
 - **Don't ship a new module client without its contract suite.** TDD is enforced by the coverage gate and by review.
 
 ## Cross-references
@@ -242,6 +243,6 @@ The publish workflow `.github/workflows/publish.yml` triggers on tag `v*.*.*`. A
 - TS sibling: `../web-sdk/CLAUDE.md`
 - API contract: `../api/CLAUDE.md`
 - Architecture (legacy 5-layer model): `../docs/SYSTEM_OVERVIEW.md`
-- YCaaS definition: `../docs/PUBLIC_DOMAIN_AGENTS.md` §9
+- OpenYC definition: `../docs/PUBLIC_DOMAIN_AGENTS.md` §9
 - Subproject integration model: `../docs/SUBPROJECT_INTEGRATION_PLAN.md`
 - NIO reference implementation: `lib/services/p2x_service.dart` in the NIO repo (legacy P2X sibling, not in this workspace)

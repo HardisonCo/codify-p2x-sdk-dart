@@ -1,6 +1,6 @@
 // Tests for the Service model class — plain @immutable data class.
 
-import 'package:ycaas_flutter_sdk/src/modules/services_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/services_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

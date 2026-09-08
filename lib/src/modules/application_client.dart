@@ -1,5 +1,5 @@
-import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
-import 'package:ycaas_flutter_sdk/src/modules/application_models.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/application_models.dart';
 
 /// Per-domain client for the **Applications** module.
 ///

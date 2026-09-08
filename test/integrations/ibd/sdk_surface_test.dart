@@ -5,7 +5,7 @@
 // schedule / verification / follow-ups modules for doctor↔patient flows.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 void main() {
   test('IBD patient surface — chat, schedule, follow-ups, assessments', () {
