@@ -125,7 +125,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet(
+          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -146,7 +147,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet(
+          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -164,7 +166,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet('/public/load',
+          (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -182,7 +185,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet('/public/load',
+          (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -201,7 +205,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet(
+          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final first = await client.dio.get<dynamic>('/me');
       expect(first.requestOptions.headers['Authorization'], 'Bearer tok-first');
@@ -224,7 +229,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet(
+          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -242,7 +248,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet('/public/load',
+          (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -256,7 +263,8 @@ void main() {
         ),
       );
       final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      adapter.onGet('/public/load',
+          (req) => req.reply(200, {'data': <String, dynamic>{}}));
 
       final response = await client.dio.get<dynamic>('/public/load');
 
