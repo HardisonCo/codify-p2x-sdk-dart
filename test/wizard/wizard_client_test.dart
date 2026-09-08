@@ -1,10 +1,10 @@
-// Contract tests for WizardClient — the YCaaS Five-Step Wizard surface.
+// Contract tests for WizardClient — the OpenYC Five-Step Wizard surface.
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:ycaas_flutter_sdk/src/wizard/wizard_client.dart';
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/wizard/wizard_client.dart';
 
 P2xClient _newClient() => P2xClient(
       config: const P2xClientConfig(

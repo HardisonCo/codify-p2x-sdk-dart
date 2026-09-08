@@ -1,7 +1,7 @@
 // Tests for the NIO integration model classes (CoinBalance,
 // CoinTransaction) — plain @immutable data classes (no freezed).
 
-import 'package:ycaas_flutter_sdk/src/integrations/nio_integrations_models.dart';
+import 'package:openyc_flutter_sdk/src/integrations/nio_integrations_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

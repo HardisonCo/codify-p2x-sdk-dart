@@ -1,16 +1,16 @@
-name: ycaas_flutter_sdk
+name: openyc_flutter_sdk
 description: >-
-  YCaaS Flutter SDK — Dart/Flutter client for the YCaaS / P2X API at
+  OpenYC Flutter SDK — Dart/Flutter client for the OpenYC / P2X API at
   api.project20x.com. Companion of the TypeScript wizard-api-client.
-  Consumed by NIO, IBD, PHM and other YCaaS subproject Flutter apps.
-version: 0.4.0-alpha.2
-repository: https://github.com/HardisonCo/ycaas-flutter-sdk
-issue_tracker: https://github.com/HardisonCo/ycaas-flutter-sdk/issues
-homepage: https://ycaas.ai
+  Consumed by NIO, IBD, PHM and other OpenYC subproject Flutter apps.
+version: 0.5.0
+repository: https://github.com/HardisonCo/openyc-flutter-sdk
+issue_tracker: https://github.com/HardisonCo/openyc-flutter-sdk/issues
+homepage: https://openyc.org
 topics:
   - api
   - sdk
-  - ycaas
+  - openyc
   - p2x
   - rest-client
 

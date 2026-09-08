@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-/// Response of `POST /wizard/start` — the entry-point to the YCaaS Five-Step
+/// Response of `POST /wizard/start` — the entry-point to the OpenYC Five-Step
 /// Wizard. The server creates a fresh deal (and its driving protocol) and
 /// returns enough state for the client to navigate into the wizard.
 ///

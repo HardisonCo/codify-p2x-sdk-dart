@@ -4,7 +4,7 @@
 // currently uses. If any export goes missing, this test won't compile.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 void main() {
   test('NIO surface — Firebase swap, KPI, orders, assessments, integrations',

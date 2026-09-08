@@ -6,10 +6,10 @@
 //   POST /api/response/store
 //   GET  /api/responses
 
-import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
-import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
-import 'package:ycaas_flutter_sdk/src/modules/assessments_client.dart';
-import 'package:ycaas_flutter_sdk/src/modules/assessments_models.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:openyc_flutter_sdk/src/modules/assessments_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/assessments_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 

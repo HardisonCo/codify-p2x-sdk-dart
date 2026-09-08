@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import '../client/p2x_client.dart';
 import 'deals_models.dart';
 
-/// Client for the YCaaS **Deal Wizard** — the `/api/wizard/deal/*` surface
+/// Client for the OpenYC **Deal Wizard** — the `/api/wizard/deal/*` surface
 /// (`Modules/Deals`).
 ///
 /// Drives a deal through the Five-Step Wizard lifecycle, plus the F1/F2

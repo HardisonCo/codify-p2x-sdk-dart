@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/utils/poll_until.dart';
+import 'package:openyc_flutter_sdk/src/utils/poll_until.dart';
 
 void main() {
   test('resolves when done() becomes true', () async {

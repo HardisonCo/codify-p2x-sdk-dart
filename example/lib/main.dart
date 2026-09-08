@@ -1,8 +1,8 @@
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-/// Entry point for the ycaas_flutter_sdk example app.
+/// Entry point for the openyc_flutter_sdk example app.
 ///
 /// Demonstrates the minimum viable wiring of [P2xClient]:
 ///
@@ -28,7 +28,7 @@ class ExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ycaas_flutter_sdk example',
+      title: 'openyc_flutter_sdk example',
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.indigo,
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('ycaas_flutter_sdk example')),
+      appBar: AppBar(title: const Text('openyc_flutter_sdk example')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),

@@ -10,10 +10,10 @@
 //   GET    /api/payment/setup-payment-method
 //   GET    /api/payment/subscriptions
 
-import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
-import 'package:ycaas_flutter_sdk/src/client/p2x_client_config.dart';
-import 'package:ycaas_flutter_sdk/src/payment/payment_client.dart';
-import 'package:ycaas_flutter_sdk/src/payment/payment_models.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
+import 'package:openyc_flutter_sdk/src/payment/payment_client.dart';
+import 'package:openyc_flutter_sdk/src/payment/payment_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 

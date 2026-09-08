@@ -1,6 +1,6 @@
 // Tests for the FollowUp model class — plain @immutable data class.
 
-import 'package:ycaas_flutter_sdk/src/modules/follow_ups_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/follow_ups_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

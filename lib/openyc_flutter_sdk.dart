@@ -1,9 +1,10 @@
-/// ycaas_flutter_sdk — Dart/Flutter client for the YCaaS / P2X API at
+/// openyc_flutter_sdk — Dart/Flutter client for the OpenYC / P2X API at
 /// `https://api.project20x.com`.
 ///
-/// Renamed from `codify_p2x_sdk` at v0.3.0. The `P2x*` type names are kept
-/// because they describe the *API contract* (P2X), not the package
-/// distribution. See `CLAUDE.md` for the rename rationale.
+/// Renamed from `codify_p2x_sdk` at v0.3.0 and to `openyc_flutter_sdk` at
+/// v0.5.0. The `P2x*` type names are kept because they describe the *API
+/// contract* (P2X), not the package distribution. See `CLAUDE.md` for the
+/// rename rationale.
 ///
 /// Mirrors the architecture and contract of the TypeScript sibling at
 /// [@arionhardison/wizard-api-client](https://github.com/HardisonCo/codify-p2x-sdk).
@@ -11,7 +12,7 @@
 /// Quick start:
 ///
 /// ```dart
-/// import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+/// import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 ///
 /// final p2x = P2xClient(
 ///   config: P2xClientConfig(
@@ -43,7 +44,7 @@
 /// notes. Typed errors (UnauthorizedException, ValidationException, etc.) are
 /// thrown directly from per-domain client methods — see the `request` helper
 /// on `P2xClient` for the unwrap mechanics.
-library ycaas_flutter_sdk;
+library openyc_flutter_sdk;
 
 // ─── client ─────────────────────────────────────────────────────────────────
 export 'src/client/api_response.dart';
@@ -71,7 +72,7 @@ export 'src/auth/token_storage.dart';
 export 'src/subprojects/subprojects_client.dart';
 export 'src/subprojects/subprojects_models.dart';
 
-// ─── wizard (YCaaS Five-Step Wizard) ────────────────────────────────────────
+// ─── wizard (OpenYC Five-Step Wizard) ───────────────────────────────────────
 export 'src/wizard/wizard_client.dart';
 export 'src/wizard/wizard_models.dart';
 

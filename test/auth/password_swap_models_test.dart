@@ -3,7 +3,7 @@
 // well-shaped AuthResponse.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/auth/password_swap_models.dart';
+import 'package:openyc_flutter_sdk/src/auth/password_swap_models.dart';
 
 void main() {
   group('PasswordSignInResponse.fromJson', () {

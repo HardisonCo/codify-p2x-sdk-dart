@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/wizard/wizard_models.dart';
+import 'package:openyc_flutter_sdk/src/wizard/wizard_models.dart';
 
 void main() {
   group('WizardStartResponse.fromJson', () {

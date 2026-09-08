@@ -4,7 +4,7 @@
 // tests assert JSON round-trips, copyWith semantics, value-equality, and
 // safe toString (no token leakage).
 
-import 'package:ycaas_flutter_sdk/src/auth/auth_models.dart';
+import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

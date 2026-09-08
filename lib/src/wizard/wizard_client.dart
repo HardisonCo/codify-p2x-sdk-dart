@@ -1,9 +1,9 @@
 import '../client/p2x_client.dart';
 import 'wizard_models.dart';
 
-/// The YCaaS Five-Step Wizard client.
+/// The OpenYC Five-Step Wizard client.
 ///
-/// Drives a deal through the canonical YCaaS lifecycle —
+/// Drives a deal through the canonical OpenYC lifecycle —
 /// **define problem → codify solution → setup program → execute program →
 /// verify outcome**. Most methods take a `protocol` (int) path param after
 /// the initial [start] call returns it; deal-flavoured calls live on

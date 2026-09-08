@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
-import 'package:ycaas_flutter_sdk/src/client/p2x_client.dart';
-import 'package:ycaas_flutter_sdk/src/modules/services_models.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/services_models.dart';
 
 /// Per-domain client for the **Services** module.
 ///

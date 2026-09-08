@@ -1,7 +1,7 @@
 // Tests for the Verification model class — plain @immutable data class
 // (no freezed).
 
-import 'package:ycaas_flutter_sdk/src/modules/verification_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/verification_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

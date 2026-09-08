@@ -2,7 +2,7 @@
 // (Modules/Agents — ResourceOwnerWizardController response shapes).
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/modules/agents_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/agents_models.dart';
 
 void main() {
   group('ResourceListingDraft.fromJson', () {

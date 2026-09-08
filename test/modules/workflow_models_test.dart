@@ -2,7 +2,7 @@
 // (Modules/Workflow — SubprojectPipeConfigResource).
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/modules/workflow_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/workflow_models.dart';
 
 void main() {
   group('SubprojectPipeConfig.fromJson', () {

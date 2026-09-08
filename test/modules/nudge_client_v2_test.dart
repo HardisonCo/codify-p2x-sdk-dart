@@ -12,7 +12,7 @@
 // passing — the regression check at the bottom of this file re-asserts
 // NudgeClient.list and NudgeClient.ack still work after the additions.
 
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';

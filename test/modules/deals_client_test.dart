@@ -1,4 +1,4 @@
-// Contract tests for DealsClient + DealStepClient — the YCaaS Deal Wizard
+// Contract tests for DealsClient + DealStepClient — the OpenYC Deal Wizard
 // surface (`Modules/Deals`, /api/wizard/deal/* + /api/deals/{id}/steps/*).
 //
 // Routes covered (17 wizard/deal + 3 step-claim):
@@ -29,9 +29,9 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:ycaas_flutter_sdk/src/modules/deal_step_client.dart';
-import 'package:ycaas_flutter_sdk/src/modules/deals_client.dart';
-import 'package:ycaas_flutter_sdk/ycaas_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/modules/deal_step_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/deals_client.dart';
 
 const _guid = '11111111-2222-3333-4444-555555555555';
 

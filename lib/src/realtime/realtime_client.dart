@@ -11,7 +11,7 @@ import 'realtime_event.dart';
 /// interface in their own code, wrapping whatever transport they ship with.
 ///
 /// A reference Pusher implementation may land in a sibling package
-/// `ycaas_flutter_sdk_pusher` once the consumer apps need it.
+/// `openyc_flutter_sdk_pusher` once the consumer apps need it.
 ///
 /// Usage in a consumer app:
 ///

@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-/// A YCaaS **Deal** — the persistent unit driven through the Five-Step
+/// A OpenYC **Deal** — the persistent unit driven through the Five-Step
 /// Wizard lifecycle (**analyze → codify → setup → execute → verify**).
 ///
 /// Decoded from the flat JSON body returned by the `/wizard/deal/*`

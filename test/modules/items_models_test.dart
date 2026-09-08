@@ -1,7 +1,7 @@
 // Tests for the Items module models (Item, Collection, UserItem) —
 // plain @immutable data classes (no freezed).
 
-import 'package:ycaas_flutter_sdk/src/modules/items_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/items_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

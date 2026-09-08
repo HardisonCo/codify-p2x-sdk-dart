@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:dio/dio.dart';
-import 'package:ycaas_flutter_sdk/src/client/exceptions/api_exception.dart';
-import 'package:ycaas_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 
 /// Exponential-backoff retry policy for transient HTTP failures.
 ///

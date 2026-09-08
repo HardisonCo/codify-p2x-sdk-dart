@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ycaas_flutter_sdk/src/realtime/realtime_client.dart';
+import 'package:openyc_flutter_sdk/src/realtime/realtime_client.dart';
 
 void main() {
   group('NoopRealtimeClient', () {

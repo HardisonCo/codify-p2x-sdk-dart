@@ -1,7 +1,7 @@
 // Tests for the Order model class — plain @immutable data class
 // (no freezed).
 
-import 'package:ycaas_flutter_sdk/src/modules/order_models.dart';
+import 'package:openyc_flutter_sdk/src/modules/order_models.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
