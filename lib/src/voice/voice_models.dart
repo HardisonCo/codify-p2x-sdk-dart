@@ -104,9 +104,8 @@ class VoiceSession {
     final ice = json['ice_servers'];
     return VoiceSession(
       sessionId: (json['session_id'] ?? '') as String,
-      chainId: json['chain_id'] == null
-          ? null
-          : (json['chain_id'] as num).toInt(),
+      chainId:
+          json['chain_id'] == null ? null : (json['chain_id'] as num).toInt(),
       expiresIn: json['expires_in'] == null
           ? null
           : (json['expires_in'] as num).toInt(),

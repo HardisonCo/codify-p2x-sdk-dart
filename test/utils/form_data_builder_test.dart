@@ -10,13 +10,16 @@ void main() {
         <String, dynamic>{'name': 'Bob', 'email': 'b@x.com'},
       ]);
     final keys = fd.build().fields.map((e) => e.key).toList();
-    expect(keys, containsAll(<String>[
-      'title',
-      'members[0][name]',
-      'members[0][email]',
-      'members[1][name]',
-      'members[1][email]',
-    ]));
+    expect(
+      keys,
+      containsAll(<String>[
+        'title',
+        'members[0][name]',
+        'members[0][email]',
+        'members[1][name]',
+        'members[1][email]',
+      ]),
+    );
   });
 
   test('null values are skipped', () {

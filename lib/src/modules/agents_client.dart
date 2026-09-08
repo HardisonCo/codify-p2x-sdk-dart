@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import '../client/interceptors/auth_interceptor.dart';
-import '../client/p2x_client.dart';
-import 'agents_models.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/agents_models.dart';
 
 /// Client for the AI Agents surface — full CRUD on agent records, lifecycle
 /// transitions, protocol execution, and the public intelligent intent
@@ -336,7 +336,9 @@ class AgentsClient {
     final data = body['data'];
     if (data is Map<String, dynamic>) return data;
     if (data == null) return const <String, dynamic>{};
-    throw StateError('Malformed agents response — "data" is ${data.runtimeType}');
+    throw StateError(
+      'Malformed agents response — "data" is ${data.runtimeType}',
+    );
   }
 
   Options _publicOptions() {

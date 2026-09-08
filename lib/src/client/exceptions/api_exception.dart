@@ -1,3 +1,11 @@
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show
+        ForbiddenException,
+        NotFoundException,
+        ServerException,
+        UnauthorizedException,
+        ValidationException;
+
 /// Base class for all SDK exceptions.
 ///
 /// Per-status subtypes ([UnauthorizedException], [ForbiddenException],

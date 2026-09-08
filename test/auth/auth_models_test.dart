@@ -4,13 +4,13 @@
 // tests assert JSON round-trips, copyWith semantics, value-equality, and
 // safe toString (no token leakage).
 
-import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
 
 void main() {
   group('User', () {
     test('fromJson handles required fields (id, name, email, roles)', () {
-      final user = User.fromJson(<String, dynamic>{
+      final user = User.fromJson(const <String, dynamic>{
         'id': 42,
         'name': 'Alice',
         'email': 'alice@example.com',
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final user = User.fromJson(<String, dynamic>{
+      final user = User.fromJson(const <String, dynamic>{
         'id': 7,
         'name': 'Bob',
         'email': 'bob@example.com',
@@ -57,7 +57,7 @@ void main() {
     });
 
     test('fromJson defaults roles to empty list when absent', () {
-      final user = User.fromJson(<String, dynamic>{
+      final user = User.fromJson(const <String, dynamic>{
         'id': 1,
         'name': 'X',
         'email': 'x@y.z',
@@ -150,7 +150,7 @@ void main() {
 
   group('Token', () {
     test('fromJson handles all fields', () {
-      final token = Token.fromJson(<String, dynamic>{
+      final token = Token.fromJson(const <String, dynamic>{
         'access_token': 'abc123',
         'refresh_token': 'r-xyz',
         'expires_at': '2026-05-01T00:00:00Z',
@@ -164,7 +164,7 @@ void main() {
     });
 
     test('fromJson handles missing refreshToken and expiresAt', () {
-      final token = Token.fromJson(<String, dynamic>{
+      final token = Token.fromJson(const <String, dynamic>{
         'access_token': 'abc123',
       });
 
@@ -218,7 +218,7 @@ void main() {
 
   group('Subproject', () {
     test('fromJson handles required + optional fields', () {
-      final sp = Subproject.fromJson(<String, dynamic>{
+      final sp = Subproject.fromJson(const <String, dynamic>{
         'id': 2,
         'slug': 'crohnie',
         'name': 'Crohnie AI',
@@ -234,7 +234,7 @@ void main() {
     });
 
     test('fromJson handles missing kind', () {
-      final sp = Subproject.fromJson(<String, dynamic>{
+      final sp = Subproject.fromJson(const <String, dynamic>{
         'id': 2,
         'slug': 'crohnie',
         'name': 'Crohnie AI',
@@ -281,7 +281,7 @@ void main() {
 
   group('AuthResponse', () {
     test('fromJson nests User and Token + optional Subproject', () {
-      final auth = AuthResponse.fromJson(<String, dynamic>{
+      final auth = AuthResponse.fromJson(const <String, dynamic>{
         'user': <String, dynamic>{
           'id': 1,
           'name': 'Alice',
@@ -307,7 +307,7 @@ void main() {
     });
 
     test('fromJson handles missing subproject', () {
-      final auth = AuthResponse.fromJson(<String, dynamic>{
+      final auth = AuthResponse.fromJson(const <String, dynamic>{
         'user': <String, dynamic>{
           'id': 1,
           'name': 'Alice',

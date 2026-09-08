@@ -69,7 +69,6 @@ class WizardStartResponse {
   int get hashCode => Object.hash(dealId, state, protocolId);
 
   @override
-  String toString() =>
-      'WizardStartResponse(dealId: $dealId, state: $state, '
+  String toString() => 'WizardStartResponse(dealId: $dealId, state: $state, '
       'protocolId: $protocolId)';
 }

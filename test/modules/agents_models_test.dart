@@ -7,7 +7,7 @@ import 'package:openyc_flutter_sdk/src/modules/agents_models.dart';
 void main() {
   group('ResourceListingDraft.fromJson', () {
     test('decodes the store response', () {
-      final d = ResourceListingDraft.fromJson(<String, dynamic>{
+      final d = ResourceListingDraft.fromJson(const <String, dynamic>{
         'resource_listing_id': 55,
         'status': 'draft',
         'subproject_id': 7,
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('coerces string-numeric ids and tolerates missing status', () {
-      final d = ResourceListingDraft.fromJson(<String, dynamic>{
+      final d = ResourceListingDraft.fromJson(const <String, dynamic>{
         'resource_listing_id': '55',
         'subproject_id': '7',
       });
@@ -30,7 +30,7 @@ void main() {
 
   group('ResourceListingActivation.fromJson', () {
     test('decodes the activate response', () {
-      final a = ResourceListingActivation.fromJson(<String, dynamic>{
+      final a = ResourceListingActivation.fromJson(const <String, dynamic>{
         'resource_listing_id': 55,
         'agent_id': 900,
         'listing_status': 'active',
@@ -43,7 +43,7 @@ void main() {
     });
 
     test('tolerates a null activated_at', () {
-      final a = ResourceListingActivation.fromJson(<String, dynamic>{
+      final a = ResourceListingActivation.fromJson(const <String, dynamic>{
         'resource_listing_id': 55,
         'agent_id': 900,
         'listing_status': 'active',
@@ -55,7 +55,7 @@ void main() {
 
   group('ResourceListingClaim.fromJson', () {
     test('decodes a fill outcome', () {
-      final c = ResourceListingClaim.fromJson(<String, dynamic>{
+      final c = ResourceListingClaim.fromJson(const <String, dynamic>{
         'resource_listing_id': 77,
         'listing_status': 'active',
         'wizard_invite_id': 1234,
@@ -71,7 +71,7 @@ void main() {
     });
 
     test('decodes an escalate outcome with null invite ids', () {
-      final c = ResourceListingClaim.fromJson(<String, dynamic>{
+      final c = ResourceListingClaim.fromJson(const <String, dynamic>{
         'resource_listing_id': 77,
         'listing_status': 'active',
         'decision': 'escalate',

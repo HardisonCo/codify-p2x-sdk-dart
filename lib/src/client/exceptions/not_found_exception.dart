@@ -1,4 +1,4 @@
-import 'api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
 
 /// HTTP 404 — the requested resource does not exist (or is not visible to
 /// the current user/subproject).

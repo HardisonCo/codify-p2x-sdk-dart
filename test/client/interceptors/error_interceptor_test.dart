@@ -13,12 +13,12 @@
 
 import 'dart:convert';
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 
 /// Build a client wired ONLY with the ErrorInterceptor, so tests can pivot
 /// on this interceptor's behaviour in isolation. The [config] provides the
@@ -80,14 +80,16 @@ void main() {
       expect(orig['path'], '/auth/login');
       expect(orig['method'], 'POST');
       expect(orig['idempotencyKeyPinned'], isFalse);
-      // The bearer and the header key must not survive anywhere in the snapshot.
+      // The bearer and the header key must not survive anywhere in the
+      // snapshot.
       final encoded = jsonEncode(orig);
       expect(encoded, isNot(contains('secret-token')));
       expect(encoded.toLowerCase(), isNot(contains('authorization')));
     });
 
-    test('idempotencyKeyPinned is true when the caller pinned a key (value hidden)',
-        () async {
+    test(
+        'idempotencyKeyPinned is true when the caller pinned a key '
+        '(value hidden)', () async {
       final harness = _buildClient(
         const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
       );

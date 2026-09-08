@@ -1,13 +1,13 @@
 // Tests for the KpiSnapshot model class — plain @immutable data class
 // (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/kpi_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/kpi_models.dart';
 
 void main() {
   group('KpiSnapshot', () {
     test('fromJson handles required fields (key, value, unit, recordedAt)', () {
-      final s = KpiSnapshot.fromJson(<String, dynamic>{
+      final s = KpiSnapshot.fromJson(const <String, dynamic>{
         'key': 'daily-calories',
         'value': 1840.0,
         'unit': 'kcal',
@@ -22,7 +22,7 @@ void main() {
     });
 
     test('fromJson accepts integer value and coerces to double', () {
-      final s = KpiSnapshot.fromJson(<String, dynamic>{
+      final s = KpiSnapshot.fromJson(const <String, dynamic>{
         'key': 'steps',
         'value': 10000,
         'unit': 'count',
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('fromJson reads optional subprojectId', () {
-      final s = KpiSnapshot.fromJson(<String, dynamic>{
+      final s = KpiSnapshot.fromJson(const <String, dynamic>{
         'key': 'weight',
         'value': 75.0,
         'unit': 'kg',

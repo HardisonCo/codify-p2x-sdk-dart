@@ -7,22 +7,23 @@
 // body shape, response decoding, error type. Implementation details are not
 // asserted — those are free to evolve.
 
+import 'package:dio/dio.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/method_override_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/subproject_interceptor.dart';
-import 'package:dio/dio.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('P2xClient — HTTPS-only baseUrl (TS parity item 3)', () {
     test('throws on a cleartext http:// base URL for a non-local host', () {
       expect(
         () => P2xClient(
-          config: const P2xClientConfig(baseUrl: 'http://api.project20x.com/api'),
+          config:
+              const P2xClientConfig(baseUrl: 'http://api.project20x.com/api'),
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -31,7 +32,8 @@ void main() {
     test('allows https:// to a public host', () {
       expect(
         () => P2xClient(
-          config: const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
+          config:
+              const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
         ),
         returnsNormally,
       );
@@ -109,8 +111,11 @@ void main() {
       expect(stack[1], isA<SubprojectInterceptor>());
       expect(stack[2], isA<MethodOverrideInterceptor>());
       expect(stack[3], isA<IdempotencyInterceptor>());
-      expect(stack[4], isA<ErrorInterceptor>(),
-          reason: 'ErrorInterceptor must be last');
+      expect(
+        stack[4],
+        isA<ErrorInterceptor>(),
+        reason: 'ErrorInterceptor must be last',
+      );
     });
 
     test('default Content-Type is application/json on every request', () async {
@@ -119,27 +124,33 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
-      expect(response.requestOptions.headers['Content-Type'],
-          contains('application/json'));
+      expect(
+        response.requestOptions.headers['Content-Type'],
+        contains('application/json'),
+      );
     });
   });
 
   group('P2xClient — Authorization header', () {
     test('injects Bearer token from getToken when present', () async {
-      String? currentToken = 'tok-abc-123';
+      const currentToken = 'tok-abc-123';
       final client = P2xClient(
         config: P2xClientConfig(
           baseUrl: 'https://api.project20x.com/api',
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -156,13 +167,17 @@ void main() {
           getToken: () => null,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
-      expect(response.requestOptions.headers.containsKey('Authorization'),
-          isFalse);
+      expect(
+        response.requestOptions.headers.containsKey('Authorization'),
+        isFalse,
+      );
     });
 
     test('omits Authorization header when getToken is not configured',
@@ -172,13 +187,17 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
-      expect(response.requestOptions.headers.containsKey('Authorization'),
-          isFalse);
+      expect(
+        response.requestOptions.headers.containsKey('Authorization'),
+        isFalse,
+      );
     });
 
     test('re-reads getToken on every request (token rotation works)', () async {
@@ -189,8 +208,10 @@ void main() {
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final first = await client.dio.get<dynamic>('/me');
       expect(first.requestOptions.headers['Authorization'], 'Bearer tok-first');
@@ -198,7 +219,9 @@ void main() {
       currentToken = 'tok-second';
       final second = await client.dio.get<dynamic>('/me');
       expect(
-          second.requestOptions.headers['Authorization'], 'Bearer tok-second');
+        second.requestOptions.headers['Authorization'],
+        'Bearer tok-second',
+      );
     });
   });
 
@@ -210,13 +233,17 @@ void main() {
           getDomain: () => 'nutriscan.codify.ai',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/me', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
       expect(
-          response.requestOptions.headers['X-Domain'], 'nutriscan.codify.ai');
+        response.requestOptions.headers['X-Domain'],
+        'nutriscan.codify.ai',
+      );
     });
 
     test('omits X-Domain header when getDomain returns null', () async {
@@ -226,8 +253,10 @@ void main() {
           getDomain: () => null,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -240,8 +269,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load', (req) => req.reply(200, {'data': {}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -256,8 +287,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
+      DioAdapter(dio: client.dio).onGet(
         '/me',
         (req) => req.reply(200, {
           'success': true,
@@ -269,8 +299,9 @@ void main() {
       final response = await client.dio.get<Map<String, dynamic>>('/me');
 
       expect(response.statusCode, 200);
-      expect(response.data?['data']['id'], 42);
-      expect(response.data?['data']['name'], 'Alice');
+      final data = response.data?['data'] as Map<String, dynamic>?;
+      expect(data?['id'], 42);
+      expect(data?['name'], 'Alice');
     });
   });
 }

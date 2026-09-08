@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
-
-import '../client/interceptors/auth_interceptor.dart';
-import '../client/p2x_client.dart';
-import 'auth_models.dart';
-import 'password_swap_models.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show FirebaseSwapClient, ValidationException;
+import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
+import 'package:openyc_flutter_sdk/src/auth/password_swap_models.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 
 /// Auth client for the standard email/password sign-in endpoint —
 /// `POST /public/auth/sign-in`.

@@ -1,4 +1,6 @@
 import 'package:meta/meta.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show ChannelNames, RealtimeClient;
 
 /// A normalized event surfaced by [RealtimeClient] subscriptions.
 ///

@@ -5,11 +5,10 @@
 // bubble up as raw DioException. The 401 -> UnauthorizedException test is
 // marked accordingly until that interceptor lands.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _userJson() => <String, dynamic>{
       'id': 42,
@@ -36,8 +35,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/dashboard/login',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -69,8 +67,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/dashboard/login',
         (req) => req.reply(401, <String, dynamic>{
           'success': false,
@@ -101,8 +98,7 @@ void main() {
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/user/get-data',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -127,15 +123,13 @@ void main() {
           getToken: () => 'tok-xyz',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/logout',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
           'message': 'logged out',
           'data': <String, dynamic>{},
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);
@@ -153,8 +147,7 @@ void main() {
           getToken: () => 'tok-old',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/refresh',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -164,7 +157,6 @@ void main() {
             'refresh_token': 'r-new',
           },
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);
@@ -184,14 +176,12 @@ void main() {
           getToken: () => 'tok-old',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/refresh',
         (req) => req.reply(404, <String, dynamic>{
           'success': false,
           'message': 'Not Found',
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);

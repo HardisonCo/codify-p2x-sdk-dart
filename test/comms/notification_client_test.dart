@@ -9,12 +9,12 @@
 // IdempotencyInterceptor auto-injects an Idempotency-Key header on every
 // mutating request; we assert presence on the POST in this suite.
 
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/src/client/exceptions/unauthorized_exception.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 import 'package:openyc_flutter_sdk/src/comms/notification_client.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
   late P2xClient base;

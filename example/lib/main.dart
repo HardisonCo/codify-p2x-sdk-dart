@@ -1,6 +1,6 @@
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 /// Entry point for the openyc_flutter_sdk example app.
 ///
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('Base URL: $_baseUrl', textAlign: TextAlign.center),
+              const Text('Base URL: $_baseUrl', textAlign: TextAlign.center),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: _busy ? null : _callHealth,

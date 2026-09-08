@@ -4,11 +4,11 @@
 // parameter, matching the Laravel/Symfony method-override convention used by
 // the P2X backend's TS SDK.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/method_override_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/method_override_interceptor.dart';
 
 void main() {
   late P2xClient client;

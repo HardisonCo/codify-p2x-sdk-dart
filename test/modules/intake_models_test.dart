@@ -1,13 +1,13 @@
 // Tests for the Intake module model classes — Intake, IntakeHandoff,
 // IntakeStatus.
 
-import 'package:openyc_flutter_sdk/src/modules/intake_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/intake_models.dart';
 
 void main() {
   group('Intake', () {
     test('fromJson handles required fields with optionals null', () {
-      final i = Intake.fromJson(<String, dynamic>{
+      final i = Intake.fromJson(const <String, dynamic>{
         'id': 'intake_123',
         'subproject_id': 'sp_crohnie',
         'answers': <String, dynamic>{},
@@ -28,7 +28,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final i = Intake.fromJson(<String, dynamic>{
+      final i = Intake.fromJson(const <String, dynamic>{
         'id': 'intake_123',
         'subproject_id': 'sp_crohnie',
         'user_id': 'user_777',
@@ -160,7 +160,7 @@ void main() {
 
   group('IntakeHandoff', () {
     test('fromJson handles all fields with no nested intake', () {
-      final h = IntakeHandoff.fromJson(<String, dynamic>{
+      final h = IntakeHandoff.fromJson(const <String, dynamic>{
         'token': 'hndf_xyz',
         'expires_at': '2026-05-16T09:00:00Z',
         'target_subproject_domain': 'ibd.codifyhq.com',
@@ -176,7 +176,7 @@ void main() {
     });
 
     test('fromJson decodes nested intake when present', () {
-      final h = IntakeHandoff.fromJson(<String, dynamic>{
+      final h = IntakeHandoff.fromJson(const <String, dynamic>{
         'token': 'hndf_xyz',
         'expires_at': '2026-05-16T09:00:00Z',
         'target_subproject_domain': 'ibd.codifyhq.com',
@@ -233,7 +233,7 @@ void main() {
 
   group('IntakeStatus', () {
     test('fromJson handles required fields', () {
-      final s = IntakeStatus.fromJson(<String, dynamic>{
+      final s = IntakeStatus.fromJson(const <String, dynamic>{
         'intake_id': 'intake_abc',
         'status': 'voice_pending',
         'updated_at': '2026-05-16T08:00:00Z',

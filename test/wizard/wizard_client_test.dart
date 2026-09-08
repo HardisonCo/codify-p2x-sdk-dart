@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/wizard/wizard_client.dart';
 
 P2xClient _newClient() => P2xClient(
       config: const P2xClientConfig(
@@ -14,10 +13,10 @@ P2xClient _newClient() => P2xClient(
 
 void main() {
   group('WizardClient.start', () {
-    test('POSTs /wizard/start with problem + metadata, returns deal_id', () async {
+    test('POSTs /wizard/start with problem + metadata, returns deal_id',
+        () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/start',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -49,10 +48,10 @@ void main() {
   });
 
   group('WizardClient.getState', () {
-    test('GETs /wizard/get-state/{protocol} and returns the data map', () async {
+    test('GETs /wizard/get-state/{protocol} and returns the data map',
+        () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/wizard/get-state/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -72,8 +71,7 @@ void main() {
   group('WizardClient.codify', () {
     test('POSTs /wizard/codify/{protocol} with optional payload', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/codify/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -95,8 +93,7 @@ void main() {
   group('WizardClient.setFinances', () {
     test('POSTs /wizard/set-finances/{protocol} with payload', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/set-finances/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -116,8 +113,7 @@ void main() {
 
     test('422 → ValidationException', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/set-finances/7',
         (req) => req.reply(422, <String, dynamic>{
           'success': false,
@@ -145,8 +141,7 @@ void main() {
   group('WizardClient.findMembers', () {
     test('POSTs /wizard/find-members with search and returns a list', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/find-members',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -168,8 +163,7 @@ void main() {
   group('WizardClient.validateEmail', () {
     test('POSTs /wizard/validate-email and returns the bool', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/validate-email',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -185,10 +179,10 @@ void main() {
   });
 
   group('WizardClient.connectStripe', () {
-    test('GETs /wizard/connect-stripe/{protocol} and returns the URL', () async {
+    test('GETs /wizard/connect-stripe/{protocol} and returns the URL',
+        () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/wizard/connect-stripe/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -208,8 +202,7 @@ void main() {
   group('WizardClient.publishProgram', () {
     test('POSTs /wizard/publish-program/{protocol} with settings', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/publish-program/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -231,8 +224,7 @@ void main() {
   group('WizardClient.getFinalizationState', () {
     test('GETs /wizard/finalization-state/{protocol}', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/wizard/finalization-state/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -251,8 +243,7 @@ void main() {
   group('WizardClient.stepBack', () {
     test('GETs /wizard/step-back/{protocol}', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/wizard/step-back/7',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,

@@ -1,5 +1,8 @@
-import '../client/p2x_client.dart';
-import 'wizard_models.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show DealsClient;
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/deals_client.dart'
+    show DealsClient;
+import 'package:openyc_flutter_sdk/src/wizard/wizard_models.dart';
 
 /// The OpenYC Five-Step Wizard client.
 ///
@@ -309,6 +312,8 @@ class WizardClient {
     final data = body['data'];
     if (data is Map<String, dynamic>) return data;
     if (data == null) return const <String, dynamic>{};
-    throw StateError('Malformed wizard response — "data" is ${data.runtimeType}');
+    throw StateError(
+      'Malformed wizard response — "data" is ${data.runtimeType}',
+    );
   }
 }

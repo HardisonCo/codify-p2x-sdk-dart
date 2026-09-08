@@ -1,13 +1,13 @@
 // Tests for the NIO integration model classes (CoinBalance,
 // CoinTransaction) — plain @immutable data classes (no freezed).
 
-import 'package:openyc_flutter_sdk/src/integrations/nio_integrations_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/integrations/nio_integrations_models.dart';
 
 void main() {
   group('CoinBalance', () {
     test('fromJson handles required fields', () {
-      final b = CoinBalance.fromJson(<String, dynamic>{
+      final b = CoinBalance.fromJson(const <String, dynamic>{
         'balance': 120,
         'lifetime_earned': 200,
         'lifetime_spent': 80,
@@ -88,7 +88,7 @@ void main() {
 
   group('CoinTransaction', () {
     test('fromJson handles required fields', () {
-      final tx = CoinTransaction.fromJson(<String, dynamic>{
+      final tx = CoinTransaction.fromJson(const <String, dynamic>{
         'id': 7,
         'type': 'earn',
         'amount': 5,
@@ -107,7 +107,7 @@ void main() {
     });
 
     test('fromJson defaults metadata to empty map when missing', () {
-      final tx = CoinTransaction.fromJson(<String, dynamic>{
+      final tx = CoinTransaction.fromJson(const <String, dynamic>{
         'id': 7,
         'type': 'spend',
         'amount': 10,
@@ -120,7 +120,7 @@ void main() {
     });
 
     test('fromJson reads metadata when present', () {
-      final tx = CoinTransaction.fromJson(<String, dynamic>{
+      final tx = CoinTransaction.fromJson(const <String, dynamic>{
         'id': 7,
         'type': 'spend',
         'amount': 10,

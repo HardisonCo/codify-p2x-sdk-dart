@@ -6,12 +6,12 @@
 //   GET /api/v1/subprojects/current
 //   GET /api/v1/settings/features
 
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 import 'package:openyc_flutter_sdk/src/subprojects/subprojects_client.dart';
 import 'package:openyc_flutter_sdk/src/subprojects/subprojects_models.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
   late P2xClient base;

@@ -10,7 +10,7 @@ import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_intercept
 /// Wrap a call with [run] to get up to [maxAttempts] tries, sleeping
 /// `baseDelay * 2^(attempt-1)` between attempts (capped at [maxDelay]).
 ///
-/// Only retries [shouldRetry]-positive throws. The default `shouldRetry` is
+/// Only retries `shouldRetry`-positive throws. The default `shouldRetry` is
 /// status- AND method-aware (parity with the TS SDK): it retries transient
 /// failures (5xx or a no-response transport error) for idempotent methods
 /// (GET/HEAD/OPTIONS/DELETE/PUT) — and for POST/PATCH ONLY when the caller
@@ -56,19 +56,17 @@ class RetryPolicy {
   }) async {
     assert(maxAttempts >= 1, 'maxAttempts must be >= 1');
     final retryCheck = shouldRetry ?? _defaultShouldRetry;
-    Object? lastError;
 
     for (var attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
         return await call();
       } on Object catch (e) {
-        lastError = e;
         if (attempt == maxAttempts || !retryCheck(e)) rethrow;
         await Future<void>.delayed(_delayFor(attempt));
       }
     }
     // Unreachable — the loop either returns or rethrows.
-    throw lastError ?? StateError('RetryPolicy exhausted without an error');
+    throw StateError('RetryPolicy exhausted without an error');
   }
 
   Duration _delayFor(int attempt) {

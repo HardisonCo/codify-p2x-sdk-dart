@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
@@ -5,7 +6,6 @@ import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_intercept
 import 'package:openyc_flutter_sdk/src/client/interceptors/method_override_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/subproject_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
-import 'package:dio/dio.dart';
 
 /// The base HTTP client for the P2X SDK. Wraps a Dio instance with the
 /// SDK-mandated interceptor stack (auth, subproject, method override,

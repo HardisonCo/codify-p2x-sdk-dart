@@ -1,10 +1,9 @@
 // Tests for GuestRegisterClient — the MOB anonymous device-UUID -> Sanctum
 // bearer endpoint.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/guest_register_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _authResponseJson(String t, {int userId = 99}) =>
     <String, dynamic>{
@@ -27,8 +26,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -55,8 +53,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -83,8 +80,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -114,11 +110,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
 
       // The mock matches the exact body shape — if guestRegister sent
       // {platform: null, app_version: null} this would not match.
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -147,8 +142,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,

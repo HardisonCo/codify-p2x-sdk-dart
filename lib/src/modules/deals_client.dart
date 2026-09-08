@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
-
-import '../client/p2x_client.dart';
-import 'deals_models.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show DealStepClient;
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/deal_step_client.dart'
+    show DealStepClient;
+import 'package:openyc_flutter_sdk/src/modules/deals_models.dart';
 
 /// Client for the OpenYC **Deal Wizard** — the `/api/wizard/deal/*` surface
 /// (`Modules/Deals`).
@@ -172,7 +174,7 @@ class DealsClient {
 
   /// POST (multipart) `/wizard/deal/{deal_id}/files` — intake step 3.
   ///
-  /// Uploads a single [file] of [fileType] (`document`, `image`, or `logo`).
+  /// Uploads a single file of [fileType] (`document`, `image`, or `logo`).
   /// Provide either a local [filePath] or in-memory [bytes] (with a
   /// [filename]). Returns the created [DealFile] (HTTP 201).
   Future<DealFile> uploadFile({

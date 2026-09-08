@@ -1,7 +1,7 @@
+import 'package:dio/dio.dart';
 import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
-import 'package:dio/dio.dart';
 
 /// Auth-domain client for the standard P2X email/password flow.
 ///

@@ -1,4 +1,8 @@
-import 'api_exception.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show P2xClientConfig;
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart'
+    show P2xClientConfig;
 
 /// HTTP 401 — the request was missing or had an invalid bearer token.
 ///

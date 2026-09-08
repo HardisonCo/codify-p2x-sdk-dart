@@ -1,3 +1,7 @@
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show UnauthorizedException, ValidationException;
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart'
+    show IdempotencyInterceptor;
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 import 'package:openyc_flutter_sdk/src/comms/chat_models.dart';
 

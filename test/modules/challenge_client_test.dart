@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/challenge_client.dart';
 
 P2xClient _newClient() => P2xClient(
       config: const P2xClientConfig(
@@ -12,8 +11,7 @@ P2xClient _newClient() => P2xClient(
 void main() {
   test('run POSTs /challenge/run', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/challenge/run',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -25,14 +23,14 @@ void main() {
         'challenge_id': 5,
       },
     );
-    final r = await ChallengeClient(p2x).run(personalChainId: 12, challengeId: 5);
+    final r =
+        await ChallengeClient(p2x).run(personalChainId: 12, challengeId: 5);
     expect(r['id'], 77);
   });
 
   test('startTask POSTs /challenge/start-task', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/challenge/start-task',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -53,8 +51,7 @@ void main() {
 
   test('getTypes GETs /challenge/get-types', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onGet(
+    DioAdapter(dio: p2x.dio).onGet(
       '/challenge/get-types',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,

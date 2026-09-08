@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../p2x_client_config.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 
 /// Dio interceptor that injects the `Authorization: Bearer <token>` header
 /// from [P2xClientConfig.getToken].
@@ -8,9 +8,9 @@ import '../p2x_client_config.dart';
 /// Behaviour:
 ///   * If `getToken` is `null` (not configured), no header is added.
 ///   * If `getToken` returns `null` or an empty string, no header is added.
-///   * Otherwise the header is set to `Bearer <token>` (with the Bearer prefix —
-///     unlike the legacy IBD backend's `Authorization: <jwt>` raw format, P2X
-///     uses Bearer per Laravel Sanctum convention).
+///   * Otherwise the header is set to `Bearer <token>` (with the Bearer
+///     prefix — unlike the legacy IBD backend's `Authorization: <jwt>` raw
+///     format, P2X uses Bearer per Laravel Sanctum convention).
 ///   * Per-call opt-out: callers can pass `extras['skip_auth'] = true` in
 ///     request options to suppress the header for a single request (used for
 ///     public endpoints like `/api/load`, Stripe webhook).

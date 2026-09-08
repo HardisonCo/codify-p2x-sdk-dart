@@ -1,13 +1,13 @@
 // Tests for the Items module models (Item, Collection, UserItem) —
 // plain @immutable data classes (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/items_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/items_models.dart';
 
 void main() {
   group('Item', () {
     test('fromJson handles required fields', () {
-      final item = Item.fromJson(<String, dynamic>{
+      final item = Item.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'type': 'meal',
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('fromJson handles optional image_url and collection_id', () {
-      final item = Item.fromJson(<String, dynamic>{
+      final item = Item.fromJson(const <String, dynamic>{
         'id': 12,
         'subproject_id': 3,
         'type': 'meal',
@@ -49,7 +49,7 @@ void main() {
     });
 
     test('fromJson treats missing payload as empty map', () {
-      final item = Item.fromJson(<String, dynamic>{
+      final item = Item.fromJson(const <String, dynamic>{
         'id': 13,
         'subproject_id': 3,
         'type': 'kit',
@@ -87,7 +87,6 @@ void main() {
         type: 'meal',
         name: 'Original',
         description: 'd',
-        payload: const <String, dynamic>{},
         createdAt: DateTime.parse('2026-05-01T08:00:00Z'),
         updatedAt: DateTime.parse('2026-05-01T08:00:00Z'),
       );
@@ -128,7 +127,7 @@ void main() {
 
   group('Collection', () {
     test('fromJson handles required fields', () {
-      final c = Collection.fromJson(<String, dynamic>{
+      final c = Collection.fromJson(const <String, dynamic>{
         'id': 7,
         'subproject_id': 3,
         'type': 'meal',
@@ -149,7 +148,7 @@ void main() {
     });
 
     test('fromJson handles optional image_url', () {
-      final c = Collection.fromJson(<String, dynamic>{
+      final c = Collection.fromJson(const <String, dynamic>{
         'id': 7,
         'subproject_id': 3,
         'type': 'meal',
@@ -197,7 +196,7 @@ void main() {
 
   group('UserItem', () {
     test('fromJson handles required fields without nested item', () {
-      final u = UserItem.fromJson(<String, dynamic>{
+      final u = UserItem.fromJson(const <String, dynamic>{
         'id': 100,
         'user_id': 42,
         'item_id': 11,
@@ -214,7 +213,7 @@ void main() {
     });
 
     test('fromJson hydrates nested item when present', () {
-      final u = UserItem.fromJson(<String, dynamic>{
+      final u = UserItem.fromJson(const <String, dynamic>{
         'id': 100,
         'user_id': 42,
         'item_id': 11,
@@ -238,7 +237,7 @@ void main() {
     });
 
     test('fromJson treats missing metadata as empty map', () {
-      final u = UserItem.fromJson(<String, dynamic>{
+      final u = UserItem.fromJson(const <String, dynamic>{
         'id': 100,
         'user_id': 42,
         'item_id': 11,

@@ -1,6 +1,9 @@
 import 'package:meta/meta.dart';
-
-import 'auth_models.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart'
+    show FirebaseSwapClient;
+import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
+import 'package:openyc_flutter_sdk/src/auth/firebase_swap_client.dart'
+    show FirebaseSwapClient;
 
 /// The raw response shape returned by `POST /public/auth/sign-in`.
 ///
@@ -126,8 +129,7 @@ class PasswordSignInResponse {
       );
 
   @override
-  String toString() =>
-      'PasswordSignInResponse(id: $id, username: $username, '
+  String toString() => 'PasswordSignInResponse(id: $id, username: $username, '
       'roles: $roles, forcePasswordReset: $forcePasswordReset)';
 }
 

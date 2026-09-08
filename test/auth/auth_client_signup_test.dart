@@ -10,11 +10,10 @@
 // Kept in a sibling file so the original auth_client_test.dart stays
 // untouched (minimizes merge conflicts with parallel work).
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _userJson() => <String, dynamic>{
       'id': 42,
@@ -42,8 +41,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -75,8 +73,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -108,15 +105,15 @@ void main() {
           getToken: () => 'tok-should-not-be-sent',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
-        '/auth/sign-up',
-        (req) => req.reply(201, <String, dynamic>{
-          'success': true,
-          'data': _authResponseJson('tok-new'),
-        }),
-        data: Matchers.any,
-      );
+      final adapter = DioAdapter(dio: p2x.dio)
+        ..onPost(
+          '/auth/sign-up',
+          (req) => req.reply(201, <String, dynamic>{
+            'success': true,
+            'data': _authResponseJson('tok-new'),
+          }),
+          data: Matchers.any,
+        );
 
       final auth = AuthClient(p2x);
       await auth.signUp(
@@ -159,8 +156,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -192,8 +188,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/password/reset',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -218,8 +213,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/new-password',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -251,8 +245,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/finish-social-registration',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,

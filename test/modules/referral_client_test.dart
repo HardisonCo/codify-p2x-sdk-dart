@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/referral_client.dart';
 
 P2xClient _newClient() => P2xClient(
       config: const P2xClientConfig(
@@ -12,8 +11,7 @@ P2xClient _newClient() => P2xClient(
 void main() {
   test('confirm POSTs /referral/confirm with destination', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/referral/confirm',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -36,8 +34,7 @@ void main() {
 
   test('create POSTs /referral', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/referral',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,

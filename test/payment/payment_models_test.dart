@@ -4,13 +4,13 @@
 // These are plain @immutable data classes (no freezed) — see the auth
 // and modules sibling tests for the same shape.
 
-import 'package:openyc_flutter_sdk/src/payment/payment_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/payment/payment_models.dart';
 
 void main() {
   group('PaymentMethod', () {
     test('fromJson handles full Stripe pm_* row', () {
-      final pm = PaymentMethod.fromJson(<String, dynamic>{
+      final pm = PaymentMethod.fromJson(const <String, dynamic>{
         'id': 'pm_1NXYZ',
         'brand': 'visa',
         'last4': '4242',
@@ -28,7 +28,7 @@ void main() {
     });
 
     test('fromJson defaults isDefault to false when absent', () {
-      final pm = PaymentMethod.fromJson(<String, dynamic>{
+      final pm = PaymentMethod.fromJson(const <String, dynamic>{
         'id': 'pm_1',
         'brand': 'mastercard',
         'last4': '1234',
@@ -75,7 +75,7 @@ void main() {
 
   group('SetupIntent', () {
     test('fromJson handles all fields', () {
-      final s = SetupIntent.fromJson(<String, dynamic>{
+      final s = SetupIntent.fromJson(const <String, dynamic>{
         'client_secret': 'seti_1_secret_abc',
         'customer_id': 'cus_123',
         'status': 'requires_payment_method',
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('fromJson tolerates missing customer_id', () {
-      final s = SetupIntent.fromJson(<String, dynamic>{
+      final s = SetupIntent.fromJson(const <String, dynamic>{
         'client_secret': 'seti_1_secret_abc',
         'status': 'requires_payment_method',
       });
@@ -109,7 +109,7 @@ void main() {
 
   group('Subscription', () {
     test('fromJson handles the canonical row shape', () {
-      final s = Subscription.fromJson(<String, dynamic>{
+      final s = Subscription.fromJson(const <String, dynamic>{
         'id': 'sub_123',
         'status': 'active',
         'current_period_end': '2026-12-01T00:00:00Z',
@@ -148,7 +148,7 @@ void main() {
     test(
         'parses Laravel paginator envelope {data, current_page, last_page, '
         'total}', () {
-      final p = PaginatedSubscriptions.fromJson(<String, dynamic>{
+      final p = PaginatedSubscriptions.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 'sub_1',
@@ -183,7 +183,7 @@ void main() {
     });
 
     test('handles an empty page gracefully', () {
-      final p = PaginatedSubscriptions.fromJson(<String, dynamic>{
+      final p = PaginatedSubscriptions.fromJson(const <String, dynamic>{
         'data': <dynamic>[],
         'current_page': 1,
         'last_page': 1,

@@ -1,11 +1,10 @@
 // Tests for FirebaseSwapClient — the NIO Firebase-ID-token -> Sanctum-bearer
 // swap endpoint.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/firebase_swap_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _authResponseJson(String t) => <String, dynamic>{
       'user': <String, dynamic>{
@@ -27,8 +26,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/nio/firebase-login',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -57,8 +55,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/nio/firebase-login',
         (req) => req.reply(401, <String, dynamic>{
           'success': false,

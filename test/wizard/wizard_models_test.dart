@@ -4,7 +4,7 @@ import 'package:openyc_flutter_sdk/src/wizard/wizard_models.dart';
 void main() {
   group('WizardStartResponse.fromJson', () {
     test('reads deal_id, state, protocol_id and stashes the rest', () {
-      final r = WizardStartResponse.fromJson(<String, dynamic>{
+      final r = WizardStartResponse.fromJson(const <String, dynamic>{
         'deal_id': 42,
         'state': 'analyzing',
         'protocol_id': 7,
@@ -19,7 +19,7 @@ void main() {
     });
 
     test('tolerates missing protocol_id', () {
-      final r = WizardStartResponse.fromJson(<String, dynamic>{
+      final r = WizardStartResponse.fromJson(const <String, dynamic>{
         'deal_id': 1,
         'state': 'analyzing',
       });
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('accepts dealId/protocolId camelCase as fallback', () {
-      final r = WizardStartResponse.fromJson(<String, dynamic>{
+      final r = WizardStartResponse.fromJson(const <String, dynamic>{
         'dealId': 99,
         'protocolId': 11,
         'state': 'codified',

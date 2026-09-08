@@ -1,13 +1,13 @@
 // Tests for the RunActivity + RunLocationPoint model classes — plain
 // @immutable data classes (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/activity_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/activity_models.dart';
 
 void main() {
   group('RunLocationPoint', () {
     test('fromJson handles required fields', () {
-      final p = RunLocationPoint.fromJson(<String, dynamic>{
+      final p = RunLocationPoint.fromJson(const <String, dynamic>{
         'latitude': 37.7749,
         'longitude': -122.4194,
         'recorded_at': '2026-05-01T08:00:00Z',
@@ -21,7 +21,7 @@ void main() {
     });
 
     test('fromJson handles optional altitude + accuracy', () {
-      final p = RunLocationPoint.fromJson(<String, dynamic>{
+      final p = RunLocationPoint.fromJson(const <String, dynamic>{
         'latitude': 37.7749,
         'longitude': -122.4194,
         'altitude_meters': 30.5,
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('fromJson coerces integer lat/lng/altitude to double', () {
-      final p = RunLocationPoint.fromJson(<String, dynamic>{
+      final p = RunLocationPoint.fromJson(const <String, dynamic>{
         'latitude': 37,
         'longitude': -122,
         'altitude_meters': 30,
@@ -101,7 +101,7 @@ void main() {
 
   group('RunActivity', () {
     test('fromJson handles required fields', () {
-      final r = RunActivity.fromJson(<String, dynamic>{
+      final r = RunActivity.fromJson(const <String, dynamic>{
         'distance_meters': 5000.0,
         'duration_seconds': 1800,
         'started_at': '2026-05-01T08:00:00Z',
@@ -121,7 +121,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields including route points', () {
-      final r = RunActivity.fromJson(<String, dynamic>{
+      final r = RunActivity.fromJson(const <String, dynamic>{
         'id': 7,
         'distance_meters': 5000.0,
         'duration_seconds': 1800,
@@ -156,7 +156,7 @@ void main() {
     });
 
     test('fromJson coerces integer distance to double', () {
-      final r = RunActivity.fromJson(<String, dynamic>{
+      final r = RunActivity.fromJson(const <String, dynamic>{
         'distance_meters': 5000,
         'duration_seconds': 1800,
         'started_at': '2026-05-01T08:00:00Z',

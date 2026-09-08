@@ -4,13 +4,13 @@
 // Covers JSON round-trips, optional-field permissiveness, copyWith,
 // value-equality, and toString.
 
-import 'package:openyc_flutter_sdk/src/subprojects/subprojects_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/subprojects/subprojects_models.dart';
 
 void main() {
   group('Subproject', () {
     test('fromJson handles required fields (id, slug, name, domain)', () {
-      final sp = Subproject.fromJson(<String, dynamic>{
+      final sp = Subproject.fromJson(const <String, dynamic>{
         'id': 2,
         'slug': 'crohnie',
         'name': 'Crohnie AI',
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final sp = Subproject.fromJson(<String, dynamic>{
+      final sp = Subproject.fromJson(const <String, dynamic>{
         'id': 5,
         'slug': 'doh-ny',
         'name': 'DOH NY',
@@ -122,7 +122,7 @@ void main() {
 
   group('SubprojectFeatures', () {
     test('fromJson reads the flags map', () {
-      final feats = SubprojectFeatures.fromJson(<String, dynamic>{
+      final feats = SubprojectFeatures.fromJson(const <String, dynamic>{
         'flags': <String, dynamic>{
           'ibd_doctor_request': true,
           'phm_labs': false,
@@ -136,7 +136,7 @@ void main() {
     });
 
     test('fromJson handles missing flags as empty map', () {
-      final feats = SubprojectFeatures.fromJson(<String, dynamic>{});
+      final feats = SubprojectFeatures.fromJson(const <String, dynamic>{});
       expect(feats.flags, isEmpty);
     });
 

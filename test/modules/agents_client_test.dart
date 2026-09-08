@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/agents_client.dart';
 
 P2xClient _newClient({
   String? token,
@@ -21,8 +20,7 @@ void main() {
   group('AgentsClient.list', () {
     test('GETs /agents and returns a list', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/agents',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -42,8 +40,7 @@ void main() {
   group('AgentsClient.create', () {
     test('POSTs /agents with name + type', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -68,8 +65,7 @@ void main() {
   group('AgentsClient.executeProtocol', () {
     test('POSTs /agents/execute-protocol with protocol_id', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/execute-protocol',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -93,8 +89,7 @@ void main() {
   group('AgentsClient.activate / deactivate / clone', () {
     test('lifecycle endpoints hit the right routes', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter
+      DioAdapter(dio: p2x.dio)
         ..onPost(
           '/agents/a-1/activate',
           (req) => req.reply(200, <String, dynamic>{
@@ -102,7 +97,6 @@ void main() {
             'message': 'ok',
             'data': <String, dynamic>{'id': 'a-1', 'status': 'active'},
           }),
-          data: null,
         )
         ..onPost(
           '/agents/a-1/deactivate',
@@ -111,7 +105,6 @@ void main() {
             'message': 'ok',
             'data': <String, dynamic>{'id': 'a-1', 'status': 'inactive'},
           }),
-          data: null,
         )
         ..onPost(
           '/agents/a-1/clone',
@@ -134,8 +127,7 @@ void main() {
   group('AgentsClient.addTool', () {
     test('POSTs /agents/{uuid}/tools/{tool}', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/a-1/tools/calculator',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -145,7 +137,6 @@ void main() {
             'tools': <String>['calculator'],
           },
         }),
-        data: null,
       );
       final agents = AgentsClient(p2x);
       final r = await agents.addTool(uuid: 'a-1', tool: 'calculator');
@@ -157,8 +148,7 @@ void main() {
     test('POSTs /agents/intelligent/intent/process and returns flat envelope',
         () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/intelligent/intent/process',
         (req) => req.reply(200, <String, dynamic>{
           'status': 'success',
@@ -182,8 +172,7 @@ void main() {
   group('AgentsClient.create (full payload)', () {
     test('POSTs every optional field when supplied', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{'id': 'a-9'},
@@ -219,8 +208,7 @@ void main() {
   group('AgentsClient.show / update / destroy', () {
     test('GETs /agents/{uuid}', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/agents/a-1',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{'id': 'a-1', 'name': 'A'},
@@ -232,8 +220,7 @@ void main() {
 
     test('PUT /agents/{uuid} rewrites to POST ?_method=PUT', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/a-1',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{'id': 'a-1', 'name': 'New'},
@@ -250,8 +237,7 @@ void main() {
 
     test('DELETE /agents/{uuid} completes', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onDelete(
+      DioAdapter(dio: p2x.dio).onDelete(
         '/agents/a-1',
         (req) => req.reply(200, <String, dynamic>{'success': true}),
       );
@@ -262,8 +248,7 @@ void main() {
   group('AgentsClient.removeTool', () {
     test('DELETE /agents/{uuid}/tools/{tool} completes', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onDelete(
+      DioAdapter(dio: p2x.dio).onDelete(
         '/agents/a-1/tools/calculator',
         (req) => req.reply(200, <String, dynamic>{'success': true}),
       );
@@ -277,8 +262,7 @@ void main() {
   group('AgentsClient.resumeExecution / executions / statistics', () {
     test('POSTs /agents/resume-execution with execution_id + input', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/resume-execution',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{'execution_id': 99, 'status': 'running'},
@@ -301,8 +285,7 @@ void main() {
 
     test('GETs /agents/{uuid}/executions as a list', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/agents/a-1/executions',
         (req) => req.reply(200, <String, dynamic>{
           'data': <Map<String, dynamic>>[
@@ -316,8 +299,7 @@ void main() {
 
     test('GETs /agents/{uuid}/statistics as a map', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/agents/a-1/statistics',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{'runs': 42},
@@ -329,8 +311,7 @@ void main() {
 
     test('GETs /protocol/agents/all as a list', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/protocol/agents/all',
         (req) => req.reply(200, <String, dynamic>{
           'data': <Map<String, dynamic>>[
@@ -347,8 +328,7 @@ void main() {
   group('AgentsClient intelligent (batch / entity / search / statistics)', () {
     test('POSTs /agents/intelligent/intent/batch', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/intelligent/intent/batch',
         (req) => req.reply(200, <String, dynamic>{'status': 'success'}),
         data: <String, dynamic>{
@@ -362,8 +342,7 @@ void main() {
 
     test('POSTs /agents/intelligent/entity/identify', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/intelligent/entity/identify',
         (req) => req.reply(200, <String, dynamic>{'status': 'success'}),
         data: <String, dynamic>{'entity': 'FDA'},
@@ -374,8 +353,7 @@ void main() {
 
     test('POSTs /agents/intelligent/search', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/agents/intelligent/search',
         (req) => req.reply(200, <String, dynamic>{'status': 'success'}),
         data: <String, dynamic>{
@@ -398,8 +376,7 @@ void main() {
 
     test('GETs /agents/intelligent/statistics', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/agents/intelligent/statistics',
         (req) => req.reply(200, <String, dynamic>{'status': 'success'}),
       );
@@ -413,8 +390,7 @@ void main() {
     test('POSTs /wizard/resource-owner with owner + listing + auto_rules',
         () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner',
         (req) => req.reply(201, <String, dynamic>{
           'data': <String, dynamic>{
@@ -453,8 +429,7 @@ void main() {
 
     test('omits auto_rules when not supplied', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner',
         (req) => req.reply(201, <String, dynamic>{
           'data': <String, dynamic>{
@@ -489,8 +464,7 @@ void main() {
     test('attaches Authorization, X-Domain and Idempotency-Key headers',
         () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner',
         (req) => req.reply(201, <String, dynamic>{
           'data': <String, dynamic>{
@@ -514,8 +488,7 @@ void main() {
 
     test('422 surfaces as ValidationException with field errors', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner',
         (req) => req.reply(422, <String, dynamic>{
           'message': 'The given data was invalid.',
@@ -541,18 +514,17 @@ void main() {
       );
     });
 
-    test('401 throws UnauthorizedException and fires onUnauthorized',
-        () async {
+    test('401 throws UnauthorizedException and fires onUnauthorized', () async {
       var fired = 0;
       final p2x = _newClient(
         token: 'tok-1',
         domain: 'phm.ai',
         onUnauthorized: () => fired++,
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner',
-        (req) => req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
+        (req) =>
+            req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
         data: Matchers.any,
       );
       final agents = AgentsClient(p2x);
@@ -571,8 +543,7 @@ void main() {
     test('POSTs /wizard/resource-owner/{id}/activate and decodes the agent',
         () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/55/activate',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{
@@ -593,8 +564,7 @@ void main() {
 
     test('422 (non-draft listing) surfaces as ValidationException', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/55/activate',
         (req) => req.reply(422, <String, dynamic>{
           'message': 'Resource listing is not in draft status.',
@@ -612,8 +582,7 @@ void main() {
 
     test('404 (cross-tenant listing) surfaces as NotFoundException', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/55/activate',
         (req) => req.reply(404, <String, dynamic>{
           'message': 'Resource listing not found in current tenant.',
@@ -631,8 +600,7 @@ void main() {
     test('POSTs /wizard/resource-owner/{id}/claim (fill) and decodes invite',
         () async {
       final p2x = _newClient(token: 'tok-worker', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{
@@ -659,8 +627,7 @@ void main() {
 
     test('sends on_behalf_of_user_id for machine claim-back', () async {
       final p2x = _newClient(token: 'tok-machine', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{
@@ -683,8 +650,7 @@ void main() {
 
     test('sends a null body when no optional fields supplied', () async {
       final p2x = _newClient(token: 'tok-worker', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(200, <String, dynamic>{
           'data': <String, dynamic>{
@@ -704,8 +670,7 @@ void main() {
     test('202 escalate decodes with isEscalated true and null invite ids',
         () async {
       final p2x = _newClient(token: 'tok-worker', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(202, <String, dynamic>{
           'data': <String, dynamic>{
@@ -729,8 +694,7 @@ void main() {
 
     test('422 (auto-rules reject) surfaces as ValidationException', () async {
       final p2x = _newClient(token: 'tok-worker', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(422, <String, dynamic>{
           'message': 'Gig claim rejected by the listing auto-rules.',
@@ -750,8 +714,7 @@ void main() {
     test('404 (staffing v2 off / not claimable) surfaces as NotFoundException',
         () async {
       final p2x = _newClient(token: 'tok-worker', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/wizard/resource-owner/77/claim',
         (req) => req.reply(404, <String, dynamic>{
           'message': 'Resource listing not found in current tenant.',

@@ -8,7 +8,7 @@ import 'package:openyc_flutter_sdk/src/auth/password_swap_models.dart';
 void main() {
   group('PasswordSignInResponse.fromJson', () {
     test('decodes the canonical camelCase shape', () {
-      final r = PasswordSignInResponse.fromJson(<String, dynamic>{
+      final r = PasswordSignInResponse.fromJson(const <String, dynamic>{
         'accessToken': 'tok-1',
         'id': 1,
         'username': 'a@b.com',
@@ -29,7 +29,7 @@ void main() {
     });
 
     test('decodes the snake_case access_token fallback', () {
-      final r = PasswordSignInResponse.fromJson(<String, dynamic>{
+      final r = PasswordSignInResponse.fromJson(const <String, dynamic>{
         'access_token': 'tok-snake',
         'id': 2,
         'username': 'snake@b.com',
@@ -43,7 +43,7 @@ void main() {
     });
 
     test('tolerates empty full_name and missing permissions', () {
-      final r = PasswordSignInResponse.fromJson(<String, dynamic>{
+      final r = PasswordSignInResponse.fromJson(const <String, dynamic>{
         'accessToken': 'tok-empty',
         'id': 3,
         'username': 'empty@b.com',
@@ -57,13 +57,13 @@ void main() {
 
   group('PasswordSignInResponse.toAuthResponse', () {
     test('falls back to username when fullName is empty', () {
-      final r = PasswordSignInResponse(
+      const r = PasswordSignInResponse(
         accessToken: 't',
         id: 4,
         username: 'fallback@b.com',
         fullName: '',
-        roles: const <String>['user'],
-        permissions: const <String>[],
+        roles: <String>['user'],
+        permissions: <String>[],
       );
       final a = r.toAuthResponse();
       expect(a.user.name, 'fallback@b.com');
@@ -71,13 +71,13 @@ void main() {
     });
 
     test('uses fullName when present', () {
-      final r = PasswordSignInResponse(
+      const r = PasswordSignInResponse(
         accessToken: 't',
         id: 5,
         username: 'present@b.com',
         fullName: 'Present Person',
-        roles: const <String>['admin'],
-        permissions: const <String>[],
+        roles: <String>['admin'],
+        permissions: <String>[],
       );
       expect(r.toAuthResponse().user.name, 'Present Person');
     });
