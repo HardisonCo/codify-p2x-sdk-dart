@@ -309,6 +309,7 @@ class WizardClient {
     final data = body['data'];
     if (data is Map<String, dynamic>) return data;
     if (data == null) return const <String, dynamic>{};
-    throw StateError('Malformed wizard response — "data" is ${data.runtimeType}');
+    throw StateError(
+        'Malformed wizard response — "data" is ${data.runtimeType}');
   }
 }

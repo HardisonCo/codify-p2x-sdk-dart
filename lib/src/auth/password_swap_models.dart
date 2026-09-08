@@ -126,8 +126,7 @@ class PasswordSignInResponse {
       );
 
   @override
-  String toString() =>
-      'PasswordSignInResponse(id: $id, username: $username, '
+  String toString() => 'PasswordSignInResponse(id: $id, username: $username, '
       'roles: $roles, forcePasswordReset: $forcePasswordReset)';
 }
 

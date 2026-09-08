@@ -19,7 +19,8 @@ P2xClient _newClient({
 
 void main() {
   group('WorkflowClient.startPipeline', () {
-    test('POSTs /workflow/codify-pipeline/start with problem + session', () async {
+    test('POSTs /workflow/codify-pipeline/start with problem + session',
+        () async {
       final p2x = _newClient();
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
@@ -274,8 +275,7 @@ void main() {
       expect(await wf.listPipeConfigs(subprojectId: 7), isEmpty);
     });
 
-    test('401 throws UnauthorizedException and fires onUnauthorized',
-        () async {
+    test('401 throws UnauthorizedException and fires onUnauthorized', () async {
       var fired = 0;
       final p2x = _newClient(
         token: 'tok-admin',
@@ -285,7 +285,8 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onGet(
         '/admin/subproject/7/pipe-config',
-        (req) => req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
+        (req) =>
+            req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
       );
       final wf = WorkflowClient(p2x);
       await expectLater(
@@ -440,7 +441,8 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
         '/admin/subproject/7/pipe-config/99',
-        (req) => req.reply(404, <String, dynamic>{'message': 'Pipe config not found'}),
+        (req) => req
+            .reply(404, <String, dynamic>{'message': 'Pipe config not found'}),
         data: Matchers.any,
         queryParameters: <String, dynamic>{'_method': 'PATCH'},
       );

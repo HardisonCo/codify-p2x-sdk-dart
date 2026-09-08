@@ -25,7 +25,8 @@ void main() {
         'challenge_id': 5,
       },
     );
-    final r = await ChallengeClient(p2x).run(personalChainId: 12, challengeId: 5);
+    final r =
+        await ChallengeClient(p2x).run(personalChainId: 12, challengeId: 5);
     expect(r['id'], 77);
   });
 

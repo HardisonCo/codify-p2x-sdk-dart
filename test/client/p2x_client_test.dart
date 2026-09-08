@@ -22,7 +22,8 @@ void main() {
     test('throws on a cleartext http:// base URL for a non-local host', () {
       expect(
         () => P2xClient(
-          config: const P2xClientConfig(baseUrl: 'http://api.project20x.com/api'),
+          config:
+              const P2xClientConfig(baseUrl: 'http://api.project20x.com/api'),
         ),
         throwsA(isA<ArgumentError>()),
       );
@@ -31,7 +32,8 @@ void main() {
     test('allows https:// to a public host', () {
       expect(
         () => P2xClient(
-          config: const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
+          config:
+              const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
         ),
         returnsNormally,
       );

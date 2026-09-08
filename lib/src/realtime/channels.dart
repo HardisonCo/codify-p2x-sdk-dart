@@ -22,5 +22,6 @@ abstract final class ChannelNames {
 
   /// Per-session pipeline state — the codify-pipeline workflow publishes
   /// progress events here for the UI to render.
-  static String pipelineState(String session) => 'private-pipeline-state-$session';
+  static String pipelineState(String session) =>
+      'private-pipeline-state-$session';
 }

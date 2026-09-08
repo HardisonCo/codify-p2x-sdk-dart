@@ -25,7 +25,9 @@ void main() {
           <String, dynamic>{'role': 'gastroenterologist'},
         ],
         'financing': <String, dynamic>{'total_cents': 37700},
-        'expertise': <String, dynamic>{'codesets': <String>['ICD-10']},
+        'expertise': <String, dynamic>{
+          'codesets': <String>['ICD-10']
+        },
         'pipeline_steps': <dynamic>[],
         'outcome_score': 75,
         'outcome_report': <String, dynamic>{'criteria_met': 2},

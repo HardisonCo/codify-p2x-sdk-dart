@@ -173,11 +173,11 @@ void main() {
       );
     });
 
-    test('401 throws UnauthorizedException and fires onUnauthorized',
-        () async {
+    test('401 throws UnauthorizedException and fires onUnauthorized', () async {
       adapter.onPost(
         '/wizard/deal/define',
-        (req) => req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
+        (req) =>
+            req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
         data: Matchers.any,
       );
 
@@ -260,7 +260,10 @@ void main() {
         '/wizard/deal/$_guid/required-info',
         (req) => req.reply(200, dealBody(state: 'codified')),
         data: <String, dynamic>{
-          'answers': <String, dynamic>{'medication': 'Skyrizi', 'dose': '150mg'},
+          'answers': <String, dynamic>{
+            'medication': 'Skyrizi',
+            'dose': '150mg'
+          },
         },
       );
 
@@ -379,7 +382,9 @@ void main() {
         (req) => req.reply(422, <String, dynamic>{
           'message': 'The selected applicant type is invalid.',
           'errors': <String, dynamic>{
-            'applicant_type': <String>['The selected applicant type is invalid.'],
+            'applicant_type': <String>[
+              'The selected applicant type is invalid.'
+            ],
           },
         }),
         data: Matchers.any,

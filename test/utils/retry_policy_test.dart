@@ -59,7 +59,8 @@ void main() {
       expect(await countCalls(ApiException(status: 404, message: 'x')), 1);
     });
 
-    test('classifies a raw DioException by method (no HTTP response)', () async {
+    test('classifies a raw DioException by method (no HTTP response)',
+        () async {
       DioException dio(
         String method, {
         Map<String, dynamic>? query,

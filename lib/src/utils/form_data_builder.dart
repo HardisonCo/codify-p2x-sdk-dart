@@ -24,7 +24,8 @@ import 'package:dio/dio.dart';
 /// await dio.post('/something', data: fd.build());
 /// ```
 class FormDataBuilder {
-  final List<MapEntry<String, dynamic>> _entries = <MapEntry<String, dynamic>>[];
+  final List<MapEntry<String, dynamic>> _entries =
+      <MapEntry<String, dynamic>>[];
 
   /// Append a scalar [key]=[value] pair. `null` values are skipped.
   void add(String key, Object? value) {

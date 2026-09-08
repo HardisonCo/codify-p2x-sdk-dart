@@ -9,9 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 void main() {
-  test(
-      'MOB surface (when it goes online) — guest auth, activity, KPI',
-      () {
+  test('MOB surface (when it goes online) — guest auth, activity, KPI', () {
     final p2x = P2xClient(
       config: P2xClientConfig(
         baseUrl: 'https://api.project20x.com/api',

@@ -541,8 +541,7 @@ void main() {
       );
     });
 
-    test('401 throws UnauthorizedException and fires onUnauthorized',
-        () async {
+    test('401 throws UnauthorizedException and fires onUnauthorized', () async {
       var fired = 0;
       final p2x = _newClient(
         token: 'tok-1',
@@ -552,7 +551,8 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
         '/wizard/resource-owner',
-        (req) => req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
+        (req) =>
+            req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
         data: Matchers.any,
       );
       final agents = AgentsClient(p2x);

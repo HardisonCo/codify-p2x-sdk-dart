@@ -14,7 +14,8 @@ P2xClient _newClient() => P2xClient(
 
 void main() {
   group('WizardClient.start', () {
-    test('POSTs /wizard/start with problem + metadata, returns deal_id', () async {
+    test('POSTs /wizard/start with problem + metadata, returns deal_id',
+        () async {
       final p2x = _newClient();
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
@@ -49,7 +50,8 @@ void main() {
   });
 
   group('WizardClient.getState', () {
-    test('GETs /wizard/get-state/{protocol} and returns the data map', () async {
+    test('GETs /wizard/get-state/{protocol} and returns the data map',
+        () async {
       final p2x = _newClient();
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onGet(
@@ -185,7 +187,8 @@ void main() {
   });
 
   group('WizardClient.connectStripe', () {
-    test('GETs /wizard/connect-stripe/{protocol} and returns the URL', () async {
+    test('GETs /wizard/connect-stripe/{protocol} and returns the URL',
+        () async {
       final p2x = _newClient();
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onGet(
