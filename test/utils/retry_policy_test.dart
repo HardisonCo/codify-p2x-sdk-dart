@@ -5,7 +5,7 @@ import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_intercept
 
 void main() {
   group('RetryPolicy — method-aware default (TS parity item 4)', () {
-    Future<int> countCalls(Object error) async {
+    Future<int> countCalls(Exception error) async {
       var calls = 0;
       const policy = RetryPolicy(
         baseDelay: Duration(milliseconds: 1),

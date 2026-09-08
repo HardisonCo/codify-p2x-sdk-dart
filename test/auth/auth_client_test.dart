@@ -35,8 +35,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/dashboard/login',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -68,8 +67,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/dashboard/login',
         (req) => req.reply(401, <String, dynamic>{
           'success': false,
@@ -100,8 +98,7 @@ void main() {
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/user/get-data',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -126,8 +123,7 @@ void main() {
           getToken: () => 'tok-xyz',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/logout',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -151,8 +147,7 @@ void main() {
           getToken: () => 'tok-old',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/refresh',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -181,8 +176,7 @@ void main() {
           getToken: () => 'tok-old',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/refresh',
         (req) => req.reply(404, <String, dynamic>{
           'success': false,

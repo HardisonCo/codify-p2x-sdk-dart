@@ -124,9 +124,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
-          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -146,9 +147,10 @@ void main() {
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
-          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -165,9 +167,10 @@ void main() {
           getToken: () => null,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load',
-          (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -184,9 +187,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load',
-          (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -204,9 +208,10 @@ void main() {
           getToken: () => currentToken,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
-          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final first = await client.dio.get<dynamic>('/me');
       expect(first.requestOptions.headers['Authorization'], 'Bearer tok-first');
@@ -228,9 +233,10 @@ void main() {
           getDomain: () => 'nutriscan.codify.ai',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
-          '/me', (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/me',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/me');
 
@@ -247,9 +253,10 @@ void main() {
           getDomain: () => null,
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load',
-          (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -262,9 +269,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet('/public/load',
-          (req) => req.reply(200, {'data': <String, dynamic>{}}));
+      DioAdapter(dio: client.dio).onGet(
+        '/public/load',
+        (req) => req.reply(200, {'data': <String, dynamic>{}}),
+      );
 
       final response = await client.dio.get<dynamic>('/public/load');
 
@@ -279,8 +287,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: client.dio);
-      adapter.onGet(
+      DioAdapter(dio: client.dio).onGet(
         '/me',
         (req) => req.reply(200, {
           'success': true,
@@ -292,8 +299,9 @@ void main() {
       final response = await client.dio.get<Map<String, dynamic>>('/me');
 
       expect(response.statusCode, 200);
-      expect(response.data?['data']['id'], 42);
-      expect(response.data?['data']['name'], 'Alice');
+      final data = response.data?['data'] as Map<String, dynamic>?;
+      expect(data?['id'], 42);
+      expect(data?['name'], 'Alice');
     });
   });
 }

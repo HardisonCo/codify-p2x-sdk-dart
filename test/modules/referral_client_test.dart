@@ -11,8 +11,7 @@ P2xClient _newClient() => P2xClient(
 void main() {
   test('confirm POSTs /referral/confirm with destination', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/referral/confirm',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -35,8 +34,7 @@ void main() {
 
   test('create POSTs /referral', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/referral',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,

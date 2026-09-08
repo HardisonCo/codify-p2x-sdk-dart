@@ -11,8 +11,7 @@ P2xClient _newClient() => P2xClient(
 void main() {
   test('run hits /disbursement/run/{id}/{chain}', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onGet(
+    DioAdapter(dio: p2x.dio).onGet(
       '/disbursement/run/5/12',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -26,8 +25,7 @@ void main() {
 
   test('confirm POSTs /disbursement/confirm with id + chain_id', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/disbursement/confirm',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -42,8 +40,7 @@ void main() {
 
   test('create POSTs /disbursement', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/disbursement',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,

@@ -80,15 +80,16 @@ void main() {
       expect(orig['path'], '/auth/login');
       expect(orig['method'], 'POST');
       expect(orig['idempotencyKeyPinned'], isFalse);
-      // The bearer and the header key must not survive anywhere in the snapshot.
+      // The bearer and the header key must not survive anywhere in the
+      // snapshot.
       final encoded = jsonEncode(orig);
       expect(encoded, isNot(contains('secret-token')));
       expect(encoded.toLowerCase(), isNot(contains('authorization')));
     });
 
     test(
-        'idempotencyKeyPinned is true when the caller pinned a key (value hidden)',
-        () async {
+        'idempotencyKeyPinned is true when the caller pinned a key '
+        '(value hidden)', () async {
       final harness = _buildClient(
         const P2xClientConfig(baseUrl: 'https://api.project20x.com/api'),
       );

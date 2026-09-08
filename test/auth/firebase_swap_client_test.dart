@@ -26,8 +26,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/nio/firebase-login',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -56,8 +55,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/nio/firebase-login',
         (req) => req.reply(401, <String, dynamic>{
           'success': false,

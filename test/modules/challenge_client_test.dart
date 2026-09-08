@@ -11,8 +11,7 @@ P2xClient _newClient() => P2xClient(
 void main() {
   test('run POSTs /challenge/run', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/challenge/run',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -31,8 +30,7 @@ void main() {
 
   test('startTask POSTs /challenge/start-task', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onPost(
+    DioAdapter(dio: p2x.dio).onPost(
       '/challenge/start-task',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,
@@ -53,8 +51,7 @@ void main() {
 
   test('getTypes GETs /challenge/get-types', () async {
     final p2x = _newClient();
-    final adapter = DioAdapter(dio: p2x.dio);
-    adapter.onGet(
+    DioAdapter(dio: p2x.dio).onGet(
       '/challenge/get-types',
       (req) => req.reply(200, <String, dynamic>{
         'success': true,

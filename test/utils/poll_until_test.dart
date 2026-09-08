@@ -7,10 +7,7 @@ void main() {
   test('resolves when done() becomes true', () async {
     var calls = 0;
     final result = await pollUntil<int>(
-      fetch: () async {
-        calls++;
-        return calls;
-      },
+      fetch: () async => ++calls,
       done: (n) => n >= 3,
       interval: const Duration(milliseconds: 1),
       timeout: const Duration(seconds: 1),

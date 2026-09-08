@@ -41,8 +41,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -74,8 +73,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -107,15 +105,15 @@ void main() {
           getToken: () => 'tok-should-not-be-sent',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
-        '/auth/sign-up',
-        (req) => req.reply(201, <String, dynamic>{
-          'success': true,
-          'data': _authResponseJson('tok-new'),
-        }),
-        data: Matchers.any,
-      );
+      final adapter = DioAdapter(dio: p2x.dio)
+        ..onPost(
+          '/auth/sign-up',
+          (req) => req.reply(201, <String, dynamic>{
+            'success': true,
+            'data': _authResponseJson('tok-new'),
+          }),
+          data: Matchers.any,
+        );
 
       final auth = AuthClient(p2x);
       await auth.signUp(
@@ -158,8 +156,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/sign-up',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -191,8 +188,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/password/reset',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -217,8 +213,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/new-password',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -250,8 +245,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/auth/finish-social-registration',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,

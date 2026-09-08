@@ -26,8 +26,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -54,8 +53,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(200, <String, dynamic>{
           'success': true,
@@ -82,8 +80,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -113,11 +110,10 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
 
       // The mock matches the exact body shape — if guestRegister sent
       // {platform: null, app_version: null} this would not match.
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,
@@ -146,8 +142,7 @@ void main() {
           baseUrl: 'https://api.project20x.com/api',
         ),
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/v1/integrations/mob/guest-register',
         (req) => req.reply(201, <String, dynamic>{
           'success': true,

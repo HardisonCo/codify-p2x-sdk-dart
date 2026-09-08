@@ -21,8 +21,7 @@ void main() {
     test('POSTs /workflow/codify-pipeline/start with problem + session',
         () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/workflow/codify-pipeline/start',
         (req) => req.reply(200, <String, dynamic>{
           'started': true,
@@ -50,8 +49,7 @@ void main() {
 
     test('POSTs /workflow/codify-pipeline/start with a url input', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/workflow/codify-pipeline/start',
         (req) => req.reply(200, <String, dynamic>{'started': true}),
         data: <String, dynamic>{
@@ -76,8 +74,7 @@ void main() {
   group('WorkflowClient.stopPipeline', () {
     test('GETs /workflow/codify-pipeline/stop/{session}', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/workflow/codify-pipeline/stop/sess-12345',
         (req) => req.reply(200, <String, dynamic>{
           'finished': true,
@@ -93,8 +90,7 @@ void main() {
   group('WorkflowClient.listWorkflowProtocols', () {
     test('GETs /protocol/workflow/all as a list', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/protocol/workflow/all',
         (req) => req.reply(200, <String, dynamic>{
           'data': <Map<String, dynamic>>[
@@ -110,8 +106,7 @@ void main() {
 
     test('returns empty list when data is absent', () async {
       final p2x = _newClient(token: 'tok-1', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/protocol/workflow/all',
         (req) => req.reply(200, <String, dynamic>{}),
       );
@@ -123,8 +118,7 @@ void main() {
   group('WorkflowClient.checkPipeline', () {
     test('GETs /workflow/codify-pipeline/check-pipeline/{session}', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/workflow/codify-pipeline/check-pipeline/sess-12345',
         (req) => req.reply(200, <String, dynamic>{
           'finished': false,
@@ -141,8 +135,7 @@ void main() {
   group('WorkflowClient.saveResponse', () {
     test('POSTs /workflow/codify-pipeline/save-response', () async {
       final p2x = _newClient();
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/workflow/codify-pipeline/save-response',
         (req) => req.reply(200, <String, dynamic>{
           'finished': false,
@@ -167,8 +160,7 @@ void main() {
   group('WorkflowClient.invokePipe', () {
     test('POSTs /pipes/invoke and returns the flat shape', () async {
       final p2x = _newClient(token: 'tok-1');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/pipes/invoke',
         (req) => req.reply(200, <String, dynamic>{
           'ok': true,
@@ -222,8 +214,7 @@ void main() {
     test('GETs /admin/subproject/{id}/pipe-config and decodes the rows',
         () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(200, <String, dynamic>{
           'data': <Map<String, dynamic>>[
@@ -247,8 +238,7 @@ void main() {
 
     test('attaches Authorization + X-Domain headers', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(200, <String, dynamic>{'data': <dynamic>[]}),
       );
@@ -265,8 +255,7 @@ void main() {
 
     test('returns empty list when data is absent', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(200, <String, dynamic>{}),
       );
@@ -281,8 +270,7 @@ void main() {
         domain: 'phm.ai',
         onUnauthorized: () => fired++,
       );
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onGet(
+      DioAdapter(dio: p2x.dio).onGet(
         '/admin/subproject/7/pipe-config',
         (req) =>
             req.reply(401, <String, dynamic>{'message': 'Unauthenticated.'}),
@@ -299,8 +287,7 @@ void main() {
   group('WorkflowClient.createPipeConfig', () {
     test('POSTs the override body and decodes the 201 row', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: <String, dynamic>{
@@ -326,8 +313,7 @@ void main() {
 
     test('omits optional fields when not supplied', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: <String, dynamic>{
@@ -346,8 +332,7 @@ void main() {
 
     test('attaches an Idempotency-Key on the write', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: Matchers.any,
@@ -365,8 +350,7 @@ void main() {
 
     test('422 (duplicate override) surfaces as ValidationException', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(422, <String, dynamic>{
           'message': 'The given data was invalid.',
@@ -397,8 +381,7 @@ void main() {
   group('WorkflowClient.updatePipeConfig', () {
     test('rewrites PATCH to POST ?_method=PATCH and sends the body', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config/1',
         (req) => req.reply(200, <String, dynamic>{
           'data': pipeConfigRow(isActive: false),
@@ -417,8 +400,7 @@ void main() {
 
     test('clearProviderClass sends an explicit null provider_class', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config/1',
         (req) => req.reply(200, <String, dynamic>{
           'data': pipeConfigRow(providerClass: null),
@@ -437,8 +419,7 @@ void main() {
 
     test('404 surfaces as NotFoundException', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onPost(
+      DioAdapter(dio: p2x.dio).onPost(
         '/admin/subproject/7/pipe-config/99',
         (req) => req
             .reply(404, <String, dynamic>{'message': 'Pipe config not found'}),
@@ -456,8 +437,7 @@ void main() {
   group('WorkflowClient.deletePipeConfig', () {
     test('DELETEs the row and returns true', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onDelete(
+      DioAdapter(dio: p2x.dio).onDelete(
         '/admin/subproject/7/pipe-config/1',
         (req) => req.reply(200, <String, dynamic>{'deleted': true}),
       );
@@ -467,8 +447,7 @@ void main() {
 
     test('404 surfaces as NotFoundException', () async {
       final p2x = _newClient(token: 'tok-admin', domain: 'phm.ai');
-      final adapter = DioAdapter(dio: p2x.dio);
-      adapter.onDelete(
+      DioAdapter(dio: p2x.dio).onDelete(
         '/admin/subproject/7/pipe-config/99',
         (req) => req.reply(404, <String, dynamic>{'message': 'not found'}),
       );
