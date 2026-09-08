@@ -1,4 +1,9 @@
-import '../client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show ApiException;
+
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart'
+    show ApiException;
+
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 
 /// Client for the **Step-4 step-claim** sub-surface of the Deal Wizard —
 /// `/api/deals/{deal_id}/steps/{step_idx}/*` (`Modules/Deals`,

@@ -5,11 +5,10 @@
 // bubble up as raw DioException. The 401 -> UnauthorizedException test is
 // marked accordingly until that interceptor lands.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/auth_client.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _userJson() => <String, dynamic>{
       'id': 42,
@@ -135,7 +134,6 @@ void main() {
           'message': 'logged out',
           'data': <String, dynamic>{},
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);
@@ -164,7 +162,6 @@ void main() {
             'refresh_token': 'r-new',
           },
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);
@@ -191,7 +188,6 @@ void main() {
           'success': false,
           'message': 'Not Found',
         }),
-        data: null,
       );
 
       final auth = AuthClient(p2x);

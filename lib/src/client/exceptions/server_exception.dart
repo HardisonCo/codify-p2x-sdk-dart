@@ -1,4 +1,4 @@
-import 'api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
 
 /// HTTP 5xx — server-side error. The SDK does not retry automatically;
 /// callers that want retries should layer their own policy (e.g., via

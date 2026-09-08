@@ -13,12 +13,12 @@
 
 import 'dart:convert';
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/error_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 
 /// Build a client wired ONLY with the ErrorInterceptor, so tests can pivot
 /// on this interceptor's behaviour in isolation. The [config] provides the

@@ -1,5 +1,5 @@
-import '../client/p2x_client.dart';
-import 'voice_models.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/voice/voice_models.dart';
 
 /// Client for the voice-agent bridge (utils/voice-agent).
 ///

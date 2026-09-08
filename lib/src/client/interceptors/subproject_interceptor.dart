@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import '../p2x_client_config.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 
 /// Dio interceptor that injects the `X-Domain` header from
 /// [P2xClientConfig.getDomain].

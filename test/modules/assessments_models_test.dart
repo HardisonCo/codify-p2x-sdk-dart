@@ -1,13 +1,13 @@
 // Tests for AssessmentResponse + AssessmentResponseList model classes —
 // plain @immutable data classes (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/assessments_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/assessments_models.dart';
 
 void main() {
   group('AssessmentResponse', () {
     test('fromJson handles required fields (surveyKey, payload)', () {
-      final r = AssessmentResponse.fromJson(<String, dynamic>{
+      final r = AssessmentResponse.fromJson(const <String, dynamic>{
         'survey_key': 'food-intake-daily',
         'payload': <String, dynamic>{
           'calories': 1840,
@@ -25,7 +25,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final r = AssessmentResponse.fromJson(<String, dynamic>{
+      final r = AssessmentResponse.fromJson(const <String, dynamic>{
         'id': 17,
         'survey_key': 'food-intake-daily',
         'payload': <String, dynamic>{'foo': 'bar'},
@@ -41,7 +41,7 @@ void main() {
     });
 
     test('fromJson defaults payload to empty when absent', () {
-      final r = AssessmentResponse.fromJson(<String, dynamic>{
+      final r = AssessmentResponse.fromJson(const <String, dynamic>{
         'survey_key': 'food-intake-daily',
       });
       expect(r.payload, isEmpty);
@@ -112,7 +112,7 @@ void main() {
 
   group('AssessmentResponseList', () {
     test('fromJson handles a Laravel-paginator-shaped payload', () {
-      final list = AssessmentResponseList.fromJson(<String, dynamic>{
+      final list = AssessmentResponseList.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 1,
@@ -139,7 +139,7 @@ void main() {
     });
 
     test('fromJson handles minimal payload (just data array)', () {
-      final list = AssessmentResponseList.fromJson(<String, dynamic>{
+      final list = AssessmentResponseList.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 1,
@@ -156,7 +156,7 @@ void main() {
     });
 
     test('fromJson handles fully empty payload', () {
-      final list = AssessmentResponseList.fromJson(<String, dynamic>{});
+      final list = AssessmentResponseList.fromJson(const <String, dynamic>{});
       expect(list.data, isEmpty);
       expect(list.total, 0);
     });

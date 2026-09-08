@@ -1,12 +1,12 @@
 // Tests for the FollowUp model class — plain @immutable data class.
 
-import 'package:openyc_flutter_sdk/src/modules/follow_ups_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/follow_ups_models.dart';
 
 void main() {
   group('FollowUp', () {
     test('fromJson handles required fields with optionals null', () {
-      final f = FollowUp.fromJson(<String, dynamic>{
+      final f = FollowUp.fromJson(const <String, dynamic>{
         'id': 21,
         'patient_id': 99,
         'provider_id': 42,
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final f = FollowUp.fromJson(<String, dynamic>{
+      final f = FollowUp.fromJson(const <String, dynamic>{
         'id': 21,
         'patient_id': 99,
         'provider_id': 42,

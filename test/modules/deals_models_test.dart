@@ -7,7 +7,7 @@ void main() {
   group('Deal.fromJson', () {
     test('decodes the flat DealResource shape with a UUID id', () {
       const guid = 'abcd1234-0000-0000-0000-000000000001';
-      final d = Deal.fromJson(<String, dynamic>{
+      final d = Deal.fromJson(const <String, dynamic>{
         'deal_id': guid,
         'id': guid,
         'user_id': 42,
@@ -26,7 +26,7 @@ void main() {
         ],
         'financing': <String, dynamic>{'total_cents': 37700},
         'expertise': <String, dynamic>{
-          'codesets': <String>['ICD-10']
+          'codesets': <String>['ICD-10'],
         },
         'pipeline_steps': <dynamic>[],
         'outcome_score': 75,
@@ -65,7 +65,7 @@ void main() {
     });
 
     test('prefers deal_id but falls back to id', () {
-      final d = Deal.fromJson(<String, dynamic>{
+      final d = Deal.fromJson(const <String, dynamic>{
         'id': 'only-id-uuid',
         'state': 'analyzing',
       });
@@ -73,7 +73,7 @@ void main() {
     });
 
     test('stashes unknown top-level fields in extras', () {
-      final d = Deal.fromJson(<String, dynamic>{
+      final d = Deal.fromJson(const <String, dynamic>{
         'deal_id': 'g',
         'state': 'analyzing',
         'something_new': <String, dynamic>{'a': 1},
@@ -82,7 +82,7 @@ void main() {
     });
 
     test('tolerates missing optional fields', () {
-      final d = Deal.fromJson(<String, dynamic>{
+      final d = Deal.fromJson(const <String, dynamic>{
         'deal_id': 'g',
         'state': 'analyzing',
       });
@@ -95,7 +95,7 @@ void main() {
 
   group('DealFile.fromJson', () {
     test('decodes a deal_files row', () {
-      final f = DealFile.fromJson(<String, dynamic>{
+      final f = DealFile.fromJson(const <String, dynamic>{
         'id': 12,
         'deal_id': 'g-uuid',
         'file_path': 'deal-files/g-uuid/x.png',
@@ -114,7 +114,7 @@ void main() {
 
   group('DealEventsPage.fromJson', () {
     test('decodes events + pagination', () {
-      final p = DealEventsPage.fromJson(<String, dynamic>{
+      final p = DealEventsPage.fromJson(const <String, dynamic>{
         'events': <Map<String, dynamic>>[
           <String, dynamic>{'sequence': 1, 'event_type': 'deal.created'},
         ],
@@ -132,7 +132,7 @@ void main() {
     });
 
     test('defaults pagination when missing', () {
-      final p = DealEventsPage.fromJson(<String, dynamic>{
+      final p = DealEventsPage.fromJson(const <String, dynamic>{
         'events': <Map<String, dynamic>>[],
       });
       expect(p.events, isEmpty);
@@ -143,7 +143,7 @@ void main() {
 
   group('DealVerificationResult.fromJson', () {
     test('decodes the bespoke verify body', () {
-      final r = DealVerificationResult.fromJson(<String, dynamic>{
+      final r = DealVerificationResult.fromJson(const <String, dynamic>{
         'deal_id': 'g',
         'state': 'completed',
         'outcome_score': 92,
@@ -160,7 +160,7 @@ void main() {
 
   group('ComputeDeposit.fromJson', () {
     test('decodes client_secret', () {
-      final dep = ComputeDeposit.fromJson(<String, dynamic>{
+      final dep = ComputeDeposit.fromJson(const <String, dynamic>{
         'client_secret': 'pi_x_secret_y',
       });
       expect(dep.clientSecret, 'pi_x_secret_y');

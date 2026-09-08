@@ -5,12 +5,12 @@
 //   GET /api/orders/<id>     — get one
 //   activeSubscription helper
 
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 import 'package:openyc_flutter_sdk/src/modules/order_client.dart';
 import 'package:openyc_flutter_sdk/src/modules/order_models.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
   late P2xClient base;

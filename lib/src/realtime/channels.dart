@@ -1,3 +1,6 @@
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show ChatClient;
+import 'package:openyc_flutter_sdk/src/comms/chat_client.dart' show ChatClient;
+
 /// Canonical names of the Pusher / Echo channels broadcast by the P2X API
 /// (`P2X/api/routes/channels.php`). Centralising them here keeps consumer
 /// apps from drifting on the spelling.

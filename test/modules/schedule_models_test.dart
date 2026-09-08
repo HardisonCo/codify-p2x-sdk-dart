@@ -1,13 +1,13 @@
 // Tests for the Schedule and ScheduleCall model classes — plain
 // @immutable data classes (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/schedule_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/schedule_models.dart';
 
 void main() {
   group('Schedule', () {
     test('fromJson handles required fields', () {
-      final s = Schedule.fromJson(<String, dynamic>{
+      final s = Schedule.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'provider_id': 42,
@@ -30,7 +30,7 @@ void main() {
     });
 
     test('fromJson decodes metadata when present', () {
-      final s = Schedule.fromJson(<String, dynamic>{
+      final s = Schedule.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'provider_id': 42,
@@ -49,7 +49,7 @@ void main() {
     });
 
     test('fromJson defaults metadata to empty map when missing', () {
-      final s = Schedule.fromJson(<String, dynamic>{
+      final s = Schedule.fromJson(const <String, dynamic>{
         'id': 1,
         'subproject_id': 3,
         'provider_id': 42,
@@ -169,7 +169,7 @@ void main() {
 
   group('ScheduleCall', () {
     test('fromJson handles required fields with optionals null', () {
-      final c = ScheduleCall.fromJson(<String, dynamic>{
+      final c = ScheduleCall.fromJson(const <String, dynamic>{
         'id': 7,
         'schedule_id': 11,
         'patient_id': 99,
@@ -190,7 +190,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final c = ScheduleCall.fromJson(<String, dynamic>{
+      final c = ScheduleCall.fromJson(const <String, dynamic>{
         'id': 7,
         'schedule_id': 11,
         'patient_id': 99,

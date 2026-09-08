@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/agents_client.dart';
 
 P2xClient _newClient({
   String? token,
@@ -102,7 +101,6 @@ void main() {
             'message': 'ok',
             'data': <String, dynamic>{'id': 'a-1', 'status': 'active'},
           }),
-          data: null,
         )
         ..onPost(
           '/agents/a-1/deactivate',
@@ -111,7 +109,6 @@ void main() {
             'message': 'ok',
             'data': <String, dynamic>{'id': 'a-1', 'status': 'inactive'},
           }),
-          data: null,
         )
         ..onPost(
           '/agents/a-1/clone',
@@ -145,7 +142,6 @@ void main() {
             'tools': <String>['calculator'],
           },
         }),
-        data: null,
       );
       final agents = AgentsClient(p2x);
       final r = await agents.addTool(uuid: 'a-1', tool: 'calculator');

@@ -5,12 +5,12 @@
 //   POST /api/v1/integrations/nio/coins/spend    — server-authoritative spend
 //   POST /api/v1/integrations/nio/coins/grant    — server-side grant
 
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 import 'package:openyc_flutter_sdk/src/client/p2x_client_config.dart';
 import 'package:openyc_flutter_sdk/src/integrations/nio_integrations_client.dart';
 import 'package:openyc_flutter_sdk/src/integrations/nio_integrations_models.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:http_mock_adapter/http_mock_adapter.dart';
 
 void main() {
   late P2xClient base;

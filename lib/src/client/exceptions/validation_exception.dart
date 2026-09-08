@@ -1,4 +1,4 @@
-import 'api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
 
 /// HTTP 422 — Laravel validation failure.
 ///

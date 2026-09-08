@@ -12,10 +12,10 @@
 // passing — the regression check at the bottom of this file re-asserts
 // NudgeClient.list and NudgeClient.ack still work after the additions.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 final RegExp _uuidV4 = RegExp(
   r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$',
@@ -77,7 +77,7 @@ void main() {
       adapter.onPost(
         '/nudges/check-in',
         (req) => req.reply(200, <String, dynamic>{
-          'data': sampleNudge(id: 7),
+          'data': sampleNudge(),
         }),
         data: <String, dynamic>{
           'nudge_id': 7,
@@ -95,7 +95,7 @@ void main() {
       adapter.onPost(
         '/nudges/check-in',
         (req) => req.reply(200, <String, dynamic>{
-          'data': sampleNudge(id: 7),
+          'data': sampleNudge(),
         }),
         data: <String, dynamic>{
           'nudge_id': 7,
@@ -181,7 +181,7 @@ void main() {
       adapter.onPost(
         '/nudges/7/snooze',
         (req) => req.reply(200, <String, dynamic>{
-          'data': sampleNudge(id: 7),
+          'data': sampleNudge(),
         }),
         data: <String, dynamic>{'seconds': 7200},
       );
@@ -198,7 +198,7 @@ void main() {
     test('serializes Duration as integer seconds (not ISO duration)', () async {
       adapter.onPost(
         '/nudges/7/snooze',
-        (req) => req.reply(200, <String, dynamic>{'data': sampleNudge(id: 7)}),
+        (req) => req.reply(200, <String, dynamic>{'data': sampleNudge()}),
         data: <String, dynamic>{'seconds': 1800},
       );
 
@@ -214,7 +214,7 @@ void main() {
     test('POST /nudges/<id>/snooze auto-injects Idempotency-Key', () async {
       adapter.onPost(
         '/nudges/7/snooze',
-        (req) => req.reply(200, <String, dynamic>{'data': sampleNudge(id: 7)}),
+        (req) => req.reply(200, <String, dynamic>{'data': sampleNudge()}),
         data: Matchers.any,
       );
 
@@ -276,7 +276,6 @@ void main() {
         '/nudges/7/ack',
         (req) => req.reply(200, <String, dynamic>{
           'data': sampleNudge(
-            id: 7,
             acknowledgedAt: '2026-05-01T09:00:00Z',
           ),
         }),

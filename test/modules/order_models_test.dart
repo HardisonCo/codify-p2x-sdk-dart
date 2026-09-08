@@ -1,13 +1,13 @@
 // Tests for the Order model class — plain @immutable data class
 // (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/order_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/order_models.dart';
 
 void main() {
   group('Order', () {
     test('fromJson handles required fields', () {
-      final o = Order.fromJson(<String, dynamic>{
+      final o = Order.fromJson(const <String, dynamic>{
         'id': 17,
         'source': 'nio-subscription',
         'status': 'active',
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields (tier + expiresAt)', () {
-      final o = Order.fromJson(<String, dynamic>{
+      final o = Order.fromJson(const <String, dynamic>{
         'id': 17,
         'source': 'nio-subscription',
         'status': 'active',
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('fromJson coerces integer amount to double', () {
-      final o = Order.fromJson(<String, dynamic>{
+      final o = Order.fromJson(const <String, dynamic>{
         'id': 1,
         'source': 'phm-lab-booking',
         'status': 'pending',

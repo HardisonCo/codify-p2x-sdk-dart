@@ -1,10 +1,9 @@
 // Tests for GuestRegisterClient — the MOB anonymous device-UUID -> Sanctum
 // bearer endpoint.
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/guest_register_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 
 Map<String, dynamic> _authResponseJson(String t, {int userId = 99}) =>
     <String, dynamic>{

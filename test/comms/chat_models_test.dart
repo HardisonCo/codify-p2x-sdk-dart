@@ -7,13 +7,13 @@
 //   * UserSummary — lightweight user record returned by /chat/find-user
 //   * BroadcastAuth — Pusher/Echo channel auth payload
 
-import 'package:openyc_flutter_sdk/src/comms/chat_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/comms/chat_models.dart';
 
 void main() {
   group('ChatRoom', () {
     test('fromJson handles required fields', () {
-      final r = ChatRoom.fromJson(<String, dynamic>{
+      final r = ChatRoom.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'kind': 'one_to_one',
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final r = ChatRoom.fromJson(<String, dynamic>{
+      final r = ChatRoom.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'kind': 'group',
@@ -47,7 +47,7 @@ void main() {
     });
 
     test('fromJson coerces participants from mixed numeric input', () {
-      final r = ChatRoom.fromJson(<String, dynamic>{
+      final r = ChatRoom.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'kind': 'support',
@@ -60,7 +60,7 @@ void main() {
     });
 
     test('fromJson defaults participants to empty list when missing', () {
-      final r = ChatRoom.fromJson(<String, dynamic>{
+      final r = ChatRoom.fromJson(const <String, dynamic>{
         'id': 11,
         'subproject_id': 3,
         'kind': 'one_to_one',
@@ -137,7 +137,7 @@ void main() {
 
   group('ChatMessage', () {
     test('fromJson handles required fields', () {
-      final m = ChatMessage.fromJson(<String, dynamic>{
+      final m = ChatMessage.fromJson(const <String, dynamic>{
         'id': 501,
         'room_id': 11,
         'sender_id': 42,
@@ -155,7 +155,7 @@ void main() {
     });
 
     test('fromJson decodes attachment_urls and read_at', () {
-      final m = ChatMessage.fromJson(<String, dynamic>{
+      final m = ChatMessage.fromJson(const <String, dynamic>{
         'id': 501,
         'room_id': 11,
         'sender_id': 42,
@@ -174,7 +174,7 @@ void main() {
     });
 
     test('fromJson defaults attachmentUrls to empty list when missing', () {
-      final m = ChatMessage.fromJson(<String, dynamic>{
+      final m = ChatMessage.fromJson(const <String, dynamic>{
         'id': 1,
         'room_id': 11,
         'sender_id': 42,
@@ -236,7 +236,7 @@ void main() {
 
   group('PaginatedMessages', () {
     test('fromJson decodes the Laravel paginator envelope', () {
-      final p = PaginatedMessages.fromJson(<String, dynamic>{
+      final p = PaginatedMessages.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 501,
@@ -267,7 +267,7 @@ void main() {
     });
 
     test('fromJson defaults to safe values when fields missing', () {
-      final p = PaginatedMessages.fromJson(<String, dynamic>{
+      final p = PaginatedMessages.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[],
       });
 
@@ -278,7 +278,7 @@ void main() {
     });
 
     test('fromJson handles a single-page envelope', () {
-      final p = PaginatedMessages.fromJson(<String, dynamic>{
+      final p = PaginatedMessages.fromJson(const <String, dynamic>{
         'data': <Map<String, dynamic>>[
           <String, dynamic>{
             'id': 501,
@@ -325,8 +325,8 @@ void main() {
     });
 
     test('toString includes class name and counts', () {
-      final p = PaginatedMessages(
-        data: const <ChatMessage>[],
+      const p = PaginatedMessages(
+        data: <ChatMessage>[],
         currentPage: 2,
         lastPage: 5,
         total: 100,
@@ -342,7 +342,7 @@ void main() {
 
   group('UserSummary', () {
     test('fromJson handles required fields', () {
-      final u = UserSummary.fromJson(<String, dynamic>{
+      final u = UserSummary.fromJson(const <String, dynamic>{
         'id': 42,
         'name': 'Alice Patient',
       });
@@ -354,7 +354,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final u = UserSummary.fromJson(<String, dynamic>{
+      final u = UserSummary.fromJson(const <String, dynamic>{
         'id': 42,
         'name': 'Dr Bob',
         'photo_url': 'https://cdn.example.com/dr-bob.jpg',
@@ -399,7 +399,7 @@ void main() {
 
   group('BroadcastAuth', () {
     test('fromJson handles auth-only payload', () {
-      final b = BroadcastAuth.fromJson(<String, dynamic>{
+      final b = BroadcastAuth.fromJson(const <String, dynamic>{
         'auth': 'app-key:signature',
       });
 
@@ -408,7 +408,7 @@ void main() {
     });
 
     test('fromJson handles channel_data', () {
-      final b = BroadcastAuth.fromJson(<String, dynamic>{
+      final b = BroadcastAuth.fromJson(const <String, dynamic>{
         'auth': 'app-key:signature',
         'channel_data': <String, dynamic>{
           'user_id': 42,

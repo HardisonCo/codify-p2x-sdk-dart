@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'realtime_event.dart';
+import 'package:openyc_flutter_sdk/src/realtime/realtime_event.dart';
 
 /// Abstract contract for real-time broadcasting (Pusher Channels / Laravel
 /// Echo).

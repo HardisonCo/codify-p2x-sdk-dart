@@ -1,13 +1,13 @@
 // Tests for the Nudge model class — plain @immutable data class
 // (no freezed).
 
-import 'package:openyc_flutter_sdk/src/modules/nudge_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/nudge_models.dart';
 
 void main() {
   group('Nudge', () {
     test('fromJson handles required fields', () {
-      final n = Nudge.fromJson(<String, dynamic>{
+      final n = Nudge.fromJson(const <String, dynamic>{
         'id': 7,
         'key': 'meal-log-reminder',
         'title': 'Log your lunch',
@@ -29,7 +29,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final n = Nudge.fromJson(<String, dynamic>{
+      final n = Nudge.fromJson(const <String, dynamic>{
         'id': 7,
         'key': 'coin-earn',
         'title': 'You earned 5 coins',
@@ -50,7 +50,7 @@ void main() {
     });
 
     test('fromJson defaults payload to empty map when missing', () {
-      final n = Nudge.fromJson(<String, dynamic>{
+      final n = Nudge.fromJson(const <String, dynamic>{
         'id': 1,
         'key': 'streak',
         'title': 'Streak',

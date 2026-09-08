@@ -5,8 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/auth/password_swap_client.dart';
-import 'package:openyc_flutter_sdk/src/auth/password_swap_models.dart';
 
 Map<String, dynamic> _signInPayload(String token) => <String, dynamic>{
       'accessToken': token,
@@ -157,7 +155,7 @@ void main() {
       );
 
       final client = PasswordSwapClient(p2x);
-      final PasswordSignInResponse raw = await client.signInRaw(
+      final raw = await client.signInRaw(
         login: 'forced@phm.ai',
         password: 'tmp-pw',
       );

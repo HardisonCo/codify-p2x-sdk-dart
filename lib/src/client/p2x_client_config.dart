@@ -1,4 +1,6 @@
 import 'package:meta/meta.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show P2xClient;
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart' show P2xClient;
 
 /// Configuration for [P2xClient].
 ///

@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
-
-import '../client/p2x_client.dart';
-import 'deals_models.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart' show DealStepClient;
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/deal_step_client.dart'
+    show DealStepClient;
+import 'package:openyc_flutter_sdk/src/modules/deals_models.dart';
 
 /// Client for the OpenYC **Deal Wizard** — the `/api/wizard/deal/*` surface
 /// (`Modules/Deals`).

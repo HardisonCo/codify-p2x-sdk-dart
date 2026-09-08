@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 
-import '../client/interceptors/auth_interceptor.dart';
-import '../client/p2x_client.dart';
-import 'workflow_models.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/auth_interceptor.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/modules/workflow_models.dart';
 
 /// Client for the **codify-pipeline** workflow surface.
 ///

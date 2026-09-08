@@ -2,14 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
 import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
-import 'package:openyc_flutter_sdk/src/utils/retry_policy.dart';
 
 void main() {
   group('RetryPolicy — method-aware default (TS parity item 4)', () {
     Future<int> countCalls(Object error) async {
       var calls = 0;
       const policy = RetryPolicy(
-        maxAttempts: 3,
         baseDelay: Duration(milliseconds: 1),
         jitter: false,
       );
@@ -95,9 +93,8 @@ void main() {
 
   test('retries up to maxAttempts then rethrows', () async {
     var calls = 0;
-    final policy = RetryPolicy(
-      maxAttempts: 3,
-      baseDelay: const Duration(milliseconds: 1),
+    const policy = RetryPolicy(
+      baseDelay: Duration(milliseconds: 1),
       jitter: false,
     );
 
@@ -113,9 +110,9 @@ void main() {
 
   test('returns first successful result', () async {
     var calls = 0;
-    final policy = RetryPolicy(
+    const policy = RetryPolicy(
       maxAttempts: 5,
-      baseDelay: const Duration(milliseconds: 1),
+      baseDelay: Duration(milliseconds: 1),
       jitter: false,
     );
 
@@ -130,9 +127,9 @@ void main() {
 
   test('does NOT retry on ValidationException by default', () async {
     var calls = 0;
-    final policy = RetryPolicy(
+    const policy = RetryPolicy(
       maxAttempts: 5,
-      baseDelay: const Duration(milliseconds: 1),
+      baseDelay: Duration(milliseconds: 1),
       jitter: false,
     );
 

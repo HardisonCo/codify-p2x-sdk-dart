@@ -1,11 +1,11 @@
 // Tests for TokenStorage. Uses mocktail to mock FlutterSecureStorage so
 // the tests don't touch the platform keychain.
 
-import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
-import 'package:openyc_flutter_sdk/src/auth/token_storage.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:openyc_flutter_sdk/src/auth/auth_models.dart';
+import 'package:openyc_flutter_sdk/src/auth/token_storage.dart';
 
 class _MockSecureStorage extends Mock implements FlutterSecureStorage {}
 

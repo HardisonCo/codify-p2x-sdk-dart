@@ -1,6 +1,6 @@
 import 'package:meta/meta.dart';
 
-import '../subprojects/subprojects_models.dart';
+import 'package:openyc_flutter_sdk/src/subprojects/subprojects_models.dart';
 
 // Re-export the canonical [Subproject] type from the subprojects module so
 // auth-flow consumers can still get it from a single import.

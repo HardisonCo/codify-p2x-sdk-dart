@@ -7,12 +7,12 @@ import 'package:openyc_flutter_sdk/src/modules/workflow_models.dart';
 void main() {
   group('SubprojectPipeConfig.fromJson', () {
     test('decodes the full resource shape', () {
-      final c = SubprojectPipeConfig.fromJson(<String, dynamic>{
+      final c = SubprojectPipeConfig.fromJson(const <String, dynamic>{
         'id': 12,
         'subproject_id': 7,
         'canonical_pipe_id': 3,
         'pipe_name': 'LocateResource',
-        'provider_class': 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+        'provider_class': r'Modules\Workflow\Pipes\LocateResourcePipe',
         'settings': <String, dynamic>{'mode': 'fast'},
         'is_active': true,
         'effective_from': '2026-06-01T08:00:00+00:00',
@@ -24,7 +24,7 @@ void main() {
       expect(c.subprojectId, 7);
       expect(c.canonicalPipeId, 3);
       expect(c.pipeName, 'LocateResource');
-      expect(c.providerClass, 'Modules\\Workflow\\Pipes\\LocateResourcePipe');
+      expect(c.providerClass, r'Modules\Workflow\Pipes\LocateResourcePipe');
       expect(c.settings['mode'], 'fast');
       expect(c.isActive, isTrue);
       expect(c.effectiveFrom, DateTime.parse('2026-06-01T08:00:00+00:00'));
@@ -33,7 +33,7 @@ void main() {
     });
 
     test('tolerates a null pipe_name and cleared provider_class', () {
-      final c = SubprojectPipeConfig.fromJson(<String, dynamic>{
+      final c = SubprojectPipeConfig.fromJson(const <String, dynamic>{
         'id': 1,
         'subproject_id': 7,
         'canonical_pipe_id': 3,
@@ -51,7 +51,7 @@ void main() {
     });
 
     test('is_active defaults to true when absent', () {
-      final c = SubprojectPipeConfig.fromJson(<String, dynamic>{
+      final c = SubprojectPipeConfig.fromJson(const <String, dynamic>{
         'id': 1,
         'subproject_id': 7,
         'canonical_pipe_id': 3,
@@ -60,7 +60,7 @@ void main() {
     });
 
     test('coerces string-numeric ids', () {
-      final c = SubprojectPipeConfig.fromJson(<String, dynamic>{
+      final c = SubprojectPipeConfig.fromJson(const <String, dynamic>{
         'id': '9',
         'subproject_id': '7',
         'canonical_pipe_id': '3',

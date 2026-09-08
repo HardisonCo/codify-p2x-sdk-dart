@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/workflow_client.dart';
 
 P2xClient _newClient({
   String? token,
@@ -199,11 +198,11 @@ void main() {
   });
 
   // ─── admin pipe-config CRUD (SuperAdmin) ──────────────────────────────
-  Map<String, dynamic> _pipeConfigRow({
+  Map<String, dynamic> pipeConfigRow({
     int id = 1,
     int subprojectId = 7,
     String pipeName = 'LocateResource',
-    String? providerClass = 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+    String? providerClass = r'Modules\Workflow\Pipes\LocateResourcePipe',
     bool isActive = true,
   }) =>
       <String, dynamic>{
@@ -228,8 +227,8 @@ void main() {
         '/admin/subproject/7/pipe-config',
         (req) => req.reply(200, <String, dynamic>{
           'data': <Map<String, dynamic>>[
-            _pipeConfigRow(),
-            _pipeConfigRow(id: 2, pipeName: 'CodifyDeal'),
+            pipeConfigRow(),
+            pipeConfigRow(id: 2, pipeName: 'CodifyDeal'),
           ],
         }),
       );
@@ -303,10 +302,10 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
         '/admin/subproject/7/pipe-config',
-        (req) => req.reply(201, <String, dynamic>{'data': _pipeConfigRow()}),
+        (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: <String, dynamic>{
           'pipe_name': 'LocateResource',
-          'provider_class': 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+          'provider_class': r'Modules\Workflow\Pipes\LocateResourcePipe',
           'settings': <String, dynamic>{'mode': 'fast'},
           'is_active': true,
         },
@@ -316,13 +315,13 @@ void main() {
       final row = await wf.createPipeConfig(
         subprojectId: 7,
         pipeName: 'LocateResource',
-        providerClass: 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+        providerClass: r'Modules\Workflow\Pipes\LocateResourcePipe',
         settings: <String, dynamic>{'mode': 'fast'},
         isActive: true,
       );
       expect(row.id, 1);
       expect(row.pipeName, 'LocateResource');
-      expect(row.providerClass, 'Modules\\Workflow\\Pipes\\LocateResourcePipe');
+      expect(row.providerClass, r'Modules\Workflow\Pipes\LocateResourcePipe');
     });
 
     test('omits optional fields when not supplied', () async {
@@ -330,17 +329,17 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
         '/admin/subproject/7/pipe-config',
-        (req) => req.reply(201, <String, dynamic>{'data': _pipeConfigRow()}),
+        (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: <String, dynamic>{
           'pipe_name': 'LocateResource',
-          'provider_class': 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+          'provider_class': r'Modules\Workflow\Pipes\LocateResourcePipe',
         },
       );
       final wf = WorkflowClient(p2x);
       final row = await wf.createPipeConfig(
         subprojectId: 7,
         pipeName: 'LocateResource',
-        providerClass: 'Modules\\Workflow\\Pipes\\LocateResourcePipe',
+        providerClass: r'Modules\Workflow\Pipes\LocateResourcePipe',
       );
       expect(row.id, 1);
     });
@@ -350,7 +349,7 @@ void main() {
       final adapter = DioAdapter(dio: p2x.dio);
       adapter.onPost(
         '/admin/subproject/7/pipe-config',
-        (req) => req.reply(201, <String, dynamic>{'data': _pipeConfigRow()}),
+        (req) => req.reply(201, <String, dynamic>{'data': pipeConfigRow()}),
         data: Matchers.any,
       );
       final resp = await p2x.dio.post<Map<String, dynamic>>(
@@ -402,7 +401,7 @@ void main() {
       adapter.onPost(
         '/admin/subproject/7/pipe-config/1',
         (req) => req.reply(200, <String, dynamic>{
-          'data': _pipeConfigRow(isActive: false),
+          'data': pipeConfigRow(isActive: false),
         }),
         data: <String, dynamic>{'is_active': false},
         queryParameters: <String, dynamic>{'_method': 'PATCH'},
@@ -422,7 +421,7 @@ void main() {
       adapter.onPost(
         '/admin/subproject/7/pipe-config/1',
         (req) => req.reply(200, <String, dynamic>{
-          'data': _pipeConfigRow(providerClass: null),
+          'data': pipeConfigRow(providerClass: null),
         }),
         data: <String, dynamic>{'provider_class': null},
         queryParameters: <String, dynamic>{'_method': 'PATCH'},

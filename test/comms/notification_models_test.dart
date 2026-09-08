@@ -2,13 +2,13 @@
 // (no freezed). Named AppNotification to avoid clashing with Flutter's
 // foundation Notification class.
 
-import 'package:openyc_flutter_sdk/src/comms/notification_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/comms/notification_models.dart';
 
 void main() {
   group('AppNotification', () {
     test('fromJson handles required fields', () {
-      final n = AppNotification.fromJson(<String, dynamic>{
+      final n = AppNotification.fromJson(const <String, dynamic>{
         'id': 7,
         'type': 'appointment.reminder',
         'title': 'Your appointment is tomorrow',
@@ -26,7 +26,7 @@ void main() {
     });
 
     test('fromJson handles all optional fields', () {
-      final n = AppNotification.fromJson(<String, dynamic>{
+      final n = AppNotification.fromJson(const <String, dynamic>{
         'id': 7,
         'type': 'message.received',
         'title': 'New message from Dr Bob',
@@ -42,7 +42,7 @@ void main() {
     });
 
     test('fromJson defaults payload to empty map when missing', () {
-      final n = AppNotification.fromJson(<String, dynamic>{
+      final n = AppNotification.fromJson(const <String, dynamic>{
         'id': 1,
         'type': 'system',
         'title': 't',

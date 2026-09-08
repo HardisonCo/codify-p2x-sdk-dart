@@ -30,8 +30,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
 import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/modules/deal_step_client.dart';
-import 'package:openyc_flutter_sdk/src/modules/deals_client.dart';
 
 const _guid = '11111111-2222-3333-4444-555555555555';
 
@@ -262,7 +260,7 @@ void main() {
         data: <String, dynamic>{
           'answers': <String, dynamic>{
             'medication': 'Skyrizi',
-            'dose': '150mg'
+            'dose': '150mg',
           },
         },
       );
@@ -296,7 +294,6 @@ void main() {
       adapter.onPost(
         '/wizard/deal/$_guid/codify',
         (req) => req.reply(200, dealBody(state: 'codified')),
-        data: null,
       );
 
       final d = await deals.codify(dealId: _guid);
@@ -320,7 +317,6 @@ void main() {
       adapter.onPost(
         '/wizard/deal/$_guid/setup',
         (req) => req.reply(200, dealBody(state: 'setup')),
-        data: null,
       );
       final d = await deals.setup(dealId: _guid);
       expect(d.state, 'setup');
@@ -330,7 +326,6 @@ void main() {
       adapter.onPost(
         '/wizard/deal/$_guid/start',
         (req) => req.reply(200, dealBody(state: 'executing')),
-        data: null,
       );
       final d = await deals.start(dealId: _guid);
       expect(d.state, 'executing');
@@ -343,7 +338,6 @@ void main() {
           'error': 'invalid_state',
           'message': 'Deal must be in state=setup to start (got analyzing)',
         }),
-        data: null,
       );
       await expectLater(
         deals.start(dealId: _guid),
@@ -383,7 +377,7 @@ void main() {
           'message': 'The selected applicant type is invalid.',
           'errors': <String, dynamic>{
             'applicant_type': <String>[
-              'The selected applicant type is invalid.'
+              'The selected applicant type is invalid.',
             ],
           },
         }),
@@ -504,7 +498,6 @@ void main() {
       adapter.onPost(
         '/wizard/deal/$_guid/submit',
         (req) => req.reply(200, dealBody(state: 'awaiting_compute')),
-        data: null,
       );
 
       final d = await deals.submit(dealId: _guid);
@@ -518,7 +511,6 @@ void main() {
           'error': 'missing_wizard_data',
           'missing': <String>['path_tier'],
         }),
-        data: null,
       );
 
       await expectLater(
@@ -574,7 +566,6 @@ void main() {
           'outcome_class': 'partial_success',
           'outcome_report': <String, dynamic>{'criteria_met': 2},
         }),
-        data: null,
       );
 
       final r = await deals.verify(dealId: _guid, executionId: 9);
@@ -593,7 +584,6 @@ void main() {
           'error': 'illegal_state',
           'message': 'illegal state transition',
         }),
-        data: null,
       );
 
       await expectLater(

@@ -1,4 +1,4 @@
-import '../client/p2x_client.dart';
+import 'package:openyc_flutter_sdk/src/client/p2x_client.dart';
 
 /// Client for the **disbursement** protocol step — moving funds out of a
 /// program (grants, reimbursements, payouts).

@@ -1,4 +1,4 @@
-import 'api_exception.dart';
+import 'package:openyc_flutter_sdk/src/client/exceptions/api_exception.dart';
 
 /// HTTP 403 — the user is authenticated but lacks permission for the
 /// requested resource (wrong role, wrong subproject, cross-subproject

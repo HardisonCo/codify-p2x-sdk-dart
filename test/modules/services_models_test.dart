@@ -1,12 +1,12 @@
 // Tests for the Service model class — plain @immutable data class.
 
-import 'package:openyc_flutter_sdk/src/modules/services_models.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openyc_flutter_sdk/src/modules/services_models.dart';
 
 void main() {
   group('Service', () {
     test('fromJson handles required fields', () {
-      final s = Service.fromJson(<String, dynamic>{
+      final s = Service.fromJson(const <String, dynamic>{
         'id': 5,
         'subproject_id': 3,
         'slug': 'ibd-consult-30min',
@@ -34,7 +34,7 @@ void main() {
     });
 
     test('fromJson decodes metadata when present', () {
-      final s = Service.fromJson(<String, dynamic>{
+      final s = Service.fromJson(const <String, dynamic>{
         'id': 5,
         'subproject_id': 3,
         'slug': 'ibd-consult-30min',
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('fromJson defaults metadata to empty map when missing', () {
-      final s = Service.fromJson(<String, dynamic>{
+      final s = Service.fromJson(const <String, dynamic>{
         'id': 1,
         'subproject_id': 3,
         'slug': 's',
@@ -191,7 +191,7 @@ void main() {
     test('Schedule is importable from services_models.dart', () {
       // Resolved purely through services_models — confirms the
       // `export ... show Schedule` re-export works.
-      final s = Schedule.fromJson(<String, dynamic>{
+      final s = Schedule.fromJson(const <String, dynamic>{
         'id': 1,
         'subproject_id': 1,
         'provider_id': 1,
@@ -206,7 +206,7 @@ void main() {
     });
 
     test('ScheduleCall is importable from services_models.dart', () {
-      final c = ScheduleCall.fromJson(<String, dynamic>{
+      final c = ScheduleCall.fromJson(const <String, dynamic>{
         'id': 1,
         'schedule_id': 1,
         'patient_id': 1,

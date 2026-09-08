@@ -4,11 +4,11 @@
 // the P2X backend's idempotency middleware can de-dupe retries within its
 // 24-hour Redis TTL window. GETs are skipped (idempotent by definition).
 
-import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
-import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:openyc_flutter_sdk/openyc_flutter_sdk.dart';
+import 'package:openyc_flutter_sdk/src/client/interceptors/idempotency_interceptor.dart';
 
 /// Lower-case UUID v4 regex (Idempotency-Key auto-generation contract).
 final RegExp _uuidV4 = RegExp(
