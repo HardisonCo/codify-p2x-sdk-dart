@@ -24,7 +24,8 @@ class WorkflowClient {
 
   /// POST `/workflow/codify-pipeline/start` — kick off a new interview.
   ///
-  /// Exactly one of [problem], [fileBytes], or [url] must be supplied.
+  /// Exactly one of [problem] or [url] must be supplied (the endpoint also
+  /// accepts a file upload, which this method does not yet expose).
   /// [session] is a client-generated 5–40 char identifier. [timezone] is the
   /// IANA timezone string.
   Future<Map<String, dynamic>> startPipeline({

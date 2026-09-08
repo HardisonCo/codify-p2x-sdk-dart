@@ -174,7 +174,7 @@ class DealsClient {
 
   /// POST (multipart) `/wizard/deal/{deal_id}/files` — intake step 3.
   ///
-  /// Uploads a single [file] of [fileType] (`document`, `image`, or `logo`).
+  /// Uploads a single file of [fileType] (`document`, `image`, or `logo`).
   /// Provide either a local [filePath] or in-memory [bytes] (with a
   /// [filename]). Returns the created [DealFile] (HTTP 201).
   Future<DealFile> uploadFile({

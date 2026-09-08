@@ -35,10 +35,10 @@ dependencies:
 dev_dependencies:
   # Coverage tooling (the actual lcov binary is system-installed; this lets `dart test` emit lcov)
   coverage: ^1.9.2
-  flutter_test:
-    sdk: flutter
   # Lints — strict + Very Good's extra rules
   flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
   # HTTP mocking for dio (msw equivalent)
   http_mock_adapter: ^0.6.1
   # General mocking
